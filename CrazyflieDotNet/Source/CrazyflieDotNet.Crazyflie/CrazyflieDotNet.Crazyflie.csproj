@@ -45,7 +45,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Source\CrazyflieDotNet.Crazyradio\CrazyflieDotNet.Crazyradio.csproj">
+    <ProjectReference Include="..\CrazyflieDotNet.Crazyradio\CrazyflieDotNet.Crazyradio.csproj">
       <Project>{b99ba1d6-e560-46f0-a440-443abc7763f3}</Project>
       <Name>CrazyflieDotNet.Crazyradio</Name>
     </ProjectReference>
