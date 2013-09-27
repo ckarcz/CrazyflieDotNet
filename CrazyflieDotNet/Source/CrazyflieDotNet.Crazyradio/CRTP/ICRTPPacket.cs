@@ -2,6 +2,10 @@ namespace CrazyflieDotNet.Crazyradio.CRTP
 {
 	public interface ICRTPPacket
 	{
-		byte[] Bytes { get; }
+		byte Header { get; }
+
+		byte[] DataBytes { get; }
+
+		byte[] PacketBytes { get; }
 	}
 }
