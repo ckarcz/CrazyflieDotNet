@@ -16,9 +16,4 @@
 
 		All = 0xFF
 	}
-
-	public interface ICRTPPacket
-	{
-		byte[] Bytes { get; }
-	}
 }

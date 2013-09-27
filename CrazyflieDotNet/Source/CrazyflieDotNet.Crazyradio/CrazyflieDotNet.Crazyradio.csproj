@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CRTP\CRTPPort.cs" />
+    <Compile Include="CRTP\ICRTPPacket.cs" />
     <Compile Include="Driver\CrazyradioDataEndpointId.cs" />
     <Compile Include="Driver\MessageAckMode.cs" />
     <Compile Include="Driver\MessageAckPayloadLength.cs" />
