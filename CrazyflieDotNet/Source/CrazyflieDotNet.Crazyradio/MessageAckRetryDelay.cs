@@ -1,4 +1,4 @@
-namespace CrazyflieDotNet.Crazyradio.Driver
+namespace CrazyflieDotNet.Crazyradio
 {
 	/// <summary>
 	///   Possible values for the delay after sending a message to wait for an acknowledgement packet (ACK).

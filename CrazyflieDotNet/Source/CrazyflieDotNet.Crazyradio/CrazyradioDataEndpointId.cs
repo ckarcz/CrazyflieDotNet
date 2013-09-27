@@ -4,7 +4,7 @@ using LibUsbDotNet.Main;
 
 #endregion Imports
 
-namespace CrazyflieDotNet.Crazyradio.Driver
+namespace CrazyflieDotNet.Crazyradio
 {
 	public static class CrazyradioDataEndpointId
 	{

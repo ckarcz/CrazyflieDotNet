@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 #endregion Imports
 
-namespace CrazyflieDotNet.Crazyradio.Driver
+namespace CrazyflieDotNet.Crazyradio
 {
 	/// <summary>
 	///   A Crazyradio USB dongle driver that provides an abstraction to the low level usb API.

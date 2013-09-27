@@ -2,14 +2,14 @@
 
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
-using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using log4net;
 
 #endregion Imports
 
-namespace CrazyflieDotNet.Crazyradio.Driver
+namespace CrazyflieDotNet.Crazyradio
 {
 	/// <summary>
 	///   A Crazyradio USB dongle driver that provides an abstraction to the low level usb API.

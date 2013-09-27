@@ -1,4 +1,4 @@
-﻿namespace CrazyflieDotNet.Crazyradio.Driver
+﻿namespace CrazyflieDotNet.Crazyradio
 {
 	/// <summary>
 	///   Default values for the Crazyradio.

@@ -1,4 +1,4 @@
-﻿namespace CrazyflieDotNet.Crazyradio.CRTP
+﻿namespace CrazyflieDotNet.Crazyflie.CRTP
 {
 	public enum CRTPPort
 	{

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 #endregion Imports
 
-namespace CrazyflieDotNet.Crazyradio.Driver
+namespace CrazyflieDotNet.Crazyradio
 {
 	public class ScanChannelsResult
 		: IScanChannelsResult

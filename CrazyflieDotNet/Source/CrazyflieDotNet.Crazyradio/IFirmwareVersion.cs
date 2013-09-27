@@ -4,7 +4,7 @@ using System;
 
 #endregion Imports
 
-namespace CrazyflieDotNet.Crazyradio.Driver
+namespace CrazyflieDotNet.Crazyradio
 {
 	public interface IFirmwareVersion
 		: IEquatable<IFirmwareVersion>, IComparable<IFirmwareVersion>

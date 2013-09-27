@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CrazyflieDotNet.Crazyradio.Driver
+namespace CrazyflieDotNet.Crazyradio
 {
 	public interface IScanChannelsResult
 	{

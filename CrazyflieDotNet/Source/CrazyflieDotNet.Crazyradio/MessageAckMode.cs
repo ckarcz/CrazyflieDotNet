@@ -1,4 +1,4 @@
-namespace CrazyflieDotNet.Crazyradio.Driver
+namespace CrazyflieDotNet.Crazyradio
 {
 	/// <summary>
 	///   The mode in which Crazyradio will handle packet acknowledgement (ACK) from Crazyflie quadcopters.

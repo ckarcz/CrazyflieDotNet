@@ -1,6 +1,6 @@
 ﻿#region Imports
 
-using CrazyflieDotNet.Crazyradio.Driver;
+using CrazyflieDotNet.Crazyradio;
 using log4net;
 using log4net.Config;
 using System;

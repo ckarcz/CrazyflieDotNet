@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace CrazyflieDotNet.Crazyradio.Driver
+namespace CrazyflieDotNet.Crazyradio
 {
 	/// <summary>
 	/// The radio address of the Crazyradio.
