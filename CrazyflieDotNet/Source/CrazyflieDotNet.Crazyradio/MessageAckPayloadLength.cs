@@ -1,4 +1,4 @@
-namespace CrazyflieDotNet.Crazyradio.Driver
+namespace CrazyflieDotNet.Crazyradio
 {
 	/// <summary>
 	///   The acknowledgement packet (ACK) length. This sets the auto retry delay for the Crazyradio to retry sending messages it did get receive an ACK for.

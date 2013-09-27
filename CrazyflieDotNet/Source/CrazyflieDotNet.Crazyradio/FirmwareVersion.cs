@@ -1,6 +1,6 @@
 using System;
 
-namespace CrazyflieDotNet.Crazyradio.Driver
+namespace CrazyflieDotNet.Crazyradio
 {
 	/// <summary>
 	/// Represents the firmware version of a Crazyradio USB dongle.
