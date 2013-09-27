@@ -69,7 +69,6 @@
     <Compile Include="Driver\IFirmwareVersion.cs" />
     <Compile Include="Driver\IScanChannelsResult.cs" />
     <Compile Include="Driver\ScanChannelsResult.cs" />
-    <Compile Include="Driver\TEMP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
