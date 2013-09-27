@@ -1,13 +1,12 @@
 #region Imports
 
-using log4net;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using log4net;
 
 #endregion Imports
 
-namespace CrazyflieDotNet.Crazyradio.Driver
+namespace CrazyflieDotNet.Crazyradio
 {
 	/// <summary>
 	/// The radio address of the Crazyradio.

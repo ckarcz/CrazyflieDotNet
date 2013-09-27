@@ -1,4 +1,4 @@
-﻿namespace CrazyflieDotNet.Crazyradio.Driver
+﻿namespace CrazyflieDotNet.Crazyradio
 {
 	/// <summary>
 	///   USB device ids for Crazyradio USB dongle.

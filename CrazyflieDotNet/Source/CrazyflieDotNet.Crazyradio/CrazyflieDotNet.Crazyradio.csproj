@@ -47,29 +47,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CRTP\CRTPPort.cs" />
-    <Compile Include="CRTP\ICRTPPacket.cs" />
-    <Compile Include="Driver\CrazyradioDataEndpointId.cs" />
-    <Compile Include="Driver\MessageAckMode.cs" />
-    <Compile Include="Driver\MessageAckPayloadLength.cs" />
-    <Compile Include="Driver\MessageAckRetryCount.cs" />
-    <Compile Include="Driver\MessageAckRetryDelay.cs" />
-    <Compile Include="Driver\RadioAddress.cs" />
-    <Compile Include="Driver\RadioChannel.cs" />
-    <Compile Include="Driver\RadioDataRate.cs" />
-    <Compile Include="Driver\CrazyradioDefaults.cs" />
-    <Compile Include="Driver\CrazyradioDriver.cs" />
-    <Compile Include="Driver\CrazyradioDeviceId.cs" />
-    <Compile Include="Driver\CrazyradioDriverException.cs" />
-    <Compile Include="Driver\FirmwareVersion.cs" />
-    <Compile Include="Driver\RadioMode.cs" />
-    <Compile Include="Driver\RadioPowerLevel.cs" />
-    <Compile Include="Driver\CrazyradioRequest.cs" />
-    <Compile Include="Driver\IRadioAddress.cs" />
-    <Compile Include="Driver\ICrazyradioDriver.cs" />
-    <Compile Include="Driver\IFirmwareVersion.cs" />
-    <Compile Include="Driver\IScanChannelsResult.cs" />
-    <Compile Include="Driver\ScanChannelsResult.cs" />
+    <Compile Include="CrazyradioDataEndpointId.cs" />
+    <Compile Include="MessageAckMode.cs" />
+    <Compile Include="MessageAckPayloadLength.cs" />
+    <Compile Include="MessageAckRetryCount.cs" />
+    <Compile Include="MessageAckRetryDelay.cs" />
+    <Compile Include="RadioAddress.cs" />
+    <Compile Include="RadioChannel.cs" />
+    <Compile Include="RadioDataRate.cs" />
+    <Compile Include="CrazyradioDefaults.cs" />
+    <Compile Include="CrazyradioDriver.cs" />
+    <Compile Include="CrazyradioDeviceId.cs" />
+    <Compile Include="CrazyradioDriverException.cs" />
+    <Compile Include="FirmwareVersion.cs" />
+    <Compile Include="RadioMode.cs" />
+    <Compile Include="RadioPowerLevel.cs" />
+    <Compile Include="CrazyradioRequest.cs" />
+    <Compile Include="IRadioAddress.cs" />
+    <Compile Include="ICrazyradioDriver.cs" />
+    <Compile Include="IFirmwareVersion.cs" />
+    <Compile Include="IScanChannelsResult.cs" />
+    <Compile Include="ScanChannelsResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

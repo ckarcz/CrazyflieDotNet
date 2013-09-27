@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyflieDotNet", "Source\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyflieDotNet.Crazyradio", "Source\CrazyflieDotNet.Crazyradio\CrazyflieDotNet.Crazyradio.csproj", "{B99BA1D6-E560-46F0-A440-443ABC7763F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyflieDotNet.Crazyflie", "CrazyflieDotNet.Crazyflie\CrazyflieDotNet.Crazyflie.csproj", "{3361E209-67A9-4F9F-8D72-6B2082A0B124}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{B99BA1D6-E560-46F0-A440-443ABC7763F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B99BA1D6-E560-46F0-A440-443ABC7763F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B99BA1D6-E560-46F0-A440-443ABC7763F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3361E209-67A9-4F9F-8D72-6B2082A0B124}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3361E209-67A9-4F9F-8D72-6B2082A0B124}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3361E209-67A9-4F9F-8D72-6B2082A0B124}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3361E209-67A9-4F9F-8D72-6B2082A0B124}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

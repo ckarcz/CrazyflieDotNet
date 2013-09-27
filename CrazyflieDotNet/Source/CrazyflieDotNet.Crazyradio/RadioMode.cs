@@ -1,4 +1,4 @@
-namespace CrazyflieDotNet.Crazyradio.Driver
+namespace CrazyflieDotNet.Crazyradio
 {
 	/// <summary>
 	///   The mode in which the Crazyradio USB dongle will operate.
