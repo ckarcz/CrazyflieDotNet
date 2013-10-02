@@ -5,8 +5,8 @@ namespace CrazyflieDotNet.Crazyradio
 	/// <summary>
 	/// Represents the firmware version of a Crazyradio USB dongle.
 	/// </summary>
-	internal class FirmwareVersion
-		: IFirmwareVersion
+	public sealed class FirmwareVersion
+		: IEquatable<FirmwareVersion>
 	{
 		/// <summary>
 		/// Initializes an instance of CrazyradioFirmwareVersion given the USB bcdDevice/bcdVersion number.
@@ -28,6 +28,38 @@ namespace CrazyflieDotNet.Crazyradio
 			MajorVersion = majorVersion;
 			MinorVersion = minorVersion;
 			PatchVersion = patchVersion;
+		}
+
+		public static FirmwareVersion ParseString(string tripleVersionString)
+		{
+			if (string.IsNullOrEmpty(tripleVersionString))
+			{
+				return new FirmwareVersion(0, 0, 0);
+			}
+			else
+			{
+				var majorVerison = 0;
+				var minorVersion = 0;
+				var patchVersion = 0;
+
+				var versionTokens = tripleVersionString.Split('.');
+				var versionTokenCount = versionTokens.Length;
+
+				if (versionTokenCount > 0)
+				{
+					majorVerison = Convert.ToInt32(versionTokens[0]);
+				}
+				if (versionTokenCount > 1)
+				{
+					minorVersion = Convert.ToInt32(versionTokens[1]);
+				}
+				if (versionTokenCount > 2)
+				{
+					patchVersion = Convert.ToInt32(versionTokens[2]);
+				}
+
+				return new FirmwareVersion(majorVerison, minorVersion, patchVersion);
+			}
 		}
 
 		/// <summary>
@@ -52,7 +84,7 @@ namespace CrazyflieDotNet.Crazyradio
 		/// <returns></returns>
 		public override bool Equals(object obj)
 		{
-			return Equals(obj as IFirmwareVersion);
+			return Equals(obj as FirmwareVersion);
 		}
 
 		/// <summary>
@@ -60,7 +92,7 @@ namespace CrazyflieDotNet.Crazyradio
 		/// </summary>
 		/// <param name="other">The other firmware version to compare equality with.</param>
 		/// <returns></returns>
-		public bool Equals(IFirmwareVersion other)
+		public bool Equals(FirmwareVersion other)
 		{
 			if (other == null)
 				return false;
@@ -88,7 +120,7 @@ namespace CrazyflieDotNet.Crazyradio
 		/// </summary>
 		/// <param name="other">The other ICrazyradioFirmwareVersion to compare to.</param>
 		/// <returns>Positive number if this is a higher version. Negative if other is higher version. 0 if same version.</returns>
-		public int CompareTo(IFirmwareVersion other)
+		public int CompareTo(FirmwareVersion other)
 		{
 			if (other == null)
 				throw new ArgumentNullException("other");

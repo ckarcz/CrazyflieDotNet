@@ -53,9 +53,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CrazyflieDotNet.Crazyflie\CrazyflieDotNet.Crazyflie.csproj">
+      <Project>{3361e209-67a9-4f9f-8d72-6b2082a0b124}</Project>
+      <Name>CrazyflieDotNet.Crazyflie</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrazyflieDotNet.Crazyradio\CrazyflieDotNet.Crazyradio.csproj">
       <Project>{b99ba1d6-e560-46f0-a440-443abc7763f3}</Project>
       <Name>CrazyflieDotNet.Crazyradio</Name>

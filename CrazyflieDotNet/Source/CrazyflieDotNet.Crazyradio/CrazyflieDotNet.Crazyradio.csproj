@@ -63,10 +63,7 @@
     <Compile Include="RadioMode.cs" />
     <Compile Include="RadioPowerLevel.cs" />
     <Compile Include="CrazyradioRequest.cs" />
-    <Compile Include="IRadioAddress.cs" />
     <Compile Include="ICrazyradioDriver.cs" />
-    <Compile Include="IFirmwareVersion.cs" />
-    <Compile Include="IScanChannelsResult.cs" />
     <Compile Include="ScanChannelsResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

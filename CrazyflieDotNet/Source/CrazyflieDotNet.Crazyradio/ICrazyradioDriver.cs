@@ -21,7 +21,7 @@ namespace CrazyflieDotNet.Crazyradio
 		/// <summary>
 		///   Returns the Crazyradio USB dongle's firmware version.
 		/// </summary>
-		IFirmwareVersion FirmwareVersion { get; }
+		FirmwareVersion FirmwareVersion { get; }
 
 		/// <summary>
 		///   The mode in which the Crazyradio USB dongle will operate.
@@ -36,7 +36,7 @@ namespace CrazyflieDotNet.Crazyradio
 		/// <summary>
 		///   The radio address to use when communicating with Crazyflie quadcopters.
 		/// </summary>
-		IRadioAddress Address { get; set; }
+		RadioAddress Address { get; set; }
 
 		/// <summary>
 		///   The data rate to use when communicating with Crazyflie quadcopters.
@@ -96,7 +96,7 @@ namespace CrazyflieDotNet.Crazyradio
 		/// </summary>
 		/// <param name="start"> The starting channel number. Inclusive. </param>
 		/// <param name="stop"> The ending channel number. Inclusive. </param>
-		IEnumerable<IScanChannelsResult> ScanChannels(RadioChannel channelStart = RadioChannel.Channel1, RadioChannel channelStop = RadioChannel.Channel125);
+		IEnumerable<ScanChannelsResult> ScanChannels(RadioChannel channelStart = RadioChannel.Channel1, RadioChannel channelStop = RadioChannel.Channel125);
 
 		/// <summary>
 		///   Scans for available Crazyradio USB dongle channels on given data rate within the given range (or full range of channels).
@@ -104,7 +104,7 @@ namespace CrazyflieDotNet.Crazyradio
 		/// </summary>
 		/// <param name="start"> The starting channel number. Inclusive. </param>
 		/// <param name="stop"> The ending channel number. Inclusive. </param>
-		IScanChannelsResult ScanChannels(RadioDataRate dataRate, RadioChannel channelStart = RadioChannel.Channel1, RadioChannel channelStop = RadioChannel.Channel125);
+		ScanChannelsResult ScanChannels(RadioDataRate dataRate, RadioChannel channelStart = RadioChannel.Channel1, RadioChannel channelStop = RadioChannel.Channel125);
 
 		/// <summary>
 		///   TODO

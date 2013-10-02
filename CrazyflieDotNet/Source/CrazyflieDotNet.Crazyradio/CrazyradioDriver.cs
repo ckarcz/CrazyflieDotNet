@@ -21,8 +21,8 @@ namespace CrazyflieDotNet.Crazyradio
 
 		private static readonly ILog Log = LogManager.GetLogger(typeof (CrazyradioDriver));
 
-		private static readonly IFirmwareVersion MinimumCrazyradioFirmwareVersionRequired = new FirmwareVersion(0, 3, 0);
-		private static readonly IFirmwareVersion MinimumCrazyradioFastFirmwareChannelScanFirmware = new FirmwareVersion(0, 5, 0);
+		private static readonly FirmwareVersion MinimumCrazyradioFirmwareVersionRequired = new FirmwareVersion(0, 3, 0);
+		private static readonly FirmwareVersion MinimumCrazyradioFastFirmwareChannelScanFirmware = new FirmwareVersion(0, 5, 0);
 
 		private readonly UsbDevice _crazyradioUsbDevice;
 
@@ -33,7 +33,7 @@ namespace CrazyflieDotNet.Crazyradio
 
 		private RadioMode? _mode;
 		private RadioChannel? _channel;
-		private IRadioAddress _address;
+		private RadioAddress _address;
 		private RadioDataRate? _dataRate;
 		private RadioPowerLevel? _powerLevel;
 		private MessageAckMode? _ackMode;
@@ -106,7 +106,7 @@ namespace CrazyflieDotNet.Crazyradio
 			get { return _crazyradioUsbDevice.Info.SerialString; }
 		}
 
-		public IFirmwareVersion FirmwareVersion
+		public FirmwareVersion FirmwareVersion
 		{
 			get { return new FirmwareVersion(_crazyradioUsbDevice.Info.Descriptor.BcdDevice); }
 		}
@@ -153,7 +153,7 @@ namespace CrazyflieDotNet.Crazyradio
 			}
 		}
 
-		public IRadioAddress Address
+		public RadioAddress Address
 		{
 			get { return _address; }
 			set
@@ -368,7 +368,7 @@ namespace CrazyflieDotNet.Crazyradio
 			return crazyRadioDrivers;
 		}
 
-		public IEnumerable<IScanChannelsResult> ScanChannels(RadioChannel channelStart = RadioChannel.Channel1, RadioChannel channelStop = RadioChannel.Channel125)
+		public IEnumerable<ScanChannelsResult> ScanChannels(RadioChannel channelStart = RadioChannel.Channel1, RadioChannel channelStop = RadioChannel.Channel125)
 		{
 			if (channelStop < channelStart)
 			{
@@ -384,7 +384,7 @@ namespace CrazyflieDotNet.Crazyradio
 			var channelBackup = Channel;
 			var dataRateBackup = DataRate;
 
-			var results = new List<IScanChannelsResult>();
+			var results = new List<ScanChannelsResult>();
 
 			var results250Kps = ScanChannelsUsingDataRate(RadioDataRate.DataRate250Kps, channelStart, channelStop);
 			if (results250Kps.Channels.Any())
@@ -417,7 +417,7 @@ namespace CrazyflieDotNet.Crazyradio
 			return results;
 		}
 
-		public IScanChannelsResult ScanChannels(RadioDataRate dataRate, RadioChannel channelStart = RadioChannel.Channel1, RadioChannel channelStop = RadioChannel.Channel125)
+		public ScanChannelsResult ScanChannels(RadioDataRate dataRate, RadioChannel channelStart = RadioChannel.Channel1, RadioChannel channelStop = RadioChannel.Channel125)
 		{
 			if (channelStart < channelStop)
 			{
@@ -697,7 +697,7 @@ namespace CrazyflieDotNet.Crazyradio
 			}
 		}
 
-		private void SetAddress(IRadioAddress address)
+		private void SetAddress(RadioAddress address)
 		{
 			try
 			{
@@ -853,7 +853,7 @@ namespace CrazyflieDotNet.Crazyradio
 			}
 		}
 
-		private IScanChannelsResult ScanChannelsUsingDataRate(RadioDataRate dataRate, RadioChannel channelStart, RadioChannel channelStop)
+		private ScanChannelsResult ScanChannelsUsingDataRate(RadioDataRate dataRate, RadioChannel channelStart, RadioChannel channelStop)
 		{
 			var results = new List<RadioChannel>();
 

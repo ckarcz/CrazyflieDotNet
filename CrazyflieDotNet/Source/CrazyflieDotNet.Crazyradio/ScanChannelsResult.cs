@@ -6,8 +6,7 @@ using System.Collections.Generic;
 
 namespace CrazyflieDotNet.Crazyradio
 {
-	public class ScanChannelsResult
-		: IScanChannelsResult
+	public sealed class ScanChannelsResult
 	{
 		public ScanChannelsResult(RadioDataRate dataRate, IEnumerable<RadioChannel> channels)
 		{
