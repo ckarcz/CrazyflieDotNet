@@ -448,7 +448,7 @@ namespace CrazyflieDotNet.Crazyradio
 			return result;
 		}
 
-		public byte[] SendPacket(byte[] packetData)
+		public byte[] SendData(byte[] packetData)
 		{
 			if (!IsOpen)
 			{
@@ -933,7 +933,7 @@ namespace CrazyflieDotNet.Crazyradio
 				for (var currentChannel = channelStart; currentChannel <= channelStop; currentChannel++)
 				{
 					Channel = currentChannel;
-					var result = SendPacket(ackPacket);
+					var result = SendData(ackPacket);
 				}
 
 #if DEBUG

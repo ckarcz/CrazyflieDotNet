@@ -48,7 +48,7 @@ namespace CrazyflieDotNet
 
 							while (loop)
 							{
-								var results = crazyradio.SendPacket(packet);
+								var results = crazyradio.SendData(packet);
 								Log.InfoFormat("Packet Result: {0}", BitConverter.ToString(results));
 
 								if (Console.ReadKey().Key == ConsoleKey.Spacebar)

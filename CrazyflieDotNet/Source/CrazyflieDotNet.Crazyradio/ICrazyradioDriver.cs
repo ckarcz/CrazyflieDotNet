@@ -109,6 +109,6 @@ namespace CrazyflieDotNet.Crazyradio
 		/// <summary>
 		///   TODO
 		/// </summary>
-		byte[] SendPacket(byte[] packetData);
+		byte[] SendData(byte[] packetData);
 	}
 }
