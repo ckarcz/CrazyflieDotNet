@@ -1,7 +1,9 @@
 ﻿namespace CrazyflieDotNet.Crazyradio
 {
 	/// <summary>
-	///   Default values for the Crazyradio.
+	///   Chosen defaults values for the Crazyradio.
+	///   These might be the actual defaults for the Crazyradio, but there's no
+	///   way to tell. So on initiliazation of Crazyradio driver instance, set all defaults.
 	/// </summary>
 	public static class CrazyradioDefaults
 	{
@@ -18,7 +20,7 @@
 		/// <summary>
 		///   The default address the Crazyradio uses. (0xE7-0xE7-0xE7-0xE7-0xE7).
 		/// </summary>
-		public static readonly IRadioAddress DefaultAddress = new RadioAddress(0xE7, 0xE7, 0xE7, 0xE7, 0xE7);
+		public static readonly RadioAddress DefaultAddress = new RadioAddress(0xE7, 0xE7, 0xE7, 0xE7, 0xE7);
 
 		/// <summary>
 		///   The default data rate the Crazyradio uses. (DataRate2Mps).

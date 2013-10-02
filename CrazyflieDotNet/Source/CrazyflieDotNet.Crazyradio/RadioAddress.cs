@@ -11,8 +11,8 @@ namespace CrazyflieDotNet.Crazyradio
 	/// <summary>
 	/// The radio address of the Crazyradio.
 	/// </summary>
-	public class RadioAddress
-		: IRadioAddress, IEquatable<RadioAddress>
+	public sealed class RadioAddress
+		: IEquatable<RadioAddress>
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof(RadioAddress));
 
