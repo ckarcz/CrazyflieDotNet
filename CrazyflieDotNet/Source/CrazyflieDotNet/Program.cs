@@ -13,7 +13,7 @@ namespace CrazyflieDotNet
 {
 	internal class Program
 	{
-		private static readonly ILog Log = LogManager.GetLogger(typeof (CrazyradioDriver));
+		private static readonly ILog Log = LogManager.GetLogger(typeof(CrazyradioDriver));
 
 		private static void Main(string[] args)
 		{
@@ -43,7 +43,7 @@ namespace CrazyflieDotNet
 							crazyradio.DataRate = dataRateWithCrazyflie;
 							crazyradio.Channel = channelWithCrazyflie;
 
-							var packet = new byte[] {0xFF};
+							var packet = new byte[] { 0xFF };
 							var loop = true;
 
 							while (loop)
@@ -55,7 +55,6 @@ namespace CrazyflieDotNet
 								{
 									loop = false;
 								}
-									
 							}
 						}
 						else

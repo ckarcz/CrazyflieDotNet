@@ -3,7 +3,7 @@
 	/// <summary>
 	///   USB device ids for Crazyradio USB dongle.
 	/// </summary>
-	internal static class CrazyradioDeviceId
+	public static class CrazyradioDeviceId
 	{
 		/// <summary>
 		///   The vendor id for Crazyradio USB dongle.

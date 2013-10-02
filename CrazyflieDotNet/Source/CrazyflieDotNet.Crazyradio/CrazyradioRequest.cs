@@ -5,7 +5,7 @@
 	///   See http://wiki.bitcraze.se/projects:Crazyradio:protocol#dongle_configuration_and_functions_summary
 	///   for more information regarding Crazyradio's vendor requests.
 	/// </summary>
-	internal enum CrazyradioRequest
+	public enum CrazyradioRequest
 	{
 		/// <summary>
 		///   Request to set the Crazyradio USB dongle channel.
