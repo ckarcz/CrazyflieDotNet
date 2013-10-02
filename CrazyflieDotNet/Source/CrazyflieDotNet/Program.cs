@@ -14,6 +14,7 @@
 
 #region Imports
 
+using CrazyflieDotNet.Crazyflie.CRTP;
 using CrazyflieDotNet.Crazyradio;
 using log4net;
 using log4net.Config;
@@ -57,12 +58,16 @@ namespace CrazyflieDotNet
 							crazyradio.DataRate = dataRateWithCrazyflie;
 							crazyradio.Channel = channelWithCrazyflie;
 
-							var packet = new byte[] { 0xFF };
 							var loop = true;
 
 							while (loop)
 							{
+								var packet = Packet.PingPacket.GetPacketBytes();
+
+								Log.InfoFormat("Packet Result: {0}", BitConverter.ToString(packet));
+
 								var results = crazyradio.SendData(packet);
+
 								Log.InfoFormat("Packet Result: {0}", BitConverter.ToString(results));
 
 								if (Console.ReadKey().Key == ConsoleKey.Spacebar)

@@ -22,6 +22,8 @@ namespace CrazyflieDotNet.Crazyflie.CRTP
 {
 	public sealed class Packet
 	{
+		public static readonly Packet PingPacket = new Packet(new PacketHeader(Port.All));
+
 		private byte[] _cachedPacketBytes;
 
 		public Packet(PacketHeader header)
