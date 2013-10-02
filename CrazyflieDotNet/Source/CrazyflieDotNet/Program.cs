@@ -1,4 +1,18 @@
-﻿#region Imports
+﻿/* 
+ *										 _ _  _     
+ *			   ____ ___  ___  __________(_|_)(_)____
+ *			  / __ `__ \/ _ \/ ___/ ___/ / _ \/ ___/
+ *			 / / / / / /  __(__  |__  ) /  __/ /    
+ *			/_/ /_/ /_/\___/____/____/_/\___/_/  
+ *
+ *				Copyright 2013 - www.messier.com
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+#region Imports
 
 using CrazyflieDotNet.Crazyradio;
 using log4net;
@@ -48,7 +62,7 @@ namespace CrazyflieDotNet
 
 							while (loop)
 							{
-								var results = crazyradio.SendPacket(packet);
+								var results = crazyradio.SendData(packet);
 								Log.InfoFormat("Packet Result: {0}", BitConverter.ToString(results));
 
 								if (Console.ReadKey().Key == ConsoleKey.Spacebar)
