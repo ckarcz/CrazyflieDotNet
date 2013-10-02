@@ -41,9 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CRTP\Channel.cs" />
+    <Compile Include="CRTP\CRTPException.cs" />
+    <Compile Include="CRTP\Packet.cs" />
     <Compile Include="CRTP\PacketHeader.cs" />
     <Compile Include="CRTP\Port.cs" />
-    <Compile Include="CRTP\IPacket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +52,9 @@
       <Project>{b99ba1d6-e560-46f0-a440-443abc7763f3}</Project>
       <Name>CrazyflieDotNet.Crazyradio</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="messier.licenseheader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

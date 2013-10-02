@@ -1,4 +1,18 @@
-﻿#region Imports
+﻿/* 
+ *										 _ _  _     
+ *			   ____ ___  ___  __________(_|_)(_)____
+ *			  / __ `__ \/ _ \/ ___/ ___/ / _ \/ ___/
+ *			 / / / / / /  __(__  |__  ) /  __/ /    
+ *			/_/ /_/ /_/\___/____/____/_/\___/_/  
+ *
+ *				Copyright 2013 - www.messier.com
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+#region Imports
 
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
@@ -448,7 +462,7 @@ namespace CrazyflieDotNet.Crazyradio
 			return result;
 		}
 
-		public byte[] SendPacket(byte[] packetData)
+		public byte[] SendData(byte[] packetData)
 		{
 			if (!IsOpen)
 			{
@@ -933,7 +947,7 @@ namespace CrazyflieDotNet.Crazyradio
 				for (var currentChannel = channelStart; currentChannel <= channelStop; currentChannel++)
 				{
 					Channel = currentChannel;
-					var result = SendPacket(ackPacket);
+					var result = SendData(ackPacket);
 				}
 
 #if DEBUG

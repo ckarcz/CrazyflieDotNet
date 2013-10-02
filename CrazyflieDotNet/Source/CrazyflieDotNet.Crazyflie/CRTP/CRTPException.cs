@@ -12,19 +12,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace CrazyflieDotNet.Crazyradio
+using System;
+
+namespace CrazyflieDotNet.Crazyflie.CRTP
 {
-	/// <summary>
-	///   The Crazyradio power level.
-	/// </summary>
-	public enum RadioPowerLevel
+	public class CRTPException
+		: Exception
 	{
-		Negative18Dbm = 0,
+		public CRTPException(string message, Exception innerException)
+			: base(message, innerException)
+		{
+		}
 
-		Negative12Dbm = 1,
-
-		Negative6Dbm = 2,
-
-		ZeroDbm = 3
+		public CRTPException(string message)
+			: base(message)
+		{
+		}
 	}
 }
