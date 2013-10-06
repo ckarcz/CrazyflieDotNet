@@ -40,11 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CRTP\Channel.cs" />
+    <Compile Include="CRTP\CrazyradioMessenger.cs" />
+    <Compile Include="CRTP\CRTPChannel.cs" />
     <Compile Include="CRTP\CRTPException.cs" />
-    <Compile Include="CRTP\Packet.cs" />
-    <Compile Include="CRTP\PacketHeader.cs" />
-    <Compile Include="CRTP\Port.cs" />
+    <Compile Include="CRTP\CRTPPacket.cs" />
+    <Compile Include="CRTP\CRTPPacketHeader.cs" />
+    <Compile Include="CRTP\CRTPPort.cs" />
+    <Compile Include="CRTP\ICrazyradioMessenger.cs" />
+    <Compile Include="CRTP\ICRTPMessenger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

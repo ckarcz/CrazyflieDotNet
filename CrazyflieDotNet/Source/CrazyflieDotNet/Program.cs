@@ -62,7 +62,7 @@ namespace CrazyflieDotNet
 
 							while (loop)
 							{
-								var packet = Packet.PingPacket.GetPacketBytes();
+								var packet = CRTPPacket.PingPacket.PacketBytes;
 
 								Log.InfoFormat("Packet Result: {0}", BitConverter.ToString(packet));
 
