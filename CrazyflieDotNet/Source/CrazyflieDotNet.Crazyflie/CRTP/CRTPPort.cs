@@ -14,7 +14,7 @@
 
 namespace CrazyflieDotNet.Crazyflie.CRTP
 {
-	public enum Port
+	public enum CRTPPort
 	{
 		Console = 0x00,
 

@@ -14,7 +14,7 @@
 
 namespace CrazyflieDotNet.Crazyflie.CRTP
 {
-	public enum Channel
+	public enum CRTPChannel
 	{
 		Channel0 = 0x00,
 
