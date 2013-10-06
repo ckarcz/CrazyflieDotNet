@@ -14,33 +14,38 @@
 
 namespace CrazyflieDotNet.Crazyflie.CRTP
 {
-	public sealed class PacketHeader
+	public sealed class CRTPPacketHeader
 	{
 		private byte? _bytesCached;
 
-		public PacketHeader(Port port)
+		public CRTPPacketHeader(byte packetHeaderByte)
+		{
+			// TODO
+		}
+
+		public CRTPPacketHeader(CRTPPort port)
 			: this(port, DefaultChannel)
 		{
 		}
 
-		public PacketHeader(Port port, Channel channel)
+		public CRTPPacketHeader(CRTPPort port, CRTPChannel channel)
 		{
 			Port = port;
 			Channel = channel;
 		}
 
-		public Channel Channel { get; private set; }
+		public CRTPChannel Channel { get; private set; }
 
-		public Port Port { get; private set; }
+		public CRTPPort Port { get; private set; }
 
-		public static Channel DefaultChannel = Channel.Channel0;
+		public static CRTPChannel DefaultChannel = CRTPChannel.Channel0;
 
 		internal byte HeaderByte
 		{
 			get { return (_bytesCached ?? (_bytesCached = GetByte(this))).Value; }
 		}
 
-		public static byte GetByte(PacketHeader packetHeader)
+		public static byte GetByte(CRTPPacketHeader packetHeader)
 		{
 			var port = (byte)packetHeader.Port;
 			var channel = (byte)packetHeader.Channel;
