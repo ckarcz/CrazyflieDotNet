@@ -5,7 +5,7 @@
  *			 / / / / / /  __(__  |__  ) /  __/ /    
  *			/_/ /_/ /_/\___/____/____/_/\___/_/  
  *
- *				Copyright 2013 - www.messier.com
+ *				Copyright 2013 - http://www.messier.com
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -62,7 +62,7 @@ namespace CrazyflieDotNet
 
 							while (loop)
 							{
-								var packet = CRTPPacket.PingPacket.PacketBytes;
+								var packet = CRTPDataPacket.PingPacket.PacketBytes;
 
 								Log.InfoFormat("Packet Result: {0}", BitConverter.ToString(packet));
 
