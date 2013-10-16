@@ -41,10 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CRTP\CrazyradioMessenger.cs" />
+    <Compile Include="CRTP\CRTPAckPacket.cs" />
+    <Compile Include="CRTP\CRTPAckPacketHeader.cs" />
     <Compile Include="CRTP\CRTPChannel.cs" />
     <Compile Include="CRTP\CRTPException.cs" />
-    <Compile Include="CRTP\CRTPPacket.cs" />
-    <Compile Include="CRTP\CRTPPacketHeader.cs" />
+    <Compile Include="CRTP\CRTPDataPacket.cs" />
+    <Compile Include="CRTP\CRTPOutPacketHeader.cs" />
     <Compile Include="CRTP\CRTPPort.cs" />
     <Compile Include="CRTP\ICrazyradioMessenger.cs" />
     <Compile Include="CRTP\ICRTPMessenger.cs" />
