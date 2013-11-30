@@ -12,25 +12,18 @@
  *	file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-
 namespace CrazyflieDotNet.Crazyflie.CRTP
 {
 	public sealed class CRTPOutPacketHeader
 	{
-		private byte? _bytesCached;
+		private byte? _packetHeaderByteCached;
 
 		public CRTPOutPacketHeader(byte packetHeaderByte)
 		{
-			throw new NotImplementedException();
+			_packetHeaderByteCached = packetHeaderByte;
 		}
 
-		public CRTPOutPacketHeader(CRTPPort port)
-			: this(port, DefaultChannel)
-		{
-		}
-
-		public CRTPOutPacketHeader(CRTPPort port, CRTPChannel channel)
+		public CRTPOutPacketHeader(CRTPPort port, CRTPChannel channel = DefaultChannel)
 		{
 			Port = port;
 			Channel = channel;
@@ -40,11 +33,11 @@ namespace CrazyflieDotNet.Crazyflie.CRTP
 
 		public CRTPPort Port { get; private set; }
 
-		public static CRTPChannel DefaultChannel = CRTPChannel.Channel0;
+		public const CRTPChannel DefaultChannel = CRTPChannel.Channel0;
 
 		internal byte HeaderByte
 		{
-			get { return (_bytesCached ?? (_bytesCached = GetByte(this))).Value; }
+			get { return (_packetHeaderByteCached ?? (_packetHeaderByteCached = GetByte(this))).Value; }
 		}
 
 		public static byte GetByte(CRTPOutPacketHeader packetHeader)
@@ -52,14 +45,14 @@ namespace CrazyflieDotNet.Crazyflie.CRTP
 			// Header Format (1 byte):
 			//  7  6  5  4  3  2  1  0
 			// [   Port   ][Res. ][Ch.]
-			// Res. = reserved for transfer layer.
+			// Res. = reserved for transfer layer. not much info on this...
 
-			byte portByte = (byte)(packetHeader.Port);
-			byte portByteAnd15 = (byte)(portByte & 0x0F);
-			byte portByteAnd15LeftShifted4 = (byte)(portByteAnd15 << 4);
-			byte reservedLeftShifted2 = (byte)(0x03 << 2);
-			byte channelByte = (byte)(packetHeader.Channel);
-			byte channelByteAnd3 = (byte)(channelByte & 0x03);
+			var portByte = (byte)(packetHeader.Port);
+			var portByteAnd15 = (byte)(portByte & 0x0F);
+			var portByteAnd15LeftShifted4 = (byte)(portByteAnd15 << 4);
+			var reservedLeftShifted2 = (byte)(0x03 << 2);
+			var channelByte = (byte)(packetHeader.Channel);
+			var channelByteAnd3 = (byte)(channelByte & 0x03);
 
 			return (byte)(portByteAnd15LeftShifted4 | reservedLeftShifted2 | channelByteAnd3);
 		}

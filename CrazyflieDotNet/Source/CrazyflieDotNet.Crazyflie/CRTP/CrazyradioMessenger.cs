@@ -36,11 +36,11 @@ namespace CrazyflieDotNet.Crazyflie.CRTP
 			_crazyradioDriver = crazyradioDriver;
 		}
 
-		public CRTPDataPacket SendMessage(CRTPDataPacket packet)
+		public CRTPAckPacket SendMessage(CRTPDataPacket dataPacket)
 		{
-			var responseBytes = _crazyradioDriver.SendData(packet.PacketBytes);
+			var responseBytes = _crazyradioDriver.SendData(dataPacket.PacketBytes);
 
-			return new CRTPDataPacket(responseBytes);
+			return new CRTPAckPacket(responseBytes);
 		}
 	}
 }

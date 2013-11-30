@@ -66,7 +66,7 @@ namespace CrazyflieDotNet.Crazyradio
 		public CrazyradioDriver(UsbDevice crazyradioUsbDevice)
 		{
 #if DEBUG
-			Log.InfoFormat("Received UsbDevice to use in CrazyradioDriver.");
+			Log.DebugFormat("Received UsbDevice to use in CrazyradioDriver.");
 #endif
 
 			if (crazyradioUsbDevice == null)
@@ -89,7 +89,7 @@ namespace CrazyflieDotNet.Crazyradio
 			if (IsCrazyradioUsbDongle(_crazyradioUsbDevice))
 			{
 #if DEBUG
-				Log.InfoFormat("UsbDevice is in fact a Crazyradio USB dongle.");
+				Log.DebugFormat("UsbDevice is in fact a Crazyradio USB dongle.");
 #endif
 
 				CheckFirmwareVersion();
@@ -357,7 +357,7 @@ namespace CrazyflieDotNet.Crazyradio
 		public static IEnumerable<ICrazyradioDriver> GetCrazyradios()
 		{
 #if DEBUG
-			Log.Info("Looking for Crazyradio USB dongles...");
+			Log.DebugFormat("Looking for Crazyradio USB dongles...");
 #endif
 
 			var crazyRadioDrivers = new List<ICrazyradioDriver>();
@@ -366,7 +366,7 @@ namespace CrazyflieDotNet.Crazyradio
 			if (crazyRadiosRegDeviceList.Any())
 			{
 #if DEBUG
-				Log.InfoFormat("Found {0} Crazyradio USB dongle(s).", crazyRadiosRegDeviceList.Count);
+				Log.DebugFormat("Found {0} Crazyradio USB dongle(s).", crazyRadiosRegDeviceList.Count);
 #endif
 
 				foreach (UsbRegistry crazyRadioUsbDevice in crazyRadiosRegDeviceList)
@@ -444,7 +444,7 @@ namespace CrazyflieDotNet.Crazyradio
 			var dataRateBackup = DataRate;
 
 #if DEBUG
-			Log.DebugFormat("About to scan channels for data rate in channel range. StartChannel: {0}, StopChannel: {1}. DataRate: {2}.", channelStart, channelStop);
+			Log.DebugFormat("About to scan channels for data rate in channel range. StartChannel: {0}, StopChannel: {1}, DataRate: {2}.", channelStart, channelStop);
 #endif
 
 			var result = ScanChannelsUsingDataRate(dataRate, channelStart, channelStop);
@@ -484,7 +484,7 @@ namespace CrazyflieDotNet.Crazyradio
 			else
 			{
 #if DEBUG
-				Log.InfoFormat("Succesfully sent packet to Crazyradio USB dongle. PacketData: {0}, LengthTransferred: {1}.", BitConverter.ToString(packetData), lengthTransferred);
+				Log.DebugFormat("Succesfully sent packet to Crazyradio USB dongle. PacketData: {0}, LengthTransferred: {1}.", BitConverter.ToString(packetData), lengthTransferred);
 #endif
 
 				var readAckBuffer = new byte[32];
@@ -493,7 +493,7 @@ namespace CrazyflieDotNet.Crazyradio
 				var ackPacketData = readAckFailed ? null : readAckBuffer.Take(lengthTransferred).ToArray();
 
 #if DEBUG
-				Log.InfoFormat("Succesfully read ACK packet from Crazyradio USB dongle. PacketData: {0}, LengthTransferred: {1}.", ackPacketData == null ? "NULL" : BitConverter.ToString(ackPacketData), lengthTransferred);
+				Log.DebugFormat("Succesfully read ACK packet from Crazyradio USB dongle. PacketData: {0}, LengthTransferred: {1}.", ackPacketData == null ? "NULL" : BitConverter.ToString(ackPacketData), lengthTransferred);
 #endif
 
 				return ackPacketData;
@@ -532,7 +532,7 @@ namespace CrazyflieDotNet.Crazyradio
 			try
 			{
 #if DEBUG
-				Log.Info("Opening/initializing Crazyradio USB dongle for communication...");
+				Log.DebugFormat("Opening/initializing Crazyradio USB dongle for communication...");
 #endif
 
 				var wholeUsbDevice = _crazyradioUsbDevice as IUsbDevice;
@@ -541,19 +541,19 @@ namespace CrazyflieDotNet.Crazyradio
 					wholeUsbDevice.Open();
 
 #if DEBUG
-					Log.Info("Opened Crazyradio USB dongle.");
+					Log.DebugFormat("Opened Crazyradio USB dongle.");
 #endif
 
 					wholeUsbDevice.SetConfiguration(1);
 
 #if DEBUG
-					Log.Info("Set Crazyradio USB dongle configuration to 1.");
+					Log.DebugFormat("Set Crazyradio USB dongle configuration to 1.");
 #endif
 
 					wholeUsbDevice.ClaimInterface(0);
 
 #if DEBUG
-					Log.Info("Claimed interface 0 of Crazyradio USB dongle.");
+					Log.DebugFormat("Claimed interface 0 of Crazyradio USB dongle.");
 #endif
 				}
 
@@ -566,7 +566,7 @@ namespace CrazyflieDotNet.Crazyradio
 				_crazyradioDataEndpointWriter = _crazyradioUsbDevice.OpenEndpointWriter(CrazyradioDataEndpointId.DataWriteEndpointId);
 
 #if DEBUG
-				Log.Info("Successfully opened/initializing Crazyradio USB dongle for communication.");
+				Log.DebugFormat("Successfully opened/initializing Crazyradio USB dongle for communication.");
 #endif
 			}
 			catch (Exception ex)
@@ -582,7 +582,7 @@ namespace CrazyflieDotNet.Crazyradio
 			try
 			{
 #if DEBUG
-				Log.Info("Closing Crazyradio USB dongle from communication...");
+				Log.DebugFormat("Closing Crazyradio USB dongle from communication...");
 #endif
 
 				if (_crazyradioDataEndpointReader != null && !_crazyradioDataEndpointReader.IsDisposed)
@@ -600,13 +600,13 @@ namespace CrazyflieDotNet.Crazyradio
 					_crazyradioUsbDevice.Close();
 
 #if DEBUG
-					Log.Info("Successfully closed Crazyradio USB dongle from communication.");
+					Log.DebugFormat("Successfully closed Crazyradio USB dongle from communication.");
 #endif
 				}
 				else
 				{
 #if DEBUG
-					Log.Info("Crazyradio USB dongle is already closed.");
+					Log.DebugFormat("Crazyradio USB dongle is already closed.");
 #endif
 				}
 			}
@@ -626,7 +626,7 @@ namespace CrazyflieDotNet.Crazyradio
 		public void SetsToDefaults()
 		{
 #if DEBUG
-			Log.Info("Resetting Crazyradio USB dongle to default settings...");
+			Log.DebugFormat("Resetting Crazyradio USB dongle to default settings...");
 #endif
 
 			Mode = CrazyradioDefaults.DefaultMode;
@@ -642,7 +642,7 @@ namespace CrazyflieDotNet.Crazyradio
 			_propertiesInitializedToDefaults = true;
 
 #if DEBUG
-			Log.Info("Successfully reset Crazyradio USB dongle to default settings.");
+			Log.DebugFormat("Successfully reset Crazyradio USB dongle to default settings.");
 #endif
 		}
 
@@ -655,7 +655,7 @@ namespace CrazyflieDotNet.Crazyradio
 		private void CheckFirmwareVersion()
 		{
 #if DEBUG
-			Log.InfoFormat("Crazyradio USB dongle version is {0}.", FirmwareVersion);
+			Log.DebugFormat("Crazyradio USB dongle version is {0}.", FirmwareVersion);
 #endif
 
 			if (FirmwareVersion.CompareTo(MinimumCrazyradioFirmwareVersionRequired) < 0)
@@ -671,14 +671,14 @@ namespace CrazyflieDotNet.Crazyradio
 			try
 			{
 #if DEBUG
-				Log.InfoFormat("Setting Crazyradio USB dongle Mode to {0}.", mode);
+				Log.DebugFormat("Setting Crazyradio USB dongle Mode to {0}.", mode);
 #endif
 
 				var enableContinuousCarrierMode = (mode == RadioMode.ContinuousCarrierMode) ? 1 : 0;
 				ControlTransferOut(CrazyradioRequest.SetContinuousCarrierMode, (short) enableContinuousCarrierMode, 0, 0, new byte[0]);
 
 #if DEBUG
-				Log.InfoFormat("Successfully set Crazyradio USB dongle Mode to {0}.", mode);
+				Log.DebugFormat("Successfully set Crazyradio USB dongle Mode to {0}.", mode);
 #endif
 			}
 			catch (Exception ex)
@@ -694,13 +694,13 @@ namespace CrazyflieDotNet.Crazyradio
 			try
 			{
 #if DEBUG
-				Log.InfoFormat("Setting Crazyradio USB dongle Channel to {0}.", channel);
+				Log.DebugFormat("Setting Crazyradio USB dongle Channel to {0}.", channel);
 #endif
 
 				ControlTransferOut(CrazyradioRequest.SetChannel, (short) channel, 0, 0, new byte[0]);
 
 #if DEBUG
-				Log.InfoFormat("Successfully set Crazyradio USB dongle Channel to {0}.", channel);
+				Log.DebugFormat("Successfully set Crazyradio USB dongle Channel to {0}.", channel);
 #endif
 			}
 			catch (Exception ex)
@@ -716,13 +716,13 @@ namespace CrazyflieDotNet.Crazyradio
 			try
 			{
 #if DEBUG
-				Log.InfoFormat("Setting Crazyradio USB dongle Address to {0}.", address);
+				Log.DebugFormat("Setting Crazyradio USB dongle Address to {0}.", address);
 #endif
 
 				ControlTransferOut(CrazyradioRequest.SetAddress, 0, 0, 5, address.Bytes);
 
 #if DEBUG
-				Log.InfoFormat("Successfully set Crazyradio USB dongle Address to {0}.", address);
+				Log.DebugFormat("Successfully set Crazyradio USB dongle Address to {0}.", address);
 #endif
 			}
 			catch (Exception ex)
@@ -738,13 +738,13 @@ namespace CrazyflieDotNet.Crazyradio
 			try
 			{
 #if DEBUG
-				Log.InfoFormat("Setting Crazyradio USB dongle DataRate to {0}.", dataRate);
+				Log.DebugFormat("Setting Crazyradio USB dongle DataRate to {0}.", dataRate);
 #endif
 
 				ControlTransferOut(CrazyradioRequest.SetDataRate, (short) dataRate, 0, 0, new byte[0]);
 
 #if DEBUG
-				Log.InfoFormat("Successfully set Crazyradio USB dongle DataRate to {0}.", dataRate);
+				Log.DebugFormat("Successfully set Crazyradio USB dongle DataRate to {0}.", dataRate);
 #endif
 			}
 			catch (Exception ex)
@@ -760,13 +760,13 @@ namespace CrazyflieDotNet.Crazyradio
 			try
 			{
 #if DEBUG
-				Log.InfoFormat("Setting Crazyradio USB dongle PowerLevel to {0}.", powerLevel);
+				Log.DebugFormat("Setting Crazyradio USB dongle PowerLevel to {0}.", powerLevel);
 #endif
 
 				ControlTransferOut(CrazyradioRequest.SetDataRate, (short) powerLevel, 0, 0, new byte[0]);
 
 #if DEBUG
-				Log.InfoFormat("Successfully set Crazyradio USB dongle PowerLevel to {0}.", powerLevel);
+				Log.DebugFormat("Successfully set Crazyradio USB dongle PowerLevel to {0}.", powerLevel);
 #endif
 			}
 			catch (Exception ex)
@@ -782,14 +782,14 @@ namespace CrazyflieDotNet.Crazyradio
 			try
 			{
 #if DEBUG
-				Log.InfoFormat("Setting Crazyradio USB dongle AckMode to {0}.", ackMode);
+				Log.DebugFormat("Setting Crazyradio USB dongle AckMode to {0}.", ackMode);
 #endif
 
 				var enableAutoAck = (ackMode == MessageAckMode.AutoAckOn) ? 1 : 0;
 				ControlTransferOut(CrazyradioRequest.SetAutoActEnabled, (short) enableAutoAck, 0, 0, new byte[0]);
 
 #if DEBUG
-				Log.InfoFormat("Successfully set Crazyradio USB dongle AckMode to {0}.", ackMode);
+				Log.DebugFormat("Successfully set Crazyradio USB dongle AckMode to {0}.", ackMode);
 #endif
 			}
 			catch (Exception ex)
@@ -805,13 +805,13 @@ namespace CrazyflieDotNet.Crazyradio
 			try
 			{
 #if DEBUG
-				Log.InfoFormat("Setting Crazyradio USB dongle AckRetryCount to {0}.", ackRetryCount);
+				Log.DebugFormat("Setting Crazyradio USB dongle AckRetryCount to {0}.", ackRetryCount);
 #endif
 
 				ControlTransferOut(CrazyradioRequest.SetDataRate, (short) ackRetryCount, 0, 0, new byte[0]);
 
 #if DEBUG
-				Log.InfoFormat("Successfully set Crazyradio USB dongle AckRetryCount to {0}.", ackRetryCount);
+				Log.DebugFormat("Successfully set Crazyradio USB dongle AckRetryCount to {0}.", ackRetryCount);
 #endif
 			}
 			catch (Exception ex)
@@ -827,13 +827,13 @@ namespace CrazyflieDotNet.Crazyradio
 			try
 			{
 #if DEBUG
-				Log.InfoFormat("Setting Crazyradio USB dongle AckRetryDelay to {0}.", ackRetryDelay);
+				Log.DebugFormat("Setting Crazyradio USB dongle AckRetryDelay to {0}.", ackRetryDelay);
 #endif
 
 				ControlTransferOut(CrazyradioRequest.SetDataRate, (short) ackRetryDelay, 0, 0, new byte[0]);
 
 #if DEBUG
-				Log.InfoFormat("Successfully set Crazyradio USB dongle AckRetryDelay to {0}.", ackRetryDelay);
+				Log.DebugFormat("Successfully set Crazyradio USB dongle AckRetryDelay to {0}.", ackRetryDelay);
 #endif
 			}
 			catch (Exception ex)
@@ -849,14 +849,14 @@ namespace CrazyflieDotNet.Crazyradio
 			try
 			{
 #if DEBUG
-				Log.InfoFormat("Setting Crazyradio USB dongle AckPayloadLength to {0}.", ackPayloadLength);
+				Log.DebugFormat("Setting Crazyradio USB dongle AckPayloadLength to {0}.", ackPayloadLength);
 #endif
 
 				var value = (byte) ((byte) ackPayloadLength | 0x80); // To set the ACK payload length the bit 7 of ARD must be set (length | 0x80).
 				ControlTransferOut(CrazyradioRequest.SetDataRate, value, 0, 0, new byte[0]);
 
 #if DEBUG
-				Log.InfoFormat("Successfully set Crazyradio USB dongle AckPayloadLength to {0}.", ackPayloadLength);
+				Log.DebugFormat("Successfully set Crazyradio USB dongle AckPayloadLength to {0}.", ackPayloadLength);
 #endif
 			}
 			catch (Exception ex)
@@ -891,13 +891,13 @@ namespace CrazyflieDotNet.Crazyradio
 			try
 			{
 #if DEBUG
-				Log.InfoFormat("Starting firmware level Crazyradio USB dongle ChannelScan. StartChannel: {0}, StopChannel: {1}.", channelStart, channelStop);
+				Log.DebugFormat("Starting firmware level Crazyradio USB dongle ChannelScan. StartChannel: {0}, StopChannel: {1}.", channelStart, channelStop);
 #endif
 
 				ControlTransferOut(CrazyradioRequest.ScanChannels, (short) channelStart, (short) channelStop, 1, new byte[] {0xFF});
 
 #if DEBUG
-				Log.InfoFormat("Successfully started firmware level Crazyradio USB dongle ChannelScan. StartChannel: {0}, StopChannel: {1}.", channelStart, channelStop);
+				Log.DebugFormat("Successfully started firmware level Crazyradio USB dongle ChannelScan. StartChannel: {0}, StopChannel: {1}.", channelStart, channelStop);
 #endif
 			}
 			catch (Exception ex)
@@ -913,14 +913,14 @@ namespace CrazyflieDotNet.Crazyradio
 			try
 			{
 #if DEBUG
-				Log.InfoFormat("Getting firmware level Crazyradio USB dongle ChannelScan results.");
+				Log.DebugFormat("Getting firmware level Crazyradio USB dongle ChannelScan results.");
 #endif
 
 				var data = new byte[63];
 				ControlTransferIn(CrazyradioRequest.ScanChannels, 0, 0, (short) data.Length, data);
 
 #if DEBUG
-				Log.InfoFormat("Successfully got firmware level Crazyradio USB dongle ChannelScan results.");
+				Log.DebugFormat("Successfully got firmware level Crazyradio USB dongle ChannelScan results.");
 #endif
 
 				return data.Where(a => a != 0).Select(b => (RadioChannel) b);
@@ -938,7 +938,7 @@ namespace CrazyflieDotNet.Crazyradio
 			try
 			{
 #if DEBUG
-				Log.InfoFormat("Starting manual Crazyradio USB dongle ChannelScan. StartChannel: {0}, StopChannel: {1}.", channelStart, channelStop);
+				Log.DebugFormat("Starting manual Crazyradio USB dongle ChannelScan. StartChannel: {0}, StopChannel: {1}.", channelStart, channelStop);
 #endif
 
 				var results = new List<RadioChannel>();
@@ -951,7 +951,7 @@ namespace CrazyflieDotNet.Crazyradio
 				}
 
 #if DEBUG
-				Log.InfoFormat("Manual Crazyradio USB dongle ChannelScan completed.");
+				Log.DebugFormat("Manual Crazyradio USB dongle ChannelScan completed.");
 #endif
 
 				return results;

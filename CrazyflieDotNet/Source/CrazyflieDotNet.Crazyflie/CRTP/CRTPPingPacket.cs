@@ -1,4 +1,4 @@
-﻿/* 
+/* 
  *						 _ _  _     
  *		       ____ ___  ___  __________(_|_)(_)____
  *		      / __ `__ \/ _ \/ ___/ ___/ / _ \/ ___/
@@ -14,8 +14,17 @@
 
 namespace CrazyflieDotNet.Crazyflie.CRTP
 {
-	public interface ICRTPMessenger
+	public sealed class CRTPPingPacket
+		: CRTPDataPacket
 	{
-		CRTPAckPacket SendMessage(CRTPDataPacket dataPacket);
+		public CRTPPingPacket(CRTPChannel channel = CRTPChannel.Channel0)
+			: base(new CRTPOutPacketHeader(CRTPPort.All, channel))
+		{
+		}
+
+		protected override byte[] GetPacketPayloadBytes()
+		{
+			return new byte[0];
+		}
 	}
 }

@@ -20,13 +20,12 @@ using System;
 
 namespace CrazyflieDotNet.Crazyflie.CRTP
 {
-	public sealed class CRTPDataPacket
+	public abstract class CRTPDataPacket
 	{
-		public static readonly CRTPDataPacket PingPacket = new CRTPDataPacket(new CRTPOutPacketHeader(CRTPPort.All));
-
 		private byte[] _cachedPacketBytes;
+		private byte[] _cachedPacketPayloadBytes;
 
-		public CRTPDataPacket(byte[] packetBytes)
+		protected CRTPDataPacket(byte[] packetBytes)
 		{
 			if (packetBytes == null)
 			{
@@ -52,12 +51,12 @@ namespace CrazyflieDotNet.Crazyflie.CRTP
 			_cachedPacketBytes = packetBytes;
 		}
 
-		public CRTPDataPacket(CRTPOutPacketHeader header)
+		protected CRTPDataPacket(CRTPOutPacketHeader header)
 			: this(header, null)
 		{
 		}
 
-		public CRTPDataPacket(CRTPOutPacketHeader header, byte[] payload)
+		protected CRTPDataPacket(CRTPOutPacketHeader header, byte[] payload)
 		{
 			if (header == null)
 			{
@@ -65,17 +64,23 @@ namespace CrazyflieDotNet.Crazyflie.CRTP
 			}
 
 			Header = header;
-			Payload = payload ?? new byte[0];
+			Payload = payload;
 		}
 
 		public CRTPOutPacketHeader Header { get; private set; }
 
-		public byte[] Payload { get; private set; }
+		public byte[] Payload
+		{
+			get { return _cachedPacketPayloadBytes ?? (_cachedPacketPayloadBytes = GetPacketPayloadBytes()); }
+			private set { _cachedPacketPayloadBytes = value; }
+		}
 
 		public byte[] PacketBytes
 		{
 			get { return _cachedPacketBytes ?? (_cachedPacketBytes = GetPacketBytes(this)); }
 		}
+
+		protected abstract byte[] GetPacketPayloadBytes();
 
 		public static byte[] GetPacketBytes(CRTPDataPacket packet)
 		{

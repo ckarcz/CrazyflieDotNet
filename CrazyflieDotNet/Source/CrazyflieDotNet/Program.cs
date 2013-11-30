@@ -19,6 +19,7 @@ using CrazyflieDotNet.Crazyradio;
 using log4net;
 using log4net.Config;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
@@ -34,67 +35,74 @@ namespace CrazyflieDotNet
 		{
 			SetUpLogging();
 
+			IEnumerable<ICrazyradioDriver> crazyradios = null;
+
 			try
 			{
 				Log.Debug("Starting Crazyradio USB dongle tests.");
 
-				var crazyradios = CrazyradioDriver.GetCrazyradios();
-
-				if (crazyradios.Any())
-				{
-					var crazyradio = crazyradios.First();
-
-					try
-					{
-						crazyradio.Open();
-
-						var scanResults = crazyradio.ScanChannels();
-
-						if (scanResults.Any())
-						{
-							var dataRateWithCrazyflie = scanResults.First().DataRate;
-							var channelWithCrazyflie = scanResults.First().Channels.First();
-
-							crazyradio.DataRate = dataRateWithCrazyflie;
-							crazyradio.Channel = channelWithCrazyflie;
-
-							var loop = true;
-
-							while (loop)
-							{
-								var packet = CRTPDataPacket.PingPacket.PacketBytes;
-
-								Log.InfoFormat("Packet Result: {0}", BitConverter.ToString(packet));
-
-								var results = crazyradio.SendData(packet);
-
-								Log.InfoFormat("Packet Result: {0}", BitConverter.ToString(results));
-
-								if (Console.ReadKey().Key == ConsoleKey.Spacebar)
-								{
-									loop = false;
-								}
-							}
-						}
-						else
-						{
-							Log.Warn("No Crazyflie Quadcopters found!");
-						}
-					}
-					finally
-					{
-						crazyradio.Close();
-					}
-				}
-				else
-				{
-					Log.Warn("No Crazyradio USB dongles found!");
-				}
+				crazyradios = CrazyradioDriver.GetCrazyradios();
 			}
 			catch (Exception ex)
 			{
-				Log.Error("Unhandled exception occured!", ex);
+				Log.Error("Error getting Crazyradios.", ex);
 			}
+
+			if (crazyradios != null && crazyradios.Any())
+			{
+				var crazyradio = crazyradios.First();
+
+				try
+				{
+					crazyradio.Open();
+
+					var scanResults = crazyradio.ScanChannels();
+					if (scanResults.Any())
+					{
+						var dataRateWithCrazyflie = scanResults.First().DataRate;
+						var channelWithCrazyflie = scanResults.First().Channels.First();
+
+						crazyradio.DataRate = dataRateWithCrazyflie;
+						crazyradio.Channel = channelWithCrazyflie;
+
+						var loop = true;
+						while (loop)
+						{
+							var pingPacket = new CRTPPingPacket();
+							var pingPacketBytes = pingPacket.PacketBytes;
+
+							Log.InfoFormat("Packet Result: {0}", BitConverter.ToString(pingPacketBytes));
+
+							var results = crazyradio.SendData(pingPacketBytes);
+
+							Log.InfoFormat("Packet Result: {0}", BitConverter.ToString(results));
+
+							if (Console.ReadKey().Key == ConsoleKey.Spacebar)
+							{
+								loop = false;
+							}
+						}
+					}
+					else
+					{
+						Log.Warn("No Crazyflie Quadcopters found!");
+					}
+				}
+				catch (Exception ex)
+				{
+					Log.Error("Error testing Crazyradio.", ex);
+				}
+				finally
+				{
+					crazyradio.Close();
+				}
+			}
+			else
+			{
+				Log.Warn("No Crazyradio USB dongles found!");
+			}
+
+			Log.Info("Sleepy time...");
 
 			Thread.Sleep(Timeout.Infinite);
 		}

@@ -44,9 +44,11 @@
     <Compile Include="CRTP\CRTPAckPacket.cs" />
     <Compile Include="CRTP\CRTPAckPacketHeader.cs" />
     <Compile Include="CRTP\CRTPChannel.cs" />
+    <Compile Include="CRTP\CRTPCommanderPacket.cs" />
     <Compile Include="CRTP\CRTPException.cs" />
     <Compile Include="CRTP\CRTPDataPacket.cs" />
     <Compile Include="CRTP\CRTPOutPacketHeader.cs" />
+    <Compile Include="CRTP\CRTPPingPacket.cs" />
     <Compile Include="CRTP\CRTPPort.cs" />
     <Compile Include="CRTP\ICrazyradioMessenger.cs" />
     <Compile Include="CRTP\ICRTPMessenger.cs" />
