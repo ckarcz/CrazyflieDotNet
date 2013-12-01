@@ -77,15 +77,6 @@ namespace CrazyflieDotNet.Crazyradio
 
 			_crazyradioUsbDevice = crazyradioUsbDevice;
 
-			if (_crazyradioUsbDevice.IsOpen)
-			{
-#if DEBUG
-				Log.DebugFormat("UsbDevice is open. Closing until user opens to prevent inconsistent driver state.");
-#endif
-
-				_crazyradioUsbDevice.Close();
-			}
-
 			if (IsCrazyradioUsbDongle(_crazyradioUsbDevice))
 			{
 #if DEBUG
@@ -93,13 +84,21 @@ namespace CrazyflieDotNet.Crazyradio
 #endif
 
 				CheckFirmwareVersion();
-				SetsToDefaults();
 			}
 			else
 			{
 				const string message = "UsbDevice is not a Crazyradio USB dongle.";
 				Log.Error(message);
 				throw new CrazyradioDriverException(message);
+			}
+
+			if (_crazyradioUsbDevice.IsOpen)
+			{
+#if DEBUG
+				Log.DebugFormat("UsbDevice is open. Closing until user opens to prevent inconsistent driver state.");
+#endif
+
+				_crazyradioUsbDevice.Close();
 			}
 		}
 

@@ -59,8 +59,10 @@ namespace CrazyflieDotNet
 					var scanResults = crazyradio.ScanChannels();
 					if (scanResults.Any())
 					{
-						var dataRateWithCrazyflie = scanResults.First().DataRate;
-						var channelWithCrazyflie = scanResults.First().Channels.First();
+						var firstScanResult = scanResults.First();
+
+						var dataRateWithCrazyflie = firstScanResult.DataRate;
+						var channelWithCrazyflie = firstScanResult.Channels.First();
 
 						crazyradio.DataRate = dataRateWithCrazyflie;
 						crazyradio.Channel = channelWithCrazyflie;
@@ -71,11 +73,11 @@ namespace CrazyflieDotNet
 							var pingPacket = new CRTPPingPacket();
 							var pingPacketBytes = pingPacket.PacketBytes;
 
-							Log.InfoFormat("Packet Result: {0}", BitConverter.ToString(pingPacketBytes));
+							Log.InfoFormat("Ping Packet Bytes: {0}", BitConverter.ToString(pingPacketBytes));
 
-							var results = crazyradio.SendData(pingPacketBytes);
+							var ackResponse = crazyradio.SendData(pingPacketBytes);
 
-							Log.InfoFormat("Packet Result: {0}", BitConverter.ToString(results));
+							Log.InfoFormat("ACK Response Bytes: {0}", BitConverter.ToString(ackResponse));
 
 							if (Console.ReadKey().Key == ConsoleKey.Spacebar)
 							{
