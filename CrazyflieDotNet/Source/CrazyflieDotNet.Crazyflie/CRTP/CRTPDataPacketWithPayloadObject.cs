@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  *						 _ _  _     
  *		       ____ ___  ___  __________(_|_)(_)____
  *		      / __ `__ \/ _ \/ ___/ ___/ / _ \/ ___/
@@ -14,33 +14,30 @@
 
 #region Imports
 
-using CrazyflieDotNet.Crazyradio;
 using System;
 
 #endregion Imports
 
 namespace CrazyflieDotNet.Crazyflie.CRTP
 {
-	public class CrazyradioMessenger
-		: ICrazyradioMessenger
+	public abstract class CRTPDataPacket<TPayload>
+		: CRTPDataPacket
+		where TPayload : ICRTPDataPacketPayload
 	{
-		private readonly ICrazyradioDriver _crazyradioDriver;
-
-		public CrazyradioMessenger(ICrazyradioDriver crazyradioDriver)
+		protected CRTPDataPacket(CRTPOutPacketHeader header, TPayload payload)
+			: base(header)
 		{
-			if (crazyradioDriver == null)
-			{
-				throw new ArgumentNullException("crazyradioDriver");
-			}
+			if (payload == null)
+				throw new ArgumentNullException("payload");
 
-			_crazyradioDriver = crazyradioDriver;
+			Payload = payload;
 		}
 
-		public CRTPAckPacket SendMessage(CRTPDataPacket dataPacket)
-		{
-			var responseBytes = _crazyradioDriver.SendData(dataPacket.FullPacketBytes);
+		public TPayload Payload { get; private set; }
 
-			return new CRTPAckPacket(responseBytes);
+		protected override byte[] GetPacketPayloadBytes()
+		{
+			return Payload.GetBytes();
 		}
 	}
 }

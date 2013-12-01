@@ -5,7 +5,7 @@
  *		     / / / / / /  __(__  |__  ) /  __/ /    
  *		    /_/ /_/ /_/\___/____/____/_/\___/_/  
  *
- *		    Copyright 2013 - http://www.messier.com
+ *	     Copyright 2013 - Messier/Chris Karcz - ckarcz@gmail.com
  *
  *	This Source Code Form is subject to the terms of the Mozilla Public
  *	License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -37,21 +37,21 @@ namespace CrazyflieDotNet.Crazyflie.CRTP
 
 		internal byte HeaderByte
 		{
-			get { return (_packetHeaderByteCached ?? (_packetHeaderByteCached = GetByte(this))).Value; }
+			get { return (_packetHeaderByteCached ?? (_packetHeaderByteCached = GetHeaderByte())).Value; }
 		}
 
-		public static byte GetByte(CRTPOutPacketHeader packetHeader)
+		private byte GetHeaderByte()
 		{
 			// Header Format (1 byte):
 			//  7  6  5  4  3  2  1  0
 			// [   Port   ][Res. ][Ch.]
 			// Res. = reserved for transfer layer. not much info on this...
 
-			var portByte = (byte)(packetHeader.Port);
+			var portByte = (byte)Port;
 			var portByteAnd15 = (byte)(portByte & 0x0F);
 			var portByteAnd15LeftShifted4 = (byte)(portByteAnd15 << 4);
 			var reservedLeftShifted2 = (byte)(0x03 << 2);
-			var channelByte = (byte)(packetHeader.Channel);
+			var channelByte = (byte)Channel;
 			var channelByteAnd3 = (byte)(channelByte & 0x03);
 
 			return (byte)(portByteAnd15LeftShifted4 | reservedLeftShifted2 | channelByteAnd3);

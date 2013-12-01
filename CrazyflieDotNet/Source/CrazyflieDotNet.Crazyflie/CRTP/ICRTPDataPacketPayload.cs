@@ -1,4 +1,4 @@
-﻿/* 
+/* 
  *						 _ _  _     
  *		       ____ ___  ___  __________(_|_)(_)____
  *		      / __ `__ \/ _ \/ ___/ ___/ / _ \/ ___/
@@ -12,21 +12,10 @@
  *	file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace CrazyflieDotNet.Crazyradio
+namespace CrazyflieDotNet.Crazyflie.CRTP
 {
-	/// <summary>
-	///   USB device ids for Crazyradio USB dongle.
-	/// </summary>
-	public static class CrazyradioDeviceId
+	public interface ICRTPDataPacketPayload
 	{
-		/// <summary>
-		///   The vendor id for Crazyradio USB dongle.
-		/// </summary>
-		public static readonly int VendorId = 0x1915;
-
-		/// <summary>
-		///   The product id for Crazyradio USB dongle.
-		/// </summary>
-		public static readonly int ProductId = 0x7777;
+		byte[] GetBytes();
 	}
 }

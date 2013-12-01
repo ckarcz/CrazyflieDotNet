@@ -5,7 +5,7 @@
  *		     / / / / / /  __(__  |__  ) /  __/ /    
  *		    /_/ /_/ /_/\___/____/____/_/\___/_/  
  *
- *		    Copyright 2013 - http://www.messier.com
+ *	     Copyright 2013 - Messier/Chris Karcz - ckarcz@gmail.com
  *
  *	This Source Code Form is subject to the terms of the Mozilla Public
  *	License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -46,7 +46,7 @@ namespace CrazyflieDotNet.Crazyflie.CRTP
 			}
 
 			Header = packetHeader;
-			Payload = payload;
+			PayloadBytes = payload;
 
 			_cachedPacketBytes = packetBytes;
 		}
@@ -64,44 +64,39 @@ namespace CrazyflieDotNet.Crazyflie.CRTP
 			}
 
 			Header = header;
-			Payload = payload;
+			PayloadBytes = payload;
 		}
 
 		public CRTPOutPacketHeader Header { get; private set; }
 
-		public byte[] Payload
+		internal byte[] PayloadBytes
 		{
 			get { return _cachedPacketPayloadBytes ?? (_cachedPacketPayloadBytes = GetPacketPayloadBytes()); }
 			private set { _cachedPacketPayloadBytes = value; }
 		}
 
-		public byte[] PacketBytes
+		internal byte[] FullPacketBytes
 		{
-			get { return _cachedPacketBytes ?? (_cachedPacketBytes = GetPacketBytes(this)); }
+			get { return _cachedPacketBytes ?? (_cachedPacketBytes = GetFullPacketBytes()); }
 		}
 
 		protected abstract byte[] GetPacketPayloadBytes();
 
-		public static byte[] GetPacketBytes(CRTPDataPacket packet)
+		private byte[] GetFullPacketBytes()
 		{
-			if (packet == null)
-			{
-				throw new ArgumentNullException("packet");
-			}
-
-			if (packet.Header == null)
+			if (Header == null)
 			{
 				throw new CRTPException("CRTP packet header is null");
 			}
 
-			var packetBytesArraySize = (packet.Header != null ? 1 : 0) + (packet.Payload != null ? packet.Payload.Length : 0);
+			var packetBytesArraySize = (Header != null ? 1 : 0) + (PayloadBytes != null ? PayloadBytes.Length : 0);
 			var packetBytesArray = new byte[packetBytesArraySize];
 
-			packetBytesArray[0] = packet.Header.HeaderByte;
+			packetBytesArray[0] = Header.HeaderByte;
 
-			if (packet.Payload != null && packet.Payload.Length > 0)
+			if (PayloadBytes != null && PayloadBytes.Length > 0)
 			{
-				Array.Copy(packet.Payload, 0, packetBytesArray, 1, packet.Payload.Length);
+				Array.Copy(PayloadBytes, 0, packetBytesArray, 1, PayloadBytes.Length);
 			}
 
 			return packetBytesArray;
