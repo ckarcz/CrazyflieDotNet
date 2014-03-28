@@ -14,8 +14,9 @@
 
 #region Imports
 
-using CrazyflieDotNet.Crazyflie.CRTP;
+using CrazyflieDotNet.Crazyflie.TransferProtocol;
 using CrazyflieDotNet.Crazyradio;
+using CrazyflieDotNet.Crazyradio.Driver;
 using log4net;
 using log4net.Config;
 using System;
@@ -35,28 +36,28 @@ namespace CrazyflieDotNet
 		{
 			SetUpLogging();
 
-			IEnumerable<ICrazyradioDriver> crazyradios = null;
+			IEnumerable<ICrazyradioDriver> crazyradioDrivers = null;
 
 			try
 			{
 				Log.Debug("Starting Crazyradio USB dongle tests.");
 
-				crazyradios = CrazyradioDriver.GetCrazyradios();
+				crazyradioDrivers = CrazyradioDriver.GetCrazyradios();
 			}
 			catch (Exception ex)
 			{
 				Log.Error("Error getting Crazyradios.", ex);
 			}
 
-			if (crazyradios != null && crazyradios.Any())
+			if (crazyradioDrivers != null && crazyradioDrivers.Any())
 			{
-				var crazyradio = crazyradios.First();
+				var crazyradioDriver = crazyradioDrivers.First();
 
 				try
 				{
-					crazyradio.Open();
+					crazyradioDriver.Open();
 
-					var scanResults = crazyradio.ScanChannels();
+					var scanResults = crazyradioDriver.ScanChannels();
 					if (scanResults.Any())
 					{
 						var firstScanResult = scanResults.First();
@@ -64,22 +65,26 @@ namespace CrazyflieDotNet
 						var dataRateWithCrazyflie = firstScanResult.DataRate;
 						var channelWithCrazyflie = firstScanResult.Channels.First();
 
-						crazyradio.DataRate = dataRateWithCrazyflie;
-						crazyradio.Channel = channelWithCrazyflie;
+						crazyradioDriver.DataRate = dataRateWithCrazyflie;
+						crazyradioDriver.Channel = channelWithCrazyflie;
+
+						var crazyRadioMessenger = new CrazyradioMessenger(crazyradioDriver);
 
 						var loop = true;
 						while (loop)
 						{
-							var pingPacket = new CRTPPingPacket();
-							var pingPacketBytes = pingPacket.PacketBytes;
+							var pingPacket = new PingPacket();
+							var pingPacketBytes = pingPacket.GetBytes();
 
 							Log.InfoFormat("Ping Packet Bytes: {0}", BitConverter.ToString(pingPacketBytes));
 
-							var ackResponse = crazyradio.SendData(pingPacketBytes);
+							var ackResponse = crazyradioDriver.SendData(pingPacketBytes);
 
 							Log.InfoFormat("ACK Response Bytes: {0}", BitConverter.ToString(ackResponse));
 
-							if (Console.ReadKey().Key == ConsoleKey.Spacebar)
+							crazyRadioMessenger.SendMessage(new PingPacket());
+
+							if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Spacebar)
 							{
 								loop = false;
 							}
@@ -96,7 +101,7 @@ namespace CrazyflieDotNet
 				}
 				finally
 				{
-					crazyradio.Close();
+					crazyradioDriver.Close();
 				}
 			}
 			else
@@ -104,9 +109,16 @@ namespace CrazyflieDotNet
 				Log.Warn("No Crazyradio USB dongles found!");
 			}
 
-			Log.Info("Sleepy time...");
+			Log.Info("Sleepy time...Hit space to exit.");
 
-			Thread.Sleep(Timeout.Infinite);
+			var sleep = true;
+			while (sleep)
+			{
+				if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Spacebar)
+				{
+					sleep = false;
+				}
+			}
 		}
 
 		private static void SetUpLogging()

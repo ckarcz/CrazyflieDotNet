@@ -40,20 +40,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CRTP\CrazyradioMessenger.cs" />
-    <Compile Include="CRTP\CRTPAckPacket.cs" />
-    <Compile Include="CRTP\CRTPAckPacketHeader.cs" />
-    <Compile Include="CRTP\CRTPChannel.cs" />
-    <Compile Include="CRTP\CRTPCommanderPacket.cs" />
-    <Compile Include="CRTP\CRTPDataPacketWithPayloadObject.cs" />
-    <Compile Include="CRTP\CRTPException.cs" />
-    <Compile Include="CRTP\CRTPDataPacket.cs" />
-    <Compile Include="CRTP\CRTPOutPacketHeader.cs" />
-    <Compile Include="CRTP\CRTPPingPacket.cs" />
-    <Compile Include="CRTP\CRTPPort.cs" />
-    <Compile Include="CRTP\ICrazyradioMessenger.cs" />
-    <Compile Include="CRTP\ICRTPDataPacketPayload.cs" />
-    <Compile Include="CRTP\ICRTPMessenger.cs" />
+    <Compile Include="TransferProtocol\CommanderPacketHeader.cs" />
+    <Compile Include="TransferProtocol\CommanderPacketPayload.cs" />
+    <Compile Include="TransferProtocol\CrazyflieMessenger.cs" />
+    <Compile Include="TransferProtocol\AckPacket.cs" />
+    <Compile Include="TransferProtocol\AckPacketHeader.cs" />
+    <Compile Include="TransferProtocol\Channel.cs" />
+    <Compile Include="TransferProtocol\CommanderPacket.cs" />
+    <Compile Include="TransferProtocol\IAckPacket.cs" />
+    <Compile Include="TransferProtocol\ICommanderPacket.cs" />
+    <Compile Include="TransferProtocol\ICommanderPacketHeader.cs" />
+    <Compile Include="TransferProtocol\ICommanderPacketPayload.cs" />
+    <Compile Include="TransferProtocol\IPingPacket.cs" />
+    <Compile Include="TransferProtocol\IPingPacketHeader.cs" />
+    <Compile Include="TransferProtocol\OutputPacket.cs" />
+    <Compile Include="TransferProtocol\OutputPacketHeader.cs" />
+    <Compile Include="TransferProtocol\Packet.cs" />
+    <Compile Include="TransferProtocol\PingPacket.cs" />
+    <Compile Include="TransferProtocol\PingPacketHeader.cs" />
+    <Compile Include="TransferProtocol\Port.cs" />
+    <Compile Include="TransferProtocol\ICrazyflieMessenger.cs" />
+    <Compile Include="TransferProtocol\IAckPacketHeader.cs" />
+    <Compile Include="TransferProtocol\IOutputPacket.cs" />
+    <Compile Include="TransferProtocol\IOutputPacketHeader.cs" />
+    <Compile Include="TransferProtocol\IOutputPacketPayload.cs" />
+    <Compile Include="TransferProtocol\IPacket.cs" />
+    <Compile Include="TransferProtocol\IPacketHeader.cs" />
+    <Compile Include="TransferProtocol\IPacketPayload.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -63,7 +76,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="messier.licenseheader" />
+    <None Include="CrazyflieDotNet.Crazyflie.licenseheader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

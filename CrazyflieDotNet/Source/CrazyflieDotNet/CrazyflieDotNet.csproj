@@ -70,7 +70,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="messier.licenseheader" />
+    <None Include="CrazyflieDotNet.licenseheader" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
