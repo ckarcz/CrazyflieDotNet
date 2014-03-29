@@ -47,75 +47,75 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CrazyradioDataEndpointId.cs" />
-    <Compile Include="MessageAckMode.cs" />
-    <Compile Include="MessageAckPayloadLength.cs" />
-    <Compile Include="MessageAckRetryCount.cs" />
-    <Compile Include="MessageAckRetryDelay.cs" />
-    <Compile Include="RadioAddress.cs" />
-    <Compile Include="RadioChannel.cs" />
-    <Compile Include="RadioDataRate.cs" />
-    <Compile Include="CrazyradioDefaults.cs" />
-    <Compile Include="CrazyradioDriver.cs" />
-    <Compile Include="CrazyradioDeviceId.cs" />
-    <Compile Include="CrazyradioDriverException.cs" />
-    <Compile Include="FirmwareVersion.cs" />
-    <Compile Include="RadioMode.cs" />
-    <Compile Include="RadioPowerLevel.cs" />
-    <Compile Include="CrazyradioRequest.cs" />
-    <Compile Include="ICrazyradioDriver.cs" />
-    <Compile Include="ScanChannelsResult.cs" />
+    <Compile Include="Driver\CrazyradioDataEndpointId.cs" />
+    <Compile Include="Driver\MessageAckMode.cs" />
+    <Compile Include="Driver\MessageAckPayloadLength.cs" />
+    <Compile Include="Driver\MessageAckRetryCount.cs" />
+    <Compile Include="Driver\MessageAckRetryDelay.cs" />
+    <Compile Include="Driver\RadioAddress.cs" />
+    <Compile Include="Driver\RadioChannel.cs" />
+    <Compile Include="Driver\RadioDataRate.cs" />
+    <Compile Include="Driver\CrazyradioDefaults.cs" />
+    <Compile Include="Driver\CrazyradioDriver.cs" />
+    <Compile Include="Driver\CrazyradioDeviceId.cs" />
+    <Compile Include="Driver\CrazyradioDriverException.cs" />
+    <Compile Include="Driver\FirmwareVersion.cs" />
+    <Compile Include="Driver\RadioMode.cs" />
+    <Compile Include="Driver\RadioPowerLevel.cs" />
+    <Compile Include="Driver\CrazyradioRequest.cs" />
+    <Compile Include="Driver\ICrazyradioDriver.cs" />
+    <Compile Include="Driver\ScanChannelsResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="messier.licenseheader" />
+    <None Include="CrazyflieDotNet.Crazyradio.licenseheader" />
     <None Include="packages.config" />
-    <None Include="USB Drivers\Windows\amd64\libusb0.sys">
+    <None Include="OS Drivers\Windows\amd64\libusb0.sys">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="USB Drivers\Windows\Crazyradio_USB_Dongle.cat">
+    <None Include="OS Drivers\Windows\Crazyradio_USB_Dongle.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="USB Drivers\Windows\ia64\libusb0.sys">
+    <None Include="OS Drivers\Windows\ia64\libusb0.sys">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="USB Drivers\Windows\x86\libusb0.sys">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="USB Drivers\Windows\amd64\libusb0.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="USB Drivers\Windows\Crazyradio_USB_Dongle.inf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="USB Drivers\Windows\ia64\libusb0.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="USB Drivers\Windows\installer_x64.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="USB Drivers\Windows\installer_x86.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="USB Drivers\Windows\libusb-win32-bin-README.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="USB Drivers\Windows\license\libusb-win32\installer_license.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="USB Drivers\Windows\x86\libusb0_x86.dll">
+    <None Include="OS Drivers\Windows\x86\libusb0.sys">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="USB Drivers\OS X\README.txt">
+    <None Include="OS Drivers\Windows\amd64\libusb0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="OS Drivers\Windows\Crazyradio_USB_Dongle.inf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="OS Drivers\Windows\ia64\libusb0.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="OS Drivers\Windows\installer_x64.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="OS Drivers\Windows\installer_x86.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="OS Drivers\Windows\libusb-win32-bin-README.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="OS Drivers\Windows\license\libusb-win32\installer_license.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="OS Drivers\Windows\x86\libusb0_x86.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="USB Drivers\Linux\README.txt">
+    <None Include="OS Drivers\OS X\README.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OS Drivers\Linux\README.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

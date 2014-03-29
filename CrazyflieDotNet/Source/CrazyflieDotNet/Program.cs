@@ -5,7 +5,7 @@
  *		     / / / / / /  __(__  |__  ) /  __/ /    
  *		    /_/ /_/ /_/\___/____/____/_/\___/_/  
  *
- *		    Copyright 2013 - http://www.messier.com
+ *	     Copyright 2013 - Messier/Chris Karcz - ckarcz@gmail.com
  *
  *	This Source Code Form is subject to the terms of the Mozilla Public
  *	License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,11 +14,13 @@
 
 #region Imports
 
-using CrazyflieDotNet.Crazyflie.CRTP;
+using CrazyflieDotNet.Crazyflie.TransferProtocol;
 using CrazyflieDotNet.Crazyradio;
+using CrazyflieDotNet.Crazyradio.Driver;
 using log4net;
 using log4net.Config;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
@@ -34,69 +36,89 @@ namespace CrazyflieDotNet
 		{
 			SetUpLogging();
 
+			IEnumerable<ICrazyradioDriver> crazyradioDrivers = null;
+
 			try
 			{
 				Log.Debug("Starting Crazyradio USB dongle tests.");
 
-				var crazyradios = CrazyradioDriver.GetCrazyradios();
-
-				if (crazyradios.Any())
-				{
-					var crazyradio = crazyradios.First();
-
-					try
-					{
-						crazyradio.Open();
-
-						var scanResults = crazyradio.ScanChannels();
-
-						if (scanResults.Any())
-						{
-							var dataRateWithCrazyflie = scanResults.First().DataRate;
-							var channelWithCrazyflie = scanResults.First().Channels.First();
-
-							crazyradio.DataRate = dataRateWithCrazyflie;
-							crazyradio.Channel = channelWithCrazyflie;
-
-							var loop = true;
-
-							while (loop)
-							{
-								var packet = CRTPDataPacket.PingPacket.PacketBytes;
-
-								Log.InfoFormat("Packet Result: {0}", BitConverter.ToString(packet));
-
-								var results = crazyradio.SendData(packet);
-
-								Log.InfoFormat("Packet Result: {0}", BitConverter.ToString(results));
-
-								if (Console.ReadKey().Key == ConsoleKey.Spacebar)
-								{
-									loop = false;
-								}
-							}
-						}
-						else
-						{
-							Log.Warn("No Crazyflie Quadcopters found!");
-						}
-					}
-					finally
-					{
-						crazyradio.Close();
-					}
-				}
-				else
-				{
-					Log.Warn("No Crazyradio USB dongles found!");
-				}
+				crazyradioDrivers = CrazyradioDriver.GetCrazyradios();
 			}
 			catch (Exception ex)
 			{
-				Log.Error("Unhandled exception occured!", ex);
+				Log.Error("Error getting Crazyradios.", ex);
 			}
 
-			Thread.Sleep(Timeout.Infinite);
+			if (crazyradioDrivers != null && crazyradioDrivers.Any())
+			{
+				var crazyradioDriver = crazyradioDrivers.First();
+
+				try
+				{
+					crazyradioDriver.Open();
+
+					var scanResults = crazyradioDriver.ScanChannels();
+					if (scanResults.Any())
+					{
+						var firstScanResult = scanResults.First();
+
+						var dataRateWithCrazyflie = firstScanResult.DataRate;
+						var channelWithCrazyflie = firstScanResult.Channels.First();
+
+						crazyradioDriver.DataRate = dataRateWithCrazyflie;
+						crazyradioDriver.Channel = channelWithCrazyflie;
+
+						var crazyRadioMessenger = new CrazyradioMessenger(crazyradioDriver);
+
+						var loop = true;
+						while (loop)
+						{
+							var pingPacket = new PingPacket();
+							var pingPacketBytes = pingPacket.GetBytes();
+
+							Log.InfoFormat("Ping Packet Bytes: {0}", BitConverter.ToString(pingPacketBytes));
+
+							var ackResponse = crazyradioDriver.SendData(pingPacketBytes);
+
+							Log.InfoFormat("ACK Response Bytes: {0}", BitConverter.ToString(ackResponse));
+
+							crazyRadioMessenger.SendMessage(new PingPacket());
+
+							if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Spacebar)
+							{
+								loop = false;
+							}
+						}
+					}
+					else
+					{
+						Log.Warn("No Crazyflie Quadcopters found!");
+					}
+				}
+				catch (Exception ex)
+				{
+					Log.Error("Error testing Crazyradio.", ex);
+				}
+				finally
+				{
+					crazyradioDriver.Close();
+				}
+			}
+			else
+			{
+				Log.Warn("No Crazyradio USB dongles found!");
+			}
+
+			Log.Info("Sleepy time...Hit space to exit.");
+
+			var sleep = true;
+			while (sleep)
+			{
+				if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Spacebar)
+				{
+					sleep = false;
+				}
+			}
 		}
 
 		private static void SetUpLogging()
