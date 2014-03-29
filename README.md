@@ -20,7 +20,7 @@ This is currently a work in progress in my spare time.
 Milestones:
 - Working USB driver for Crazyradio USB dongle - COMPLETED
   - You are able to send the copter packets (byte array) and get an ACK packet back.
-  Currently only testing pinging the copter as I am working on the remainder of the transfer protocol. 
+  Currently I have only tested pinging the copter as I am working on the remainder of the transfer protocol. 
 - Implement the Crazyradio Transfer Protocol (CRTP) - IN PROGRESS
 - Front end design and development - NOT STARTED
 - Cross platform support using Mono framework - IN PROGRESS
