@@ -3,6 +3,10 @@ CrazyflieDotNet
 
 Dot.NET libraries written in C# for Crazyflie Quadcopters and Crazyradios.
 
+A Crazyflie is a tiny opensource picocopter/quadcopter that began as a side project by a bunch of engineers and grew to great internet acclaim via a HackADay posting in 2011 (http://hackaday.com/2011/04/29/mini-quadrocopter-is-crazy-awesome/).
+
+They have since brought their Crazyflie into mass production. Check out their site here (http://www.bitcraze.se/);
+
 This is currently a work in progress in my spare time.
 
 Milestones:
