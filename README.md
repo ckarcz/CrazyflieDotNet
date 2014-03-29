@@ -13,7 +13,7 @@ Milestones:
 
 The C# CrazyradioDriver is completed and working. This library (CrazyflieDotNet.Crazyradio.dll) provides a type safe API for communication with the Crazyradio USB dongle with Crazyflies. The library and driver expose all available configurations for the USB dongle, including defaults. The API is quite nice and easy to understand and use, even for a beginner.
 
-Currently I am working on the transfer protocol, which I took some time off of working on due to lack of information regarding the protocol available (on the Crazyflie wiki). I have found a C++ implementation of which provided some help where the wiki lacked in information, or provided no information at all. I'm sure I'll be glancing at thier library if I get lost, but so far so good!
+Currently I am working on the transfer protocol, which I took some time off of working on due to lack of information regarding the protocol available (on the Crazyflie wiki). I have found a C++ implementation of which is providing some help where the wiki lacks in information, or provides no information at all. I'm sure I'll be glancing at thier library if I get lost, but so far so good!
 Check out their project here: https://github.com/fairlight1337/libcflie
 
 More updates, commits, and hopefully a working protocol to come soon! :)
