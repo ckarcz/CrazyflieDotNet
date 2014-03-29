@@ -12,35 +12,27 @@
  *	file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+using System.Data;
+
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
-	public class PingPacket
-		: OutputPacket<IPingPacketHeader>, IPingPacket
+	public abstract class PacketHeader
+		: IPacketHeader
 	{
-		public PingPacket(byte[] packetBytes)
-			: base(packetBytes)
+		public byte? GetByte()
 		{
-		}
-
-		public PingPacket(IPingPacketHeader header)
-			: base(header)
-		{
-		}
-
-		public PingPacket(Channel channel = Channel.Channel0)
-			: this(new PingPacketHeader(channel))
-		{
-		}
-
-		protected override IPingPacketHeader ParseHeader(byte[] packetBytes)
-		{
-			if (packetBytes != null && packetBytes.Length != 0)
+			try
 			{
-				var packetHeader = new PingPacketHeader(packetBytes[0]);
-				return packetHeader;
+				var packetHeaderByte = GetPacketHeaderByte();
+				return packetHeaderByte;
 			}
-
-			return null;
+			catch (Exception ex)
+			{
+				throw new DataException("Error obtaining packet header byte.", ex);
+			}
 		}
+
+		protected abstract byte? GetPacketHeaderByte();
 	}
 }

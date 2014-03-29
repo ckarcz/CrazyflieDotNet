@@ -14,7 +14,7 @@
 
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
-	public sealed class CommanderPacket
+	public class CommanderPacket
 		: OutputPacket<ICommanderPacketHeader, ICommanderPacketPayload>, ICommanderPacket
 	{
 		public CommanderPacket(byte[] packetBytes)
@@ -27,7 +27,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 		}
 
-		public CommanderPacket(float roll, float pitch, float yaw, short thrust, Channel channel = OutputPacketHeader.DefaultChannel)
+		public CommanderPacket(float roll, float pitch, float yaw, ushort thrust, Channel channel = OutputPacketHeader.DefaultChannel)
 			: this(new CommanderPacketHeader(channel), new CommanderPacketPayload(roll, pitch, yaw, thrust))
 		{
 		}

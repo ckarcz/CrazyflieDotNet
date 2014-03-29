@@ -1,17 +1,3 @@
-/* 
- *						 _ _  _     
- *		       ____ ___  ___  __________(_|_)(_)____
- *		      / __ `__ \/ _ \/ ___/ ___/ / _ \/ ___/
- *		     / / / / / /  __(__  |__  ) /  __/ /    
- *		    /_/ /_/ /_/\___/____/____/_/\___/_/  
- *
- *	     Copyright 2013 - Messier/Chris Karcz - ckarcz@gmail.com
- *
- *	This Source Code Form is subject to the terms of the Mozilla Public
- *	License, v. 2.0. If a copy of the MPL was not distributed with this
- *	file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
-
 #region Imports
 
 using System;
@@ -50,8 +36,11 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 		protected Packet(byte[] packetBytes)
 		{
-			Header = ParseHeader(packetBytes);
-			Payload = ParsePayload(packetBytes);
+			if (packetBytes != null && packetBytes.Length > 0)
+			{
+				Header = ParseHeader(packetBytes);
+				Payload = ParsePayload(packetBytes);
+			}
 		}
 
 		protected Packet(TPacketHeader header, TPacketPayload payload)
@@ -91,23 +80,23 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 		protected virtual byte[] GetPacketBytes()
 		{
-			var headerBytes = Header != null ? Header.GetBytes() : null;
-			var headerBytesLength = (headerBytes != null ? headerBytes.Length : 0);
+			var headerByte = Header != null ? Header.GetByte() : null;
+			var headerByteLength = (headerByte != null ? 1 : 0);
 
 			var payloadBytes = Payload != null ? Payload.GetBytes() : null;
 			var payloadBytesLength = (payloadBytes != null ? payloadBytes.Length : 0);
 
-			var packetBytesArraySize = headerBytesLength + payloadBytesLength;
+			var packetBytesArraySize = headerByteLength + payloadBytesLength;
 			var packetBytesArray = new byte[packetBytesArraySize];
 
-			if (headerBytes != null && headerBytesLength > 0)
+			if (headerByte != null && headerByteLength > 0)
 			{
-				Array.Copy(headerBytes, 0, packetBytesArray, 0, headerBytesLength);
+				Array.Copy(new[] { headerByte }, 0, packetBytesArray, 0, headerByteLength);
 			}
 
 			if (payloadBytes != null && payloadBytesLength > 0)
 			{
-				Array.Copy(payloadBytes, 0, packetBytesArray, headerBytesLength, payloadBytesLength);
+				Array.Copy(payloadBytes, 0, packetBytesArray, headerByteLength, payloadBytesLength);
 			}
 
 			return packetBytesArray;

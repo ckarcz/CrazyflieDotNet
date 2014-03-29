@@ -23,6 +23,6 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 		float Yaw { get; }
 
-		short Thurst { get; }
+		ushort Thurst { get; }
 	}
 }

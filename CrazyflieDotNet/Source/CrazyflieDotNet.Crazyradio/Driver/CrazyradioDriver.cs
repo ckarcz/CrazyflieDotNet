@@ -26,7 +26,7 @@ using log4net;
 namespace CrazyflieDotNet.Crazyradio.Driver
 {
 	/// <summary>
-	///   A Crazyradio USB dongle driver that provides an abstraction to the low level usb API.
+	///   A Crazyradio USB dongle driver that provides an abstraction to the low level USB API.
 	/// </summary>
 	public class CrazyradioDriver
 		: ICrazyradioDriver, IDisposable
@@ -115,7 +115,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 
 		public FirmwareVersion FirmwareVersion
 		{
-			get { return new FirmwareVersion(_crazyradioUsbDevice.Info.Descriptor.BcdDevice); }
+			get { return new FirmwareVersion(_crazyradioUsbDevice.Info.Descriptor); }
 		}
 
 		public RadioMode? Mode
@@ -318,15 +318,15 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 
 		#region Public Methods
 
-		public static bool IsCrazyradioUsbDongle(UsbDevice usbDevice)
+		public static bool IsCrazyradioUsbDongle(UsbDevice USBDevice)
 		{
-			if (usbDevice == null)
+			if (USBDevice == null)
 			{
 				return false;
 			}
 
-			return usbDevice.Info.Descriptor.VendorID == CrazyradioDeviceId.VendorId
-			       && usbDevice.Info.Descriptor.ProductID == CrazyradioDeviceId.ProductId;
+			return USBDevice.Info.Descriptor.VendorID == CrazyradioDeviceId.VendorId
+			       && USBDevice.Info.Descriptor.ProductID == CrazyradioDeviceId.ProductId;
 		}
 
 		public static IEnumerable<ICrazyradioDriver> GetCrazyradios()
@@ -438,7 +438,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			{
 				var message = string.Format("Error sending packet to Crazyradio USB dongle. ErrorCode: {0}, LengthTransferred: {1}.", sendPacketErrorCode, lengthTransferred);
 				Log.Error(message);
-				throw new Exception(UsbDevice.LastErrorString);
+				throw new CrazyradioDriverException(UsbDevice.LastErrorString);
 			}
 			else
 			{

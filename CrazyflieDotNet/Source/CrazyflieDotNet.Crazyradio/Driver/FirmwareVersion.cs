@@ -13,6 +13,7 @@
  */
 
 using System;
+using LibUsbDotNet.Descriptors;
 
 namespace CrazyflieDotNet.Crazyradio.Driver
 {
@@ -23,16 +24,25 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		: IEquatable<FirmwareVersion>, IComparable<FirmwareVersion>
 	{
 		/// <summary>
-		/// Initializes an instance of CrazyradioFirmwareVersion given the USB bcdDevice/bcdVersion number.
+		/// Initializes an instance of FirmwareVersion given the USB device descriptor.
 		/// </summary>
-		/// <param name="bcdVersionNumber">The usb bcdDevice/bcdVersion number.</param>
+		/// <param name="bcdVersionNumber">The USB device descriptor.</param>
+		public FirmwareVersion(UsbDeviceDescriptor bcdVersionNumber)
+			: this(bcdVersionNumber.BcdDevice)
+		{
+		}
+
+		/// <summary>
+		/// Initializes an instance of FirmwareVersion given the USB bcdDevice/bcdVersion number.
+		/// </summary>
+		/// <param name="bcdVersionNumber">The USB bcdDevice/bcdVersion number.</param>
 		public FirmwareVersion(short bcdVersionNumber)
 			: this((0xFF00 & bcdVersionNumber) >> 8, (0xF0 & bcdVersionNumber) >> 4, 0x0F & bcdVersionNumber)
 		{
 		}
 
 		/// <summary>
-		/// Initializes an instance of CrazyradioFirmwareVersion given the three version parameters.
+		/// Initializes an instance of FirmwareVersion given the three version parameters.
 		/// </summary>
 		/// <param name="majorVersion">The major version part.</param>
 		/// <param name="minorVersion">The minor version part.</param>
