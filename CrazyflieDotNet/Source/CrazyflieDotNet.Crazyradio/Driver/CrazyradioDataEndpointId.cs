@@ -16,7 +16,7 @@
 
 using LibUsbDotNet.Main;
 
-#endregion Imports
+#endregion
 
 namespace CrazyflieDotNet.Crazyradio.Driver
 {

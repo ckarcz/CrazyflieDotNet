@@ -12,8 +12,12 @@
  *	file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#region Imports
+
 using System;
 using System.Data;
+
+#endregion
 
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
@@ -21,6 +25,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		: IPacketPayload
 	{
 		public static readonly byte[] EmptyPacketPayloadBytes = new byte[0];
+
+		#region IPacketPayload Members
 
 		public byte[] GetBytes()
 		{
@@ -36,6 +42,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 				throw new DataException("Error obtaining packet payload bytes.", ex);
 			}
 		}
+
+		#endregion
 
 		protected abstract byte[] GetPacketPayloadBytes();
 	}

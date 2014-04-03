@@ -12,21 +12,13 @@
  *	file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#region Imports
-
-using System;
-
-#endregion Imports
-
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
 	public abstract class OutputPacket<TOutputPacketHeader>
-		   : Packet<TOutputPacketHeader>,
-		   IOutputPacket<TOutputPacketHeader>
+		: Packet<TOutputPacketHeader>,
+		  IOutputPacket<TOutputPacketHeader>
 		where TOutputPacketHeader : IOutputPacketHeader
 	{
-		#region Constructors
-
 		protected OutputPacket(byte[] packetBytes)
 			: base(packetBytes)
 		{
@@ -36,18 +28,14 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			: base(header)
 		{
 		}
-
-		#endregion Constructors
 	}
 
 	public abstract class OutputPacket<TOutputPacketHeader, TOutputPacketPayload>
 		: Packet<TOutputPacketHeader, TOutputPacketPayload>,
-		IOutputPacket<TOutputPacketHeader, TOutputPacketPayload>
+		  IOutputPacket<TOutputPacketHeader, TOutputPacketPayload>
 		where TOutputPacketHeader : IOutputPacketHeader
 		where TOutputPacketPayload : IOutputPacketPayload
 	{
-		#region Constructors
-
 		protected OutputPacket(byte[] packetBytes)
 			: base(packetBytes)
 		{
@@ -57,7 +45,5 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			: base(header, payload)
 		{
 		}
-
-		#endregion Constructors
 	}
 }

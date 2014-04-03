@@ -1,3 +1,17 @@
+/* 
+ *						 _ _  _     
+ *		       ____ ___  ___  __________(_|_)(_)____
+ *		      / __ `__ \/ _ \/ ___/ ___/ / _ \/ ___/
+ *		     / / / / / /  __(__  |__  ) /  __/ /    
+ *		    /_/ /_/ /_/\___/____/____/_/\___/_/  
+ *
+ *	     Copyright 2013 - Messier/Chris Karcz - ckarcz@gmail.com
+ *
+ *	This Source Code Form is subject to the terms of the Mozilla Public
+ *	License, v. 2.0. If a copy of the MPL was not distributed with this
+ *	file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
 #region Imports
 
 using System;
@@ -17,6 +31,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 	public abstract class OutputPacketHeader
 		: PacketHeader, IOutputPacketHeader
 	{
+		public const Channel DefaultChannel = Channel.Channel0;
+
 		/// <summary>
 		///   Header Format (1 byte):
 		///   8  7  6  5  4  3  2  1
@@ -37,11 +53,13 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			Channel = channel;
 		}
 
+		#region IOutputPacketHeader Members
+
 		public Port Port { get; private set; }
 
 		public Channel Channel { get; private set; }
 
-		public const Channel DefaultChannel = Channel.Channel0;
+		#endregion
 
 		protected override byte? GetPacketHeaderByte()
 		{

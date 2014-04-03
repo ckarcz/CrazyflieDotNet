@@ -68,7 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CrazyflieDotNet.Crazyradio.licenseheader" />
+    <None Include="messier.licenseheader" />
     <None Include="packages.config" />
     <None Include="OS Drivers\Windows\amd64\libusb0.sys">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

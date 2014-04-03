@@ -31,33 +31,26 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 	public class CrazyradioDriver
 		: ICrazyradioDriver, IDisposable
 	{
-		#region Fields
-
 		private static readonly ILog Log = LogManager.GetLogger(typeof (CrazyradioDriver));
 
 		private static readonly FirmwareVersion MinimumCrazyradioFirmwareVersionRequired = new FirmwareVersion(0, 3, 0);
 		private static readonly FirmwareVersion MinimumCrazyradioFastFirmwareChannelScanFirmware = new FirmwareVersion(0, 5, 0);
 
 		private readonly UsbDevice _crazyradioUsbDevice;
+		private MessageAckMode? _ackMode;
+		private MessageAckPayloadLength? _ackPayloadLength;
+		private MessageAckRetryCount? _ackRetryCount;
+		private MessageAckRetryDelay? _ackRetryDelay;
+		private RadioAddress _address;
+		private RadioChannel? _channel;
 
 		private UsbEndpointReader _crazyradioDataEndpointReader;
 		private UsbEndpointWriter _crazyradioDataEndpointWriter;
 
-		private bool _propertiesInitializedToDefaults = false;
-
-		private RadioMode? _mode;
-		private RadioChannel? _channel;
-		private RadioAddress _address;
 		private RadioDataRate? _dataRate;
+		private RadioMode? _mode;
 		private RadioPowerLevel? _powerLevel;
-		private MessageAckMode? _ackMode;
-		private MessageAckRetryCount? _ackRetryCount;
-		private MessageAckRetryDelay? _ackRetryDelay;
-		private MessageAckPayloadLength? _ackPayloadLength;
-
-		#endregion Fields
-
-		#region Constructors / Destructors
+		private bool _propertiesInitializedToDefaults = false;
 
 		/// <summary>
 		///   Creates and initializes an instance of a Crazyradio USB dongle driver.
@@ -96,17 +89,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			}
 		}
 
-		/// <summary>
-		///   Destructor that disposes resources used in this Crazyradio USB dongle driver.
-		/// </summary>
-		~CrazyradioDriver()
-		{
-			((IDisposable) this).Dispose();
-		}
-
-		#endregion Constructors / Destructors
-
-		#region Properties
+		#region ICrazyradioDriver Members
 
 		public string SerialNumber
 		{
@@ -314,45 +297,6 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			get { return _crazyradioUsbDevice.IsOpen; }
 		}
 
-		#endregion Properties
-
-		#region Public Methods
-
-		public static bool IsCrazyradioUsbDongle(UsbDevice USBDevice)
-		{
-			if (USBDevice == null)
-			{
-				return false;
-			}
-
-			return USBDevice.Info.Descriptor.VendorID == CrazyradioDeviceId.VendorId
-			       && USBDevice.Info.Descriptor.ProductID == CrazyradioDeviceId.ProductId;
-		}
-
-		public static IEnumerable<ICrazyradioDriver> GetCrazyradios()
-		{
-			Log.Debug("Looking for Crazyradio USB dongles...");
-
-			var crazyRadioDrivers = new List<ICrazyradioDriver>();
-
-			var crazyRadiosRegDeviceList = UsbDevice.AllDevices.FindAll(new UsbDeviceFinder(CrazyradioDeviceId.VendorId, CrazyradioDeviceId.ProductId));
-			if (crazyRadiosRegDeviceList.Any())
-			{
-				Log.DebugFormat("Found {0} Crazyradio USB dongle(s).", crazyRadiosRegDeviceList.Count);
-
-				foreach (UsbRegistry crazyRadioUsbDevice in crazyRadiosRegDeviceList)
-				{
-					crazyRadioDrivers.Add(new CrazyradioDriver(crazyRadioUsbDevice.Device));
-				}
-			}
-			else
-			{
-				Log.Warn("Found no Crazyradio USB dongles.");
-			}
-
-			return crazyRadioDrivers;
-		}
-
 		public IEnumerable<ScanChannelsResult> ScanChannels(RadioChannel channelStart = RadioChannel.Channel1, RadioChannel channelStop = RadioChannel.Channel125)
 		{
 			if (channelStop < channelStart)
@@ -455,11 +399,6 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			}
 		}
 
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as ICrazyradioDriver);
-		}
-
 		public bool Equals(ICrazyradioDriver other)
 		{
 			if (other == null)
@@ -469,18 +408,6 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 
 			return SerialNumber.Equals(other.SerialNumber);
 		}
-
-		public override int GetHashCode()
-		{
-			return SerialNumber.GetHashCode();
-		}
-
-		public override string ToString()
-		{
-			return string.Format("Serial#: {0}. Open: {1}.", SerialNumber, IsOpen);
-		}
-
-		#region Setup / Teardown
 
 		public void Open()
 		{
@@ -557,11 +484,6 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			}
 		}
 
-		void IDisposable.Dispose()
-		{
-			Close();
-		}
-
 		public void SetsToDefaults()
 		{
 			Log.Debug("Resetting Crazyradio USB dongle to default settings...");
@@ -581,11 +503,74 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			Log.Debug("Successfully reset Crazyradio USB dongle to default settings.");
 		}
 
-		#endregion Setup / Teardown
+		#endregion
 
-		#endregion Public Methods
+		#region IDisposable Members
 
-		#region Helpers Methods
+		void IDisposable.Dispose()
+		{
+			Close();
+		}
+
+		#endregion
+
+		/// <summary>
+		///   Destructor that disposes resources used in this Crazyradio USB dongle driver.
+		/// </summary>
+		~CrazyradioDriver()
+		{
+			((IDisposable) this).Dispose();
+		}
+
+		public static bool IsCrazyradioUsbDongle(UsbDevice USBDevice)
+		{
+			if (USBDevice == null)
+			{
+				return false;
+			}
+
+			return USBDevice.Info.Descriptor.VendorID == CrazyradioDeviceId.VendorId
+			       && USBDevice.Info.Descriptor.ProductID == CrazyradioDeviceId.ProductId;
+		}
+
+		public static IEnumerable<ICrazyradioDriver> GetCrazyradios()
+		{
+			Log.Debug("Looking for Crazyradio USB dongles...");
+
+			var crazyRadioDrivers = new List<ICrazyradioDriver>();
+
+			var crazyRadiosRegDeviceList = UsbDevice.AllDevices.FindAll(new UsbDeviceFinder(CrazyradioDeviceId.VendorId, CrazyradioDeviceId.ProductId));
+			if (crazyRadiosRegDeviceList.Any())
+			{
+				Log.DebugFormat("Found {0} Crazyradio USB dongle(s).", crazyRadiosRegDeviceList.Count);
+
+				foreach (UsbRegistry crazyRadioUsbDevice in crazyRadiosRegDeviceList)
+				{
+					crazyRadioDrivers.Add(new CrazyradioDriver(crazyRadioUsbDevice.Device));
+				}
+			}
+			else
+			{
+				Log.Warn("Found no Crazyradio USB dongles.");
+			}
+
+			return crazyRadioDrivers;
+		}
+
+		public override bool Equals(object obj)
+		{
+			return Equals(obj as ICrazyradioDriver);
+		}
+
+		public override int GetHashCode()
+		{
+			return SerialNumber.GetHashCode();
+		}
+
+		public override string ToString()
+		{
+			return string.Format("Serial#: {0}. Open: {1}.", SerialNumber, IsOpen);
+		}
 
 		private void CheckFirmwareVersion()
 		{
@@ -894,7 +879,5 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 				Log.DebugFormat("Successfully sent Crazyradio USB dongle a control message. \n\tLength transferred: {0}, \n\tData: [{1}].", lengthTransferred, BitConverter.ToString(data));
 			}
 		}
-
-		#endregion Helpers Methods
 	}
 }

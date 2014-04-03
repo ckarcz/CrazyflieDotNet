@@ -67,10 +67,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
+    <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="CrazyflieDotNet.licenseheader" />
+    <None Include="messier.licenseheader" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

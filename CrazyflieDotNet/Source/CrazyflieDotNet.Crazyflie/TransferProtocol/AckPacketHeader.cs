@@ -1,3 +1,17 @@
+/* 
+ *						 _ _  _     
+ *		       ____ ___  ___  __________(_|_)(_)____
+ *		      / __ `__ \/ _ \/ ___/ ___/ / _ \/ ___/
+ *		     / / / / / /  __(__  |__  ) /  __/ /    
+ *		    /_/ /_/ /_/\___/____/____/_/\___/_/  
+ *
+ *	     Copyright 2013 - Messier/Chris Karcz - ckarcz@gmail.com
+ *
+ *	This Source Code Form is subject to the terms of the Mozilla Public
+ *	License, v. 2.0. If a copy of the MPL was not distributed with this
+ *	file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
 #region Imports
 
 using System;
@@ -27,7 +41,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		///   P = Power detector triggered
 		///   A = Ack received
 		/// </summary>
-		/// <param name="headerByte"></param>
+		/// <param name="headerByte"> </param>
 		public AckPacketHeader(byte headerByte)
 		{
 			RetryCount = GetRetryCount(headerByte);
@@ -52,19 +66,19 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			try
 			{
-				var retryCountByte = (byte)RetryCount;
-				var retryCountByteAnd15 = (byte)(retryCountByte & 0x0F);
-				var retryCountByteAnd15LeftShifted4 = (byte)(retryCountByteAnd15 << 4);
-				var reservedLeftShifted2 = (byte)(0x03 << 2);
+				var retryCountByte = (byte) RetryCount;
+				var retryCountByteAnd15 = (byte) (retryCountByte & 0x0F);
+				var retryCountByteAnd15LeftShifted4 = (byte) (retryCountByteAnd15 << 4);
+				var reservedLeftShifted2 = (byte) (0x03 << 2);
 
 				var powerDetectorByte = Convert.ToByte(PowerDetector);
-				var powerDetectorByteAnd1 = (byte)(powerDetectorByte & 0x01);
-				var powerDetectorByteLeftShifted1 = (byte)(powerDetectorByteAnd1 << 1);
+				var powerDetectorByteAnd1 = (byte) (powerDetectorByte & 0x01);
+				var powerDetectorByteLeftShifted1 = (byte) (powerDetectorByteAnd1 << 1);
 
 				var ackRecievedByte = Convert.ToByte(AckRecieved);
-				var ackRecievedByteAnd1 = (byte)(ackRecievedByte & 0x01);
+				var ackRecievedByteAnd1 = (byte) (ackRecievedByte & 0x01);
 
-				return (byte)(retryCountByteAnd15LeftShifted4 | reservedLeftShifted2 | powerDetectorByteLeftShifted1 | ackRecievedByteAnd1);
+				return (byte) (retryCountByteAnd15LeftShifted4 | reservedLeftShifted2 | powerDetectorByteLeftShifted1 | ackRecievedByteAnd1);
 			}
 			catch (Exception ex)
 			{
@@ -76,24 +90,23 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			try
 			{
-				var headerByteRightShiftedFour = (byte)(headerByte >> 4);
-				var retryCountByte = (byte)(headerByteRightShiftedFour & 0x0F);
-				var retryCount = (MessageAckRetryCount)Enum.ToObject(typeof(MessageAckRetryCount), retryCountByte);
+				var headerByteRightShiftedFour = (byte) (headerByte >> 4);
+				var retryCountByte = (byte) (headerByteRightShiftedFour & 0x0F);
+				var retryCount = (MessageAckRetryCount) Enum.ToObject(typeof (MessageAckRetryCount), retryCountByte);
 				return retryCount;
 			}
 			catch (Exception ex)
 			{
 				throw new DataException("Error getting ack packet header retry count value from header byte", ex);
 			}
-			
 		}
 
 		private bool GetPowerDetector(byte headerByte)
 		{
 			try
 			{
-				var headerByteRightShiftedOne = (byte)(headerByte >> 1);
-				var powerDetectorByte = (byte)(headerByteRightShiftedOne & 0x01);
+				var headerByteRightShiftedOne = (byte) (headerByte >> 1);
+				var powerDetectorByte = (byte) (headerByteRightShiftedOne & 0x01);
 				var powerDetector = Convert.ToBoolean(powerDetectorByte);
 				return powerDetector;
 			}
@@ -107,7 +120,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			try
 			{
-				var ackReceivedByte = (byte)(headerByte & 0x01);
+				var ackReceivedByte = (byte) (headerByte & 0x01);
 				var ackReceived = Convert.ToBoolean(ackReceivedByte);
 				return ackReceived;
 			}

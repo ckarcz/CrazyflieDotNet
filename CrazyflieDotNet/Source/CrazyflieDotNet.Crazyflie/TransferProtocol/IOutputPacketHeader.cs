@@ -19,6 +19,6 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 	{
 		Port Port { get; }
 
-		Channel Channel { get;  }
+		Channel Channel { get; }
 	}
 }

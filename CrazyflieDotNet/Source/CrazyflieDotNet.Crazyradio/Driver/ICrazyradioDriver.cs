@@ -17,7 +17,7 @@
 using System;
 using System.Collections.Generic;
 
-#endregion Imports
+#endregion
 
 namespace CrazyflieDotNet.Crazyradio.Driver
 {

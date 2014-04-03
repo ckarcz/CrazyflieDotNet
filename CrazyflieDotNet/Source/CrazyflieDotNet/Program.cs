@@ -14,23 +14,21 @@
 
 #region Imports
 
-using CrazyflieDotNet.Crazyflie.TransferProtocol;
-using CrazyflieDotNet.Crazyradio;
-using CrazyflieDotNet.Crazyradio.Driver;
-using log4net;
-using log4net.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
+using CrazyflieDotNet.Crazyflie.TransferProtocol;
+using CrazyflieDotNet.Crazyradio.Driver;
+using log4net;
+using log4net.Config;
 
-#endregion Imports
+#endregion
 
 namespace CrazyflieDotNet
 {
 	internal class Program
 	{
-		private static readonly ILog Log = LogManager.GetLogger(typeof(CrazyradioDriver));
+		private static readonly ILog Log = LogManager.GetLogger(typeof (CrazyradioDriver));
 
 		private static void Main(string[] args)
 		{

@@ -1,3 +1,17 @@
+/* 
+ *						 _ _  _     
+ *		       ____ ___  ___  __________(_|_)(_)____
+ *		      / __ `__ \/ _ \/ ___/ ___/ / _ \/ ___/
+ *		     / / / / / /  __(__  |__  ) /  __/ /    
+ *		    /_/ /_/ /_/\___/____/____/_/\___/_/  
+ *
+ *	     Copyright 2013 - Messier/Chris Karcz - ckarcz@gmail.com
+ *
+ *	This Source Code Form is subject to the terms of the Mozilla Public
+ *	License, v. 2.0. If a copy of the MPL was not distributed with this
+ *	file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
 #region Imports
 
 using System;
@@ -22,7 +36,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 	{
 		private static readonly int _floatSize = sizeof (float);
 		private static readonly int _shortSize = sizeof (ushort);
-		private static readonly int _commanderPayloadSize = _floatSize*3 + _shortSize;
+		private static readonly int _commanderPayloadSize = _floatSize * 3 + _shortSize;
 
 		/// <summary>
 		///   Commander Payload Format:
@@ -60,6 +74,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			Thurst = thrust;
 		}
 
+		#region ICommanderPacketPayload Members
+
 		public float Roll { get; private set; }
 
 		public float Pitch { get; private set; }
@@ -67,6 +83,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		public float Yaw { get; private set; }
 
 		public ushort Thurst { get; private set; }
+
+		#endregion
 
 		protected override byte[] GetPacketPayloadBytes()
 		{
@@ -81,8 +99,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 				commanderPayloadBytes[0] = rollByte; // @ 0
 				commanderPayloadBytes[_floatSize] = pitchByte; // @ 4
-				commanderPayloadBytes[_floatSize*2] = yawByte; // @ 8
-				commanderPayloadBytes[_floatSize*3] = thrustByte; // @ 12
+				commanderPayloadBytes[_floatSize * 2] = yawByte; // @ 8
+				commanderPayloadBytes[_floatSize * 3] = thrustByte; // @ 12
 
 				return commanderPayloadBytes;
 			}
@@ -139,7 +157,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 			try
 			{
-				var yawBytes = payloadBytes.Skip(_floatSize*2).Take(_floatSize);
+				var yawBytes = payloadBytes.Skip(_floatSize * 2).Take(_floatSize);
 				var yaw = Convert.ToSingle(yawBytes);
 				return yaw;
 			}
@@ -158,7 +176,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 			try
 			{
-				var thrustBytes = payloadBytes.Skip(_floatSize*3).Take(_shortSize);
+				var thrustBytes = payloadBytes.Skip(_floatSize * 3).Take(_shortSize);
 				var thrust = Convert.ToUInt16(thrustBytes);
 				return thrust;
 			}
