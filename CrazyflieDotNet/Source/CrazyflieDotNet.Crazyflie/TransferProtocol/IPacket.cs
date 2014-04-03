@@ -12,13 +12,6 @@
  *	file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#region Imports
-
-using System;
-using System.Data;
-
-#endregion
-
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
 	public interface IPacket<out TPacketHeader, out TPacketPayload>

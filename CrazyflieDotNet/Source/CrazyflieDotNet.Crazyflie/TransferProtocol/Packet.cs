@@ -50,8 +50,11 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 		protected Packet(byte[] packetBytes)
 		{
-			Header = ParseHeader(packetBytes);
-			Payload = ParsePayload(packetBytes);
+			if (packetBytes != null && packetBytes.Length > 0)
+			{
+				Header = ParseHeader(packetBytes);
+				Payload = ParsePayload(packetBytes);
+			}
 		}
 
 		protected Packet(TPacketHeader header, TPacketPayload payload)
@@ -59,6 +62,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			Header = header;
 			Payload = payload;
 		}
+
+		#region IPacket<TPacketHeader,TPacketPayload> Members
 
 		public TPacketHeader Header { get; private set; }
 
@@ -89,25 +94,27 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
+		#endregion
+
 		protected virtual byte[] GetPacketBytes()
 		{
-			var headerBytes = Header != null ? Header.GetBytes() : null;
-			var headerBytesLength = (headerBytes != null ? headerBytes.Length : 0);
+			var headerByte = Header != null ? Header.GetByte() : null;
+			var headerByteLength = (headerByte != null ? 1 : 0);
 
 			var payloadBytes = Payload != null ? Payload.GetBytes() : null;
 			var payloadBytesLength = (payloadBytes != null ? payloadBytes.Length : 0);
 
-			var packetBytesArraySize = headerBytesLength + payloadBytesLength;
+			var packetBytesArraySize = headerByteLength + payloadBytesLength;
 			var packetBytesArray = new byte[packetBytesArraySize];
 
-			if (headerBytes != null && headerBytesLength > 0)
+			if (headerByte != null && headerByteLength > 0)
 			{
-				Array.Copy(headerBytes, 0, packetBytesArray, 0, headerBytesLength);
+				Array.Copy(new[] {headerByte}, 0, packetBytesArray, 0, headerByteLength);
 			}
 
 			if (payloadBytes != null && payloadBytesLength > 0)
 			{
-				Array.Copy(payloadBytes, 0, packetBytesArray, headerBytesLength, payloadBytesLength);
+				Array.Copy(payloadBytes, 0, packetBytesArray, headerByteLength, payloadBytesLength);
 			}
 
 			return packetBytesArray;

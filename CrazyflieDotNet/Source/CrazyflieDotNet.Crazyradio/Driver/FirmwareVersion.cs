@@ -12,37 +12,107 @@
  *	file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#region Imports
+
 using System;
+using LibUsbDotNet.Descriptors;
+
+#endregion
 
 namespace CrazyflieDotNet.Crazyradio.Driver
 {
 	/// <summary>
-	/// Represents the firmware version of a Crazyradio USB dongle.
+	///   Represents the firmware version of a Crazyradio USB dongle.
 	/// </summary>
 	public sealed class FirmwareVersion
 		: IEquatable<FirmwareVersion>, IComparable<FirmwareVersion>
 	{
 		/// <summary>
-		/// Initializes an instance of CrazyradioFirmwareVersion given the USB bcdDevice/bcdVersion number.
+		///   Initializes an instance of FirmwareVersion given the USB device descriptor.
 		/// </summary>
-		/// <param name="bcdVersionNumber">The usb bcdDevice/bcdVersion number.</param>
+		/// <param name="bcdVersionNumber"> The USB device descriptor. </param>
+		public FirmwareVersion(UsbDeviceDescriptor bcdVersionNumber)
+			: this(bcdVersionNumber.BcdDevice)
+		{
+		}
+
+		/// <summary>
+		///   Initializes an instance of FirmwareVersion given the USB bcdDevice/bcdVersion number.
+		/// </summary>
+		/// <param name="bcdVersionNumber"> The USB bcdDevice/bcdVersion number. </param>
 		public FirmwareVersion(short bcdVersionNumber)
 			: this((0xFF00 & bcdVersionNumber) >> 8, (0xF0 & bcdVersionNumber) >> 4, 0x0F & bcdVersionNumber)
 		{
 		}
 
 		/// <summary>
-		/// Initializes an instance of CrazyradioFirmwareVersion given the three version parameters.
+		///   Initializes an instance of FirmwareVersion given the three version parameters.
 		/// </summary>
-		/// <param name="majorVersion">The major version part.</param>
-		/// <param name="minorVersion">The minor version part.</param>
-		/// <param name="patchVersion">The patch version part.</param>
+		/// <param name="majorVersion"> The major version part. </param>
+		/// <param name="minorVersion"> The minor version part. </param>
+		/// <param name="patchVersion"> The patch version part. </param>
 		public FirmwareVersion(int majorVersion, int minorVersion, int patchVersion)
 		{
 			MajorVersion = majorVersion;
 			MinorVersion = minorVersion;
 			PatchVersion = patchVersion;
 		}
+
+		/// <summary>
+		///   The major version part of the firmware version.
+		/// </summary>
+		public int MajorVersion { get; private set; }
+
+		/// <summary>
+		///   The minor version part of the firmware version.
+		/// </summary>
+		public int MinorVersion { get; private set; }
+
+		/// <summary>
+		///   The patch version part of the firmware version.
+		/// </summary>
+		public int PatchVersion { get; private set; }
+
+		#region IComparable<FirmwareVersion> Members
+
+		/// <summary>
+		///   Compares ICrazyradioFirmwareVersions.
+		/// </summary>
+		/// <param name="other"> The other ICrazyradioFirmwareVersion to compare to. </param>
+		/// <returns> Positive number if this is a higher version. Negative if other is higher version. 0 if same version. </returns>
+		public int CompareTo(FirmwareVersion other)
+		{
+			if (other == null)
+			{
+				throw new ArgumentNullException("other");
+			}
+
+			var thisVersion = (100 * MajorVersion) + (10 * MinorVersion) + PatchVersion;
+			var otherVersion = (100 * other.MajorVersion) + (10 * other.MinorVersion) + other.PatchVersion;
+
+			return thisVersion - otherVersion;
+		}
+
+		#endregion
+
+		#region IEquatable<FirmwareVersion> Members
+
+		/// <summary>
+		///   Checks for equality between two ICrazyradioFirmwareVersion's.
+		/// </summary>
+		/// <param name="other"> The other firmware version to compare equality with. </param>
+		/// <returns> </returns>
+		public bool Equals(FirmwareVersion other)
+		{
+			if (other == null)
+			{
+				return false;
+			}
+
+			return MajorVersion == other.MajorVersion && MinorVersion == other.MinorVersion && PatchVersion == other.PatchVersion;
+		}
+
+		#endregion
 
 		public static FirmwareVersion ParseString(string tripleVersionString)
 		{
@@ -77,47 +147,19 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		}
 
 		/// <summary>
-		/// The major version part of the firmware version.
+		///   Checks for equality between this firmware version and another object.
 		/// </summary>
-		public int MajorVersion { get; private set; }
-
-		/// <summary>
-		/// The minor version part of the firmware version.
-		/// </summary>
-		public int MinorVersion { get; private set; }
-
-		/// <summary>
-		/// The patch version part of the firmware version.
-		/// </summary>
-		public int PatchVersion { get; private set; }
-
-		/// <summary>
-		/// Checks for equality between this firmware version and another object.
-		/// </summary>
-		/// <param name="obj">The object to compare equality with.</param>
-		/// <returns></returns>
+		/// <param name="obj"> The object to compare equality with. </param>
+		/// <returns> </returns>
 		public override bool Equals(object obj)
 		{
 			return Equals(obj as FirmwareVersion);
 		}
 
 		/// <summary>
-		/// Checks for equality between two ICrazyradioFirmwareVersion's.
+		///   The hash code for this instance of ICrazyradioFirmwareVersion.
 		/// </summary>
-		/// <param name="other">The other firmware version to compare equality with.</param>
-		/// <returns></returns>
-		public bool Equals(FirmwareVersion other)
-		{
-			if (other == null)
-				return false;
-
-			return MajorVersion == other.MajorVersion && MinorVersion == other.MinorVersion && PatchVersion == other.PatchVersion;
-		}
-
-		/// <summary>
-		/// The hash code for this instance of ICrazyradioFirmwareVersion.
-		/// </summary>
-		/// <returns></returns>
+		/// <returns> </returns>
 		public override int GetHashCode()
 		{
 			unchecked
@@ -130,25 +172,9 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		}
 
 		/// <summary>
-		/// Compares ICrazyradioFirmwareVersions.
+		///   String representation of this ICrazyradioFirmwareVersion.
 		/// </summary>
-		/// <param name="other">The other ICrazyradioFirmwareVersion to compare to.</param>
-		/// <returns>Positive number if this is a higher version. Negative if other is higher version. 0 if same version.</returns>
-		public int CompareTo(FirmwareVersion other)
-		{
-			if (other == null)
-				throw new ArgumentNullException("other");
-
-			var thisVersion = (100 * MajorVersion) + (10 * MinorVersion) + PatchVersion;
-			var otherVersion = (100 * other.MajorVersion) + (10 * other.MinorVersion) + other.PatchVersion;
-
-			return thisVersion - otherVersion;
-		}
-
-		/// <summary>
-		/// String representation of this ICrazyradioFirmwareVersion.
-		/// </summary>
-		/// <returns>Full firmware in "Major.Minor.Patch" format.</returns>
+		/// <returns> Full firmware in "Major.Minor.Patch" format. </returns>
 		public override string ToString()
 		{
 			return string.Format("{0}.{1}.{2}", MajorVersion, MinorVersion, PatchVersion);

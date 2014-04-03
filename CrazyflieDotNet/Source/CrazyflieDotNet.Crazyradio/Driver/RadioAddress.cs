@@ -18,22 +18,22 @@ using System;
 using System.Linq;
 using log4net;
 
-#endregion Imports
+#endregion
 
 namespace CrazyflieDotNet.Crazyradio.Driver
 {
 	/// <summary>
-	/// The radio address of the Crazyradio.
+	///   The radio address of the Crazyradio.
 	/// </summary>
 	public sealed class RadioAddress
 		: IEquatable<RadioAddress>
 	{
-		private static readonly ILog Log = LogManager.GetLogger(typeof(RadioAddress));
+		private static readonly ILog Log = LogManager.GetLogger(typeof (RadioAddress));
 
 		/// <summary>
-		/// Initializes a CrazyradioAddress instance.
+		///   Initializes a CrazyradioAddress instance.
 		/// </summary>
-		/// <param name="addressBytes">The address bytes as single byte parameters. Address must be exactly 5 bytes long.</param>
+		/// <param name="addressBytes"> The address bytes as single byte parameters. Address must be exactly 5 bytes long. </param>
 		public RadioAddress(params byte[] addressBytes)
 		{
 			if (addressBytes == null)
@@ -53,25 +53,17 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		}
 
 		/// <summary>
-		/// The address bytes.
+		///   The address bytes.
 		/// </summary>
 		public byte[] Bytes { get; private set; }
 
-		/// <summary>
-		/// Checks for Crazyradio address equality.
-		/// </summary>
-		/// <param name="obj">Object comparing equality to.</param>
-		/// <returns>True if this address is equal to the other object.</returns>
-		public override bool Equals(object obj)
-		{
-			return Equals((RadioAddress)obj);
-		}
+		#region IEquatable<RadioAddress> Members
 
 		/// <summary>
-		/// Checks for Crazyradio address equality.
+		///   Checks for Crazyradio address equality.
 		/// </summary>
-		/// <param name="other">Other CrazyradioAddress comparing equality to.</param>
-		/// <returns>True if this address is equal to the other CrazyradioAddress.</returns>
+		/// <param name="other"> Other CrazyradioAddress comparing equality to. </param>
+		/// <returns> True if this address is equal to the other CrazyradioAddress. </returns>
 		public bool Equals(RadioAddress other)
 		{
 			if (other == null)
@@ -82,19 +74,31 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			return Bytes.SequenceEqual(other.Bytes);
 		}
 
+		#endregion
+
 		/// <summary>
-		/// Hashcode for this CrazyradioAddress.
+		///   Checks for Crazyradio address equality.
 		/// </summary>
-		/// <returns></returns>
+		/// <param name="obj"> Object comparing equality to. </param>
+		/// <returns> True if this address is equal to the other object. </returns>
+		public override bool Equals(object obj)
+		{
+			return Equals((RadioAddress) obj);
+		}
+
+		/// <summary>
+		///   Hashcode for this CrazyradioAddress.
+		/// </summary>
+		/// <returns> </returns>
 		public override int GetHashCode()
 		{
 			return (Bytes != null ? Bytes.GetHashCode() : 0);
 		}
 
 		/// <summary>
-		/// String representation of this CrazyradioAddress.
+		///   String representation of this CrazyradioAddress.
 		/// </summary>
-		/// <returns>The 5 byte Crazyradio address in hexadecimal form.</returns>
+		/// <returns> The 5 byte Crazyradio address in hexadecimal form. </returns>
 		public override string ToString()
 		{
 			return BitConverter.ToString(Bytes.ToArray());

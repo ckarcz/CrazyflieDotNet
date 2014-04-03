@@ -12,12 +12,6 @@
  *	file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#region Imports
-
-
-
-#endregion Imports
-
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
 	public class AckPacket

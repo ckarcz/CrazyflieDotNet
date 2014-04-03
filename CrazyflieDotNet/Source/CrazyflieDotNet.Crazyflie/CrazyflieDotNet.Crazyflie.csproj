@@ -56,6 +56,8 @@
     <Compile Include="TransferProtocol\OutputPacket.cs" />
     <Compile Include="TransferProtocol\OutputPacketHeader.cs" />
     <Compile Include="TransferProtocol\Packet.cs" />
+    <Compile Include="TransferProtocol\PacketHeader.cs" />
+    <Compile Include="TransferProtocol\PacketPayload.cs" />
     <Compile Include="TransferProtocol\PingPacket.cs" />
     <Compile Include="TransferProtocol\PingPacketHeader.cs" />
     <Compile Include="TransferProtocol\Port.cs" />
@@ -76,7 +78,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="CrazyflieDotNet.Crazyflie.licenseheader" />
+    <None Include="messier.licenseheader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

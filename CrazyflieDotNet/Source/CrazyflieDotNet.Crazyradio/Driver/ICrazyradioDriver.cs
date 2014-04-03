@@ -17,12 +17,12 @@
 using System;
 using System.Collections.Generic;
 
-#endregion Imports
+#endregion
 
 namespace CrazyflieDotNet.Crazyradio.Driver
 {
 	/// <summary>
-	///   A Crazyradio USB dongle driver that provides an abstraction to the low level usb API.
+	///   A Crazyradio USB dongle driver that provides an abstraction to the low level USB API.
 	/// </summary>
 	public interface ICrazyradioDriver
 		: IEquatable<ICrazyradioDriver>

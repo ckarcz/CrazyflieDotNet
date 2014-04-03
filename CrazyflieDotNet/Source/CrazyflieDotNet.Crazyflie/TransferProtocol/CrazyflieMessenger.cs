@@ -17,7 +17,7 @@
 using System;
 using CrazyflieDotNet.Crazyradio.Driver;
 
-#endregion Imports
+#endregion
 
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
@@ -36,6 +36,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			_crazyradioDriver = crazyradioDriver;
 		}
 
+		#region ICrazyflieMessenger Members
+
 		public IAckPacket SendMessage(IPacket packet)
 		{
 			var packetBytes = packet.GetBytes();
@@ -43,5 +45,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 			return new AckPacket(responseBytes);
 		}
+
+		#endregion
 	}
 }

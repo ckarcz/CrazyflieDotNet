@@ -1,4 +1,4 @@
-﻿/* 
+/* 
  *						 _ _  _     
  *		       ____ ___  ___  __________(_|_)(_)____
  *		      / __ `__ \/ _ \/ ___/ ___/ / _ \/ ___/
@@ -14,16 +14,33 @@
 
 #region Imports
 
-using LibUsbDotNet.Main;
+using System;
+using System.Data;
 
 #endregion
 
-namespace CrazyflieDotNet.Crazyradio.Driver
+namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
-	internal static class CrazyradioDataEndpointId
+	public abstract class PacketHeader
+		: IPacketHeader
 	{
-		public static readonly ReadEndpointID DataReadEndpointId = ReadEndpointID.Ep01;
+		#region IPacketHeader Members
 
-		public static readonly WriteEndpointID DataWriteEndpointId = WriteEndpointID.Ep01;
+		public byte? GetByte()
+		{
+			try
+			{
+				var packetHeaderByte = GetPacketHeaderByte();
+				return packetHeaderByte;
+			}
+			catch (Exception ex)
+			{
+				throw new DataException("Error obtaining packet header byte.", ex);
+			}
+		}
+
+		#endregion
+
+		protected abstract byte? GetPacketHeaderByte();
 	}
 }
