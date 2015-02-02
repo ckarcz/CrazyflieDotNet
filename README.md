@@ -18,14 +18,14 @@ Project:
 This is currently a work in progress in my spare time.
 
 Milestones:
-- Working USB driver for Crazyradio USB dongle - COMPLETED
+- Working .NET abstraction "driver" for Crazyradio USB dongle - COMPLETED
   - You are able to send the copter packets (byte array) and get an ACK packet back.
   Currently I have only tested pinging the copter as I am working on the remainder of the transfer protocol. 
 - Implement the Crazyradio Transfer Protocol (CRTP) - IN PROGRESS
 - Front end design and development - NOT STARTED
 - Cross platform support using Mono framework - IN PROGRESS
 
-The C# CrazyradioDriver is completed and working. This library (CrazyflieDotNet.Crazyradio.dll) provides a type safe API for communication with the Crazyradio USB dongle with Crazyflies. The library and driver expose all available configurations for the USB dongle, including defaults. The API is quite nice and easy to understand and use, even for a beginner.
+The C# CrazyradioDriver is completed and working. This library (CrazyflieDotNet.Crazyradio.dll) provides a type safe API for communication with the Crazyradio USB dongle with Crazyflies. The library and "driver" expose all available configurations for the USB dongle, including defaults. The API is quite nice and easy to understand and use, even for a beginner.
 
 Currently I am working on the transfer protocol.
 
