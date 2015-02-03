@@ -1,7 +1,8 @@
 CrazyflieDotNet
 ==============================
 Dot.NET libraries written in C# for Crazyflie Quadcopters and Crazyradios.
-(version 1.0, 2.0 untested, possibly not supported)
+
+(these libraries are for version 1.0 of the quadcopters, 2.0 untested, possibly supported/not supported)
 
 About The CrazyFlie:
 ==============================
