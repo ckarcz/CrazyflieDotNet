@@ -1,18 +1,4 @@
-﻿/* 
- *						 _ _  _     
- *		       ____ ___  ___  __________(_|_)(_)____
- *		      / __ `__ \/ _ \/ ___/ ___/ / _ \/ ___/
- *		     / / / / / /  __(__  |__  ) /  __/ /    
- *		    /_/ /_/ /_/\___/____/____/_/\___/_/  
- *
- *	     Copyright 2013 - Messier/Chris Karcz - ckarcz@gmail.com
- *
- *	This Source Code Form is subject to the terms of the Mozilla Public
- *	License, v. 2.0. If a copy of the MPL was not distributed with this
- *	file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
-
-#region Imports
+﻿#region Imports
 
 using System;
 using System.Collections.Generic;
@@ -26,9 +12,12 @@ using log4net.Config;
 
 namespace CrazyflieDotNet
 {
-	internal class Program
+    /// <summary>
+    /// Currently, this Program is only a small Test like executable for testing during development.
+    /// </summary>
+    internal class Program
 	{
-		private static readonly ILog Log = LogManager.GetLogger(typeof (CrazyradioDriver));
+		private static readonly ILog Log = LogManager.GetLogger(typeof (Program));
 
 		private static void Main(string[] args)
 		{
@@ -66,21 +55,32 @@ namespace CrazyflieDotNet
 						crazyradioDriver.DataRate = dataRateWithCrazyflie;
 						crazyradioDriver.Channel = channelWithCrazyflie;
 
-						var crazyRadioMessenger = new CrazyradioMessenger(crazyradioDriver);
+                        var pingPacket = new PingPacket();
+                        var pingPacketBytes = pingPacket.GetBytes();
+
+                        var crazyRadioMessenger = new CrazyradioMessenger(crazyradioDriver);
 
 						var loop = true;
 						while (loop)
 						{
-							var pingPacket = new PingPacket();
-							var pingPacketBytes = pingPacket.GetBytes();
+                            // test 1 (using "driver" lib directly)
+                            {
+                                Log.InfoFormat("Ping Packet Bytes: {0}", BitConverter.ToString(pingPacketBytes));
 
-							Log.InfoFormat("Ping Packet Bytes: {0}", BitConverter.ToString(pingPacketBytes));
+                                var ackResponse = crazyradioDriver.SendData(pingPacketBytes);
 
-							var ackResponse = crazyradioDriver.SendData(pingPacketBytes);
+                                Log.InfoFormat("ACK Response Bytes (using driver): {0}", BitConverter.ToString(ackResponse));
+                            }
 
-							Log.InfoFormat("ACK Response Bytes: {0}", BitConverter.ToString(ackResponse));
+                            // test 2 (using CTRP lib)
+                            {
+                                Log.InfoFormat("Ping Packet Bytes: {0}", BitConverter.ToString(pingPacketBytes));
 
-							crazyRadioMessenger.SendMessage(new PingPacket());
+                                var ackPacket = crazyRadioMessenger.SendMessage(new PingPacket());
+                                var ackPacketBytes = ackPacket.GetBytes();
+
+                                Log.InfoFormat("ACK Response Bytes (using CTRP): {0}", BitConverter.ToString(ackPacketBytes));
+                            }
 
 							if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Spacebar)
 							{
