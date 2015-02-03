@@ -41,7 +41,7 @@ Setting Up Your Development Environment:
 11. Go to Tools > Options > Text Editor > C# > Tabs > USE TABS!
 12. If you use ReSharper, please load the shared dot settings file and use that for the solution! Use the provided clean to clean your files! Keep the code style the same! Once in a while the MASTER branch will be cleaned to ensure consistensy in style. Finally, please comment your code as done in already submitted files!
 
-Generating the libusb-win32 usb device driver for the Crazyradio USB dongle:
+Generating The OS Driver FOr Crazyradio USB Dongle:
 ==============================
 1. Get the Zadig USB Tool: http://zadig.akeo.ie/
 2. Run the Zadig executable.
@@ -51,3 +51,7 @@ Generating the libusb-win32 usb device driver for the Crazyradio USB dongle:
 5. Click Install Driver.
 6. Open Device Management (devmgmt.msc in run box).
 7. Navigate to "libusb-win32 devices" to ensure that "Crazyradio USB Dongle" is listed.
+
+Continuous Build:
+==============================
+https://travis-ci.org/ckarcz/CrazyflieDotNet
