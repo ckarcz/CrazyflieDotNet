@@ -55,6 +55,10 @@ OS Driver (Windows):
 6. Open Device Management (devmgmt.msc in run box).
 7. Navigate to "libusb-win32 devices" to ensure that "Crazyradio USB Dongle" is listed.
 
+OS Driver (MacOS/Unix/Linux):
+==============================
+Due to the fact this is using libusb and the availability of mono (and soon x-plat dotnet core), you *should* be able to develop, build, and uses these libraries on other platforms. This is currently not tested as working. Read up and give it a shot.
+
 Continuous Build:
 ==============================
 https://travis-ci.org/ckarcz/CrazyflieDotNet
