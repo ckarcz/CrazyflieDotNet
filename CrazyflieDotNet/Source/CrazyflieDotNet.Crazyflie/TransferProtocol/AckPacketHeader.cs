@@ -9,23 +9,23 @@ using CrazyflieDotNet.Crazyradio.Driver;
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
 	/// <summary>
-	///   Header Format (1 byte):
-	///   8  7  6  5  4  3  2  1
-	///   [# Retries ][Res.][P][A]
-	///   Res. = reserved for transfer layer.
-	///   P = Power detector triggered
-	///   A = Ack received
+	///     Header Format (1 byte):
+	///     8  7  6  5  4  3  2  1
+	///     [# Retries ][Res.][P][A]
+	///     Res. = reserved for transfer layer.
+	///     P = Power detector triggered
+	///     A = Ack received
 	/// </summary>
 	public class AckPacketHeader
 		: PacketHeader, IAckPacketHeader
 	{
 		/// <summary>
-		///   Header Format (1 byte):
-		///   8  7  6  5  4  3  2  1
-		///   [# Retries ][Res.][P][A]
-		///   Res. = reserved for transfer layer.
-		///   P = Power detector triggered
-		///   A = Ack received
+		///     Header Format (1 byte):
+		///     8  7  6  5  4  3  2  1
+		///     [# Retries ][Res.][P][A]
+		///     Res. = reserved for transfer layer.
+		///     P = Power detector triggered
+		///     A = Ack received
 		/// </summary>
 		/// <param name="headerByte"> </param>
 		public AckPacketHeader(byte headerByte)
@@ -42,11 +42,9 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			AckRecieved = ackRecieved;
 		}
 
-		public MessageAckRetryCount RetryCount { get; private set; }
-
-		public bool PowerDetector { get; private set; }
-
-		public bool AckRecieved { get; private set; }
+		public MessageAckRetryCount RetryCount { get; }
+		public bool PowerDetector { get; }
+		public bool AckRecieved { get; }
 
 		protected override byte? GetPacketHeaderByte()
 		{

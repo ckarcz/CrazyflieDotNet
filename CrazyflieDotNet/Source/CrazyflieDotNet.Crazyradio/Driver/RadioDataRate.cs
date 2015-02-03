@@ -1,7 +1,7 @@
 namespace CrazyflieDotNet.Crazyradio.Driver
 {
 	/// <summary>
-	///   Crazyradio data rate.
+	///     Crazyradio data rate.
 	/// </summary>
 	public enum RadioDataRate
 	{

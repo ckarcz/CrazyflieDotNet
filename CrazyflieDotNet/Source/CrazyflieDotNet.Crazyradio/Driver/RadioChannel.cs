@@ -1,7 +1,7 @@
 namespace CrazyflieDotNet.Crazyradio.Driver
 {
 	/// <summary>
-	///   Crazyradio channel.
+	///     Crazyradio channel.
 	/// </summary>
 	public enum RadioChannel
 	{

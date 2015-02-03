@@ -8,11 +8,11 @@ using System.Data;
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
 	/// <summary>
-	///   Header Format (1 byte):
-	///   8  7  6  5  4  3  2  1
-	///   [  Port#  ][Res.][Ch.]
-	///   Res. = reserved for transfer layer.
-	///   Ch. = Channel
+	///     Header Format (1 byte):
+	///     8  7  6  5  4  3  2  1
+	///     [  Port#  ][Res.][Ch.]
+	///     Res. = reserved for transfer layer.
+	///     Ch. = Channel
 	/// </summary>
 	public abstract class OutputPacketHeader
 		: PacketHeader, IOutputPacketHeader
@@ -20,11 +20,11 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		public const Channel DefaultChannel = Channel.Channel0;
 
 		/// <summary>
-		///   Header Format (1 byte):
-		///   8  7  6  5  4  3  2  1
-		///   [  Port#  ][Res.][Ch.]
-		///   Res. = reserved for transfer layer.
-		///   Ch. = Channel
+		///     Header Format (1 byte):
+		///     8  7  6  5  4  3  2  1
+		///     [  Port#  ][Res.][Ch.]
+		///     Res. = reserved for transfer layer.
+		///     Ch. = Channel
 		/// </summary>
 		/// <param name="headerByte"> </param>
 		protected OutputPacketHeader(byte headerByte)
@@ -38,14 +38,6 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			Port = port;
 			Channel = channel;
 		}
-
-		#region IOutputPacketHeader Members
-
-		public Port Port { get; private set; }
-
-		public Channel Channel { get; private set; }
-
-		#endregion
 
 		protected override byte? GetPacketHeaderByte()
 		{
@@ -96,5 +88,13 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 				throw new DataException("Error getting output packet header channel value from header byte", ex);
 			}
 		}
+
+		#region IOutputPacketHeader Members
+
+		public Port Port { get; }
+
+		public Channel Channel { get; }
+
+		#endregion
 	}
 }

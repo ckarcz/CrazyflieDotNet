@@ -8,13 +8,13 @@ using LibUsbDotNet.Descriptors;
 namespace CrazyflieDotNet.Crazyradio.Driver
 {
 	/// <summary>
-	///   Represents the firmware version of a Crazyradio USB dongle.
+	///     Represents the firmware version of a Crazyradio USB dongle.
 	/// </summary>
 	public sealed class FirmwareVersion
 		: IEquatable<FirmwareVersion>, IComparable<FirmwareVersion>
 	{
 		/// <summary>
-		///   Initializes an instance of FirmwareVersion given the USB device descriptor.
+		///     Initializes an instance of FirmwareVersion given the USB device descriptor.
 		/// </summary>
 		/// <param name="bcdVersionNumber"> The USB device descriptor. </param>
 		public FirmwareVersion(UsbDeviceDescriptor bcdVersionNumber)
@@ -23,7 +23,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		}
 
 		/// <summary>
-		///   Initializes an instance of FirmwareVersion given the USB bcdDevice/bcdVersion number.
+		///     Initializes an instance of FirmwareVersion given the USB bcdDevice/bcdVersion number.
 		/// </summary>
 		/// <param name="bcdVersionNumber"> The USB bcdDevice/bcdVersion number. </param>
 		public FirmwareVersion(short bcdVersionNumber)
@@ -32,7 +32,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		}
 
 		/// <summary>
-		///   Initializes an instance of FirmwareVersion given the three version parameters.
+		///     Initializes an instance of FirmwareVersion given the three version parameters.
 		/// </summary>
 		/// <param name="majorVersion"> The major version part. </param>
 		/// <param name="minorVersion"> The minor version part. </param>
@@ -45,24 +45,24 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		}
 
 		/// <summary>
-		///   The major version part of the firmware version.
+		///     The major version part of the firmware version.
 		/// </summary>
-		public int MajorVersion { get; private set; }
+		public int MajorVersion { get; }
 
 		/// <summary>
-		///   The minor version part of the firmware version.
+		///     The minor version part of the firmware version.
 		/// </summary>
-		public int MinorVersion { get; private set; }
+		public int MinorVersion { get; }
 
 		/// <summary>
-		///   The patch version part of the firmware version.
+		///     The patch version part of the firmware version.
 		/// </summary>
-		public int PatchVersion { get; private set; }
+		public int PatchVersion { get; }
 
 		#region IComparable<FirmwareVersion> Members
 
 		/// <summary>
-		///   Compares ICrazyradioFirmwareVersions.
+		///     Compares ICrazyradioFirmwareVersions.
 		/// </summary>
 		/// <param name="other"> The other ICrazyradioFirmwareVersion to compare to. </param>
 		/// <returns> Positive number if this is a higher version. Negative if other is higher version. 0 if same version. </returns>
@@ -84,7 +84,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		#region IEquatable<FirmwareVersion> Members
 
 		/// <summary>
-		///   Checks for equality between two ICrazyradioFirmwareVersion's.
+		///     Checks for equality between two ICrazyradioFirmwareVersion's.
 		/// </summary>
 		/// <param name="other"> The other firmware version to compare equality with. </param>
 		/// <returns> </returns>
@@ -133,7 +133,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		}
 
 		/// <summary>
-		///   Checks for equality between this firmware version and another object.
+		///     Checks for equality between this firmware version and another object.
 		/// </summary>
 		/// <param name="obj"> The object to compare equality with. </param>
 		/// <returns> </returns>
@@ -143,7 +143,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		}
 
 		/// <summary>
-		///   The hash code for this instance of ICrazyradioFirmwareVersion.
+		///     The hash code for this instance of ICrazyradioFirmwareVersion.
 		/// </summary>
 		/// <returns> </returns>
 		public override int GetHashCode()
@@ -158,7 +158,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		}
 
 		/// <summary>
-		///   String representation of this ICrazyradioFirmwareVersion.
+		///     String representation of this ICrazyradioFirmwareVersion.
 		/// </summary>
 		/// <returns> Full firmware in "Major.Minor.Patch" format. </returns>
 		public override string ToString()

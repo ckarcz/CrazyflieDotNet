@@ -7,13 +7,13 @@ using System;
 namespace CrazyflieDotNet.Crazyradio.Driver
 {
 	/// <summary>
-	///   Exception occuring within the CrazyradioDriver.
+	///     Exception occuring within the CrazyradioDriver.
 	/// </summary>
 	public class CrazyradioDriverException
 		: Exception
 	{
 		/// <summary>
-		///   Initializes a new instance of CrazyradioDriverException.
+		///     Initializes a new instance of CrazyradioDriverException.
 		/// </summary>
 		/// <param name="message"> The exception message. </param>
 		/// <param name="innerException"> The inner exception. </param>
@@ -23,7 +23,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		}
 
 		/// <summary>
-		///   Initializes a new instance of CrazyradioDriverException.
+		///     Initializes a new instance of CrazyradioDriverException.
 		/// </summary>
 		/// <param name="message"> The exception message. </param>
 		public CrazyradioDriverException(string message)

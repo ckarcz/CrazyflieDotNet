@@ -18,7 +18,6 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 	public interface IPacket
 	{
 		IPacketHeader Header { get; }
-
 		IPacketPayload Payload { get; }
 
 		byte[] GetBytes();

@@ -3,43 +3,39 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using log4net;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
-using log4net;
 
 #endregion
 
 namespace CrazyflieDotNet.Crazyradio.Driver
 {
 	/// <summary>
-	///   A Crazyradio USB dongle driver that provides an abstraction to the low level USB API.
+	///     A Crazyradio USB dongle driver that provides an abstraction to the low level USB API.
 	/// </summary>
 	public class CrazyradioDriver
 		: ICrazyradioDriver, IDisposable
 	{
 		private static readonly ILog Log = LogManager.GetLogger(typeof (CrazyradioDriver));
-
 		private static readonly FirmwareVersion MinimumCrazyradioFirmwareVersionRequired = new FirmwareVersion(0, 3, 0);
 		private static readonly FirmwareVersion MinimumCrazyradioFastFirmwareChannelScanFirmware = new FirmwareVersion(0, 5, 0);
-
-		private readonly UsbDevice _crazyradioUsbDevice;
 		private MessageAckMode? _ackMode;
 		private MessageAckPayloadLength? _ackPayloadLength;
 		private MessageAckRetryCount? _ackRetryCount;
 		private MessageAckRetryDelay? _ackRetryDelay;
 		private RadioAddress _address;
 		private RadioChannel? _channel;
-
 		private UsbEndpointReader _crazyradioDataEndpointReader;
 		private UsbEndpointWriter _crazyradioDataEndpointWriter;
-
 		private RadioDataRate? _dataRate;
 		private RadioMode? _mode;
 		private RadioPowerLevel? _powerLevel;
 		private bool _propertiesInitializedToDefaults = false;
+		private readonly UsbDevice _crazyradioUsbDevice;
 
 		/// <summary>
-		///   Creates and initializes an instance of a Crazyradio USB dongle driver.
+		///     Creates and initializes an instance of a Crazyradio USB dongle driver.
 		/// </summary>
 		/// <param name="crazyradioUsbDevice"> The UsbDevice to use in this driver. </param>
 		public CrazyradioDriver(UsbDevice crazyradioUsbDevice)
@@ -72,6 +68,386 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 				Log.Debug("UsbDevice is open. Closing until user opens to prevent inconsistent driver state.");
 
 				_crazyradioUsbDevice.Close();
+			}
+		}
+
+		#region IDisposable Members
+
+		void IDisposable.Dispose()
+		{
+			Close();
+		}
+
+		#endregion
+
+		/// <summary>
+		///     Destructor that disposes resources used in this Crazyradio USB dongle driver.
+		/// </summary>
+		~CrazyradioDriver()
+		{
+			((IDisposable) this).Dispose();
+		}
+
+		public static bool IsCrazyradioUsbDongle(UsbDevice USBDevice)
+		{
+			if (USBDevice == null)
+			{
+				return false;
+			}
+
+			return USBDevice.Info.Descriptor.VendorID == CrazyradioDeviceId.VendorId
+				   && USBDevice.Info.Descriptor.ProductID == CrazyradioDeviceId.ProductId;
+		}
+
+		public static IEnumerable<ICrazyradioDriver> GetCrazyradios()
+		{
+			return GetCrazyradios(CrazyradioDeviceId.VendorId, CrazyradioDeviceId.ProductId);
+		}
+
+		public static IEnumerable<ICrazyradioDriver> GetCrazyradios(int vendorId, int productId)
+		{
+			Log.Debug("Looking for Crazyradio USB dongles...");
+
+			var crazyRadioDrivers = new List<ICrazyradioDriver>();
+
+			var crazyRadiosRegDeviceList = UsbDevice.AllDevices.FindAll(new UsbDeviceFinder(vendorId, productId));
+			if (crazyRadiosRegDeviceList.Any())
+			{
+				Log.DebugFormat("Found {0} Crazyradio USB dongle(s).", crazyRadiosRegDeviceList.Count);
+
+				foreach (UsbRegistry crazyRadioUsbDevice in crazyRadiosRegDeviceList)
+				{
+					crazyRadioDrivers.Add(new CrazyradioDriver(crazyRadioUsbDevice.Device));
+				}
+			}
+			else
+			{
+				Log.Warn("Found no Crazyradio USB dongles.");
+			}
+
+			return crazyRadioDrivers;
+		}
+
+		public override bool Equals(object obj)
+		{
+			return Equals(obj as ICrazyradioDriver);
+		}
+
+		public override int GetHashCode()
+		{
+			return SerialNumber.GetHashCode();
+		}
+
+		public override string ToString()
+		{
+			return string.Format("Serial#: {0}. Open: {1}.", SerialNumber, IsOpen);
+		}
+
+		private void CheckFirmwareVersion()
+		{
+			Log.DebugFormat("Crazyradio USB dongle version is {0}.", FirmwareVersion);
+
+			if (FirmwareVersion.CompareTo(MinimumCrazyradioFirmwareVersionRequired) < 0)
+			{
+				var message = string.Format("Mininum firmware version required for this version of CrazyradioDriver is {0}.", MinimumCrazyradioFirmwareVersionRequired);
+				Log.Error(message);
+				throw new CrazyradioDriverException(message);
+			}
+		}
+
+		private void SetMode(RadioMode mode)
+		{
+			try
+			{
+				Log.DebugFormat("Setting Crazyradio USB dongle Mode to {0}.", mode);
+
+				var enableContinuousCarrierMode = (mode == RadioMode.ContinuousCarrierMode) ? 1 : 0;
+				ControlTransferOut(CrazyradioRequest.SetContinuousCarrierMode, (short) enableContinuousCarrierMode, 0, 0, new byte[0]);
+
+				Log.DebugFormat("Successfully set Crazyradio USB dongle Mode to {0}.", mode);
+			}
+			catch (Exception ex)
+			{
+				var message = string.Format("Failed setting Crazyradio USB dongle mode to {0}.", mode);
+				Log.Error(message);
+				throw new CrazyradioDriverException(message, ex);
+			}
+		}
+
+		private void SetChannel(RadioChannel channel)
+		{
+			try
+			{
+				Log.DebugFormat("Setting Crazyradio USB dongle Channel to {0}.", channel);
+
+				ControlTransferOut(CrazyradioRequest.SetChannel, (short) channel, 0, 0, new byte[0]);
+
+				Log.DebugFormat("Successfully set Crazyradio USB dongle Channel to {0}.", channel);
+			}
+			catch (Exception ex)
+			{
+				var message = string.Format("Failed setting Crazyradio USB dongle channel to {0}.", channel);
+				Log.Error(message);
+				throw new CrazyradioDriverException(message, ex);
+			}
+		}
+
+		private void SetAddress(RadioAddress address)
+		{
+			try
+			{
+				Log.DebugFormat("Setting Crazyradio USB dongle Address to {0}.", address);
+
+				ControlTransferOut(CrazyradioRequest.SetAddress, 0, 0, 5, address.Bytes);
+
+				Log.DebugFormat("Successfully set Crazyradio USB dongle Address to {0}.", address);
+			}
+			catch (Exception ex)
+			{
+				var message = string.Format("Failed setting Crazyradio USB dongle address to {0}.", address);
+				Log.Error(message);
+				throw new CrazyradioDriverException(message, ex);
+			}
+		}
+
+		private void SetDataRate(RadioDataRate dataRate)
+		{
+			try
+			{
+				Log.DebugFormat("Setting Crazyradio USB dongle DataRate to {0}.", dataRate);
+
+				ControlTransferOut(CrazyradioRequest.SetDataRate, (short) dataRate, 0, 0, new byte[0]);
+
+				Log.DebugFormat("Successfully set Crazyradio USB dongle DataRate to {0}.", dataRate);
+			}
+			catch (Exception ex)
+			{
+				var message = string.Format("Failed setting Crazyradio USB dongle data rate to {0}.", dataRate);
+				Log.Error(message);
+				throw new CrazyradioDriverException(message, ex);
+			}
+		}
+
+		private void SetPowerLevel(RadioPowerLevel powerLevel)
+		{
+			try
+			{
+				Log.DebugFormat("Setting Crazyradio USB dongle PowerLevel to {0}.", powerLevel);
+
+				ControlTransferOut(CrazyradioRequest.SetDataRate, (short) powerLevel, 0, 0, new byte[0]);
+
+				Log.DebugFormat("Successfully set Crazyradio USB dongle PowerLevel to {0}.", powerLevel);
+			}
+			catch (Exception ex)
+			{
+				var message = string.Format("Failed setting Crazyradio USB dongle power level to {0}", powerLevel);
+				Log.Error(message);
+				throw new CrazyradioDriverException(message, ex);
+			}
+		}
+
+		private void SetAckMode(MessageAckMode ackMode)
+		{
+			try
+			{
+				Log.DebugFormat("Setting Crazyradio USB dongle AckMode to {0}.", ackMode);
+
+				var enableAutoAck = (ackMode == MessageAckMode.AutoAckOn) ? 1 : 0;
+				ControlTransferOut(CrazyradioRequest.SetAutoActEnabled, (short) enableAutoAck, 0, 0, new byte[0]);
+
+				Log.DebugFormat("Successfully set Crazyradio USB dongle AckMode to {0}.", ackMode);
+			}
+			catch (Exception ex)
+			{
+				var message = string.Format("Failed setting Crazyradio USB dongle auto ack mode to {0}", ackMode);
+				Log.Error(message);
+				throw new CrazyradioDriverException(message, ex);
+			}
+		}
+
+		private void SetAckRetryCount(MessageAckRetryCount ackRetryCount)
+		{
+			try
+			{
+				Log.DebugFormat("Setting Crazyradio USB dongle AckRetryCount to {0}.", ackRetryCount);
+
+				ControlTransferOut(CrazyradioRequest.SetDataRate, (short) ackRetryCount, 0, 0, new byte[0]);
+
+				Log.DebugFormat("Successfully set Crazyradio USB dongle AckRetryCount to {0}.", ackRetryCount);
+			}
+			catch (Exception ex)
+			{
+				var message = string.Format("Failed setting Crazyradio USB dongle ack retry count to {0}", ackRetryCount);
+				Log.Error(message);
+				throw new CrazyradioDriverException(message, ex);
+			}
+		}
+
+		private void SetAckRetryDelay(MessageAckRetryDelay ackRetryDelay)
+		{
+			try
+			{
+				Log.DebugFormat("Setting Crazyradio USB dongle AckRetryDelay to {0}.", ackRetryDelay);
+
+				ControlTransferOut(CrazyradioRequest.SetDataRate, (short) ackRetryDelay, 0, 0, new byte[0]);
+
+				Log.DebugFormat("Successfully set Crazyradio USB dongle AckRetryDelay to {0}.", ackRetryDelay);
+			}
+			catch (Exception ex)
+			{
+				var message = string.Format("Failed setting Crazyradio USB dongle ack retry delay to {0}", ackRetryDelay);
+				Log.Error(message);
+				throw new CrazyradioDriverException(message, ex);
+			}
+		}
+
+		private void SetAckPayloadLength(MessageAckPayloadLength ackPayloadLength)
+		{
+			try
+			{
+				Log.DebugFormat("Setting Crazyradio USB dongle AckPayloadLength to {0}.", ackPayloadLength);
+
+				var value = (byte) ((byte) ackPayloadLength | 0x80); // To set the ACK payload length the bit 7 of ARD must be set (length | 0x80).
+				ControlTransferOut(CrazyradioRequest.SetDataRate, value, 0, 0, new byte[0]);
+
+				Log.DebugFormat("Successfully set Crazyradio USB dongle AckPayloadLength to {0}.", ackPayloadLength);
+			}
+			catch (Exception ex)
+			{
+				var message = string.Format("Failed setting Crazyradio USB dongle ack payload length to {0}", ackPayloadLength);
+				Log.Error(message);
+				throw new CrazyradioDriverException(message, ex);
+			}
+		}
+
+		private ScanChannelsResult ScanChannelsUsingDataRate(RadioDataRate dataRate, RadioChannel channelStart, RadioChannel channelStop)
+		{
+			var results = new List<RadioChannel>();
+
+			DataRate = dataRate;
+
+			if (FirmwareVersion.CompareTo(MinimumCrazyradioFastFirmwareChannelScanFirmware) >= 0)
+			{
+				StartRadioScanningChannels(channelStart, channelStop);
+				results.AddRange(GetRadioChannelScanningResults());
+			}
+			else // slow pc level channel scan
+			{
+				results.AddRange(ManuallyScanForChannels(channelStart, channelStop));
+			}
+
+			return new ScanChannelsResult(dataRate, results);
+		}
+
+		private void StartRadioScanningChannels(RadioChannel channelStart, RadioChannel channelStop)
+		{
+			try
+			{
+				Log.DebugFormat("Starting firmware level Crazyradio USB dongle ChannelScan. StartChannel: {0}, StopChannel: {1}.", channelStart, channelStop);
+
+				ControlTransferOut(CrazyradioRequest.ScanChannels, (short) channelStart, (short) channelStop, 1, new byte[] {0xFF});
+
+				Log.DebugFormat("Successfully started firmware level Crazyradio USB dongle ChannelScan. StartChannel: {0}, StopChannel: {1}.", channelStart, channelStop);
+			}
+			catch (Exception ex)
+			{
+				var message = string.Format("Failed starting firmware level Crazyradio USB dongle channel scan. Start Channel: {0}, Stop Channel: {1}.", channelStart, channelStop);
+				Log.Error(message);
+				throw new CrazyradioDriverException(message, ex);
+			}
+		}
+
+		private IEnumerable<RadioChannel> GetRadioChannelScanningResults()
+		{
+			try
+			{
+				Log.Debug("Getting firmware level Crazyradio USB dongle ChannelScan results.");
+
+				var data = new byte[63];
+				ControlTransferIn(CrazyradioRequest.ScanChannels, 0, 0, (short) data.Length, data);
+
+				Log.Debug("Successfully got firmware level Crazyradio USB dongle ChannelScan results.");
+
+				return data.Where(a => a != 0).Select(b => (RadioChannel) b);
+			}
+			catch (Exception ex)
+			{
+				const string message = "Failed getting firmware level Crazyradio USB dongle channel scan results.";
+				Log.Error(message);
+				throw new CrazyradioDriverException(message, ex);
+			}
+		}
+
+		private IEnumerable<RadioChannel> ManuallyScanForChannels(RadioChannel channelStart, RadioChannel channelStop)
+		{
+			try
+			{
+				Log.DebugFormat("Starting manual Crazyradio USB dongle ChannelScan. StartChannel: {0}, StopChannel: {1}.", channelStart, channelStop);
+
+				var results = new List<RadioChannel>();
+
+				var ackPacket = new byte[] {0xFF};
+				for (var currentChannel = channelStart; currentChannel <= channelStop; currentChannel++)
+				{
+					Channel = currentChannel;
+					var result = SendData(ackPacket);
+				}
+
+				Log.Debug("Manual Crazyradio USB dongle ChannelScan completed.");
+
+				return results;
+			}
+			catch (Exception ex)
+			{
+				var message = string.Format("Failed running manual Crazyradio USB dongle channel scan. Start Channel: {0}, Stop Channel: {1}.", channelStart, channelStop);
+				Log.Error(message);
+				throw new CrazyradioDriverException(message, ex);
+			}
+		}
+
+		private void ControlTransferOut(CrazyradioRequest request, short value, short index, short length, byte[] data)
+		{
+			ControlTransfer(UsbRequestType.TypeVendor, UsbRequestRecipient.RecipDevice, UsbEndpointDirection.EndpointOut, (byte) request, value, index, length, data);
+		}
+
+		private void ControlTransferIn(CrazyradioRequest request, short value, short index, short length, byte[] data)
+		{
+			ControlTransfer(UsbRequestType.TypeVendor, UsbRequestRecipient.RecipDevice, UsbEndpointDirection.EndpointIn, (byte) request, value, index, length, data);
+		}
+
+		private void ControlTransfer(UsbRequestType requestType, UsbRequestRecipient requestRecipient, UsbEndpointDirection requestDirection, byte request, short value, short index, short length, byte[] data)
+		{
+			if (!IsOpen)
+			{
+				const string message = "Crazyradio USB dongle is not open.";
+				Log.Error(message);
+				throw new CrazyradioDriverException(message);
+			}
+
+			var lengthTransferred = -1;
+			var messageFailed = true;
+
+			var requestTypeByte = (byte) requestType;
+			var requestRecipientByte = (byte) requestRecipient;
+			var requestDirectionByte = (byte) requestDirection;
+			var fullRequestTypeByte = (byte) (requestTypeByte | requestRecipientByte | requestDirectionByte);
+			var setupPacket = new UsbSetupPacket(fullRequestTypeByte, request, value, index, length);
+
+			var controlTransferInputsString = string.Format("Control transfer inputs: \n\tFullRequestTypeByte: 0x{0:x2} => (0x{1:x2} (RequestType: {2}) | 0x{3:x2} (RequestRecipient: {4}) | 0x{5:x2} (RequestDirection: {6})), \n\tRequest: 0x{7:x2}, \n\tValue: {8}, \n\tIndex: {9}, \n\tLength: {10}, \n\tData: [{11}].", fullRequestTypeByte, requestTypeByte, requestType, requestRecipientByte, requestRecipient, requestDirectionByte, requestDirection, request, value, index, length, BitConverter.ToString(data));
+			Log.Debug(controlTransferInputsString);
+
+			Log.Debug("Sending Crazyradio USB dongle a control transfer message.");
+			messageFailed = !_crazyradioUsbDevice.ControlTransfer(ref setupPacket, data, data.Length, out lengthTransferred);
+
+			if (messageFailed)
+			{
+				var message = string.Format("Failed sending Crazyradio USB dongle a control message. {0}\nUsbErrorMessage:\n{1}", controlTransferInputsString, UsbDevice.LastErrorString);
+				Log.Error(message);
+				throw new CrazyradioDriverException(message);
+			}
+			else
+			{
+				Log.DebugFormat("Successfully sent Crazyradio USB dongle a control message. \n\tLength transferred: {0}, \n\tData: [{1}].", lengthTransferred, BitConverter.ToString(data));
 			}
 		}
 
@@ -490,385 +866,5 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		}
 
 		#endregion
-
-		#region IDisposable Members
-
-		void IDisposable.Dispose()
-		{
-			Close();
-		}
-
-		#endregion
-
-		/// <summary>
-		///   Destructor that disposes resources used in this Crazyradio USB dongle driver.
-		/// </summary>
-		~CrazyradioDriver()
-		{
-			((IDisposable) this).Dispose();
-		}
-
-		public static bool IsCrazyradioUsbDongle(UsbDevice USBDevice)
-		{
-			if (USBDevice == null)
-			{
-				return false;
-			}
-
-			return USBDevice.Info.Descriptor.VendorID == CrazyradioDeviceId.VendorId
-			       && USBDevice.Info.Descriptor.ProductID == CrazyradioDeviceId.ProductId;
-		}
-
-		public static IEnumerable<ICrazyradioDriver> GetCrazyradios()
-		{
-			return GetCrazyradios(CrazyradioDeviceId.VendorId, CrazyradioDeviceId.ProductId);
-		}
-
-        public static IEnumerable<ICrazyradioDriver> GetCrazyradios(int vendorId, int productId)
-        {
-            Log.Debug("Looking for Crazyradio USB dongles...");
-
-            var crazyRadioDrivers = new List<ICrazyradioDriver>();
-
-            var crazyRadiosRegDeviceList = UsbDevice.AllDevices.FindAll(new UsbDeviceFinder(vendorId, productId));
-            if (crazyRadiosRegDeviceList.Any())
-            {
-                Log.DebugFormat("Found {0} Crazyradio USB dongle(s).", crazyRadiosRegDeviceList.Count);
-
-                foreach (UsbRegistry crazyRadioUsbDevice in crazyRadiosRegDeviceList)
-                {
-                    crazyRadioDrivers.Add(new CrazyradioDriver(crazyRadioUsbDevice.Device));
-                }
-            }
-            else
-            {
-                Log.Warn("Found no Crazyradio USB dongles.");
-            }
-
-            return crazyRadioDrivers;
-        }
-
-        public override bool Equals(object obj)
-		{
-			return Equals(obj as ICrazyradioDriver);
-		}
-
-		public override int GetHashCode()
-		{
-			return SerialNumber.GetHashCode();
-		}
-
-		public override string ToString()
-		{
-			return string.Format("Serial#: {0}. Open: {1}.", SerialNumber, IsOpen);
-		}
-
-		private void CheckFirmwareVersion()
-		{
-			Log.DebugFormat("Crazyradio USB dongle version is {0}.", FirmwareVersion);
-
-			if (FirmwareVersion.CompareTo(MinimumCrazyradioFirmwareVersionRequired) < 0)
-			{
-				var message = string.Format("Mininum firmware version required for this version of CrazyradioDriver is {0}.", MinimumCrazyradioFirmwareVersionRequired);
-				Log.Error(message);
-				throw new CrazyradioDriverException(message);
-			}
-		}
-
-		private void SetMode(RadioMode mode)
-		{
-			try
-			{
-				Log.DebugFormat("Setting Crazyradio USB dongle Mode to {0}.", mode);
-
-				var enableContinuousCarrierMode = (mode == RadioMode.ContinuousCarrierMode) ? 1 : 0;
-				ControlTransferOut(CrazyradioRequest.SetContinuousCarrierMode, (short) enableContinuousCarrierMode, 0, 0, new byte[0]);
-
-				Log.DebugFormat("Successfully set Crazyradio USB dongle Mode to {0}.", mode);
-			}
-			catch (Exception ex)
-			{
-				var message = string.Format("Failed setting Crazyradio USB dongle mode to {0}.", mode);
-				Log.Error(message);
-				throw new CrazyradioDriverException(message, ex);
-			}
-		}
-
-		private void SetChannel(RadioChannel channel)
-		{
-			try
-			{
-				Log.DebugFormat("Setting Crazyradio USB dongle Channel to {0}.", channel);
-
-				ControlTransferOut(CrazyradioRequest.SetChannel, (short) channel, 0, 0, new byte[0]);
-
-				Log.DebugFormat("Successfully set Crazyradio USB dongle Channel to {0}.", channel);
-			}
-			catch (Exception ex)
-			{
-				var message = string.Format("Failed setting Crazyradio USB dongle channel to {0}.", channel);
-				Log.Error(message);
-				throw new CrazyradioDriverException(message, ex);
-			}
-		}
-
-		private void SetAddress(RadioAddress address)
-		{
-			try
-			{
-				Log.DebugFormat("Setting Crazyradio USB dongle Address to {0}.", address);
-
-				ControlTransferOut(CrazyradioRequest.SetAddress, 0, 0, 5, address.Bytes);
-
-				Log.DebugFormat("Successfully set Crazyradio USB dongle Address to {0}.", address);
-			}
-			catch (Exception ex)
-			{
-				var message = string.Format("Failed setting Crazyradio USB dongle address to {0}.", address);
-				Log.Error(message);
-				throw new CrazyradioDriverException(message, ex);
-			}
-		}
-
-		private void SetDataRate(RadioDataRate dataRate)
-		{
-			try
-			{
-				Log.DebugFormat("Setting Crazyradio USB dongle DataRate to {0}.", dataRate);
-
-				ControlTransferOut(CrazyradioRequest.SetDataRate, (short) dataRate, 0, 0, new byte[0]);
-
-				Log.DebugFormat("Successfully set Crazyradio USB dongle DataRate to {0}.", dataRate);
-			}
-			catch (Exception ex)
-			{
-				var message = string.Format("Failed setting Crazyradio USB dongle data rate to {0}.", dataRate);
-				Log.Error(message);
-				throw new CrazyradioDriverException(message, ex);
-			}
-		}
-
-		private void SetPowerLevel(RadioPowerLevel powerLevel)
-		{
-			try
-			{
-				Log.DebugFormat("Setting Crazyradio USB dongle PowerLevel to {0}.", powerLevel);
-
-				ControlTransferOut(CrazyradioRequest.SetDataRate, (short) powerLevel, 0, 0, new byte[0]);
-
-				Log.DebugFormat("Successfully set Crazyradio USB dongle PowerLevel to {0}.", powerLevel);
-			}
-			catch (Exception ex)
-			{
-				var message = string.Format("Failed setting Crazyradio USB dongle power level to {0}", powerLevel);
-				Log.Error(message);
-				throw new CrazyradioDriverException(message, ex);
-			}
-		}
-
-		private void SetAckMode(MessageAckMode ackMode)
-		{
-			try
-			{
-				Log.DebugFormat("Setting Crazyradio USB dongle AckMode to {0}.", ackMode);
-
-				var enableAutoAck = (ackMode == MessageAckMode.AutoAckOn) ? 1 : 0;
-				ControlTransferOut(CrazyradioRequest.SetAutoActEnabled, (short) enableAutoAck, 0, 0, new byte[0]);
-
-				Log.DebugFormat("Successfully set Crazyradio USB dongle AckMode to {0}.", ackMode);
-			}
-			catch (Exception ex)
-			{
-				var message = string.Format("Failed setting Crazyradio USB dongle auto ack mode to {0}", ackMode);
-				Log.Error(message);
-				throw new CrazyradioDriverException(message, ex);
-			}
-		}
-
-		private void SetAckRetryCount(MessageAckRetryCount ackRetryCount)
-		{
-			try
-			{
-				Log.DebugFormat("Setting Crazyradio USB dongle AckRetryCount to {0}.", ackRetryCount);
-
-				ControlTransferOut(CrazyradioRequest.SetDataRate, (short) ackRetryCount, 0, 0, new byte[0]);
-
-				Log.DebugFormat("Successfully set Crazyradio USB dongle AckRetryCount to {0}.", ackRetryCount);
-			}
-			catch (Exception ex)
-			{
-				var message = string.Format("Failed setting Crazyradio USB dongle ack retry count to {0}", ackRetryCount);
-				Log.Error(message);
-				throw new CrazyradioDriverException(message, ex);
-			}
-		}
-
-		private void SetAckRetryDelay(MessageAckRetryDelay ackRetryDelay)
-		{
-			try
-			{
-				Log.DebugFormat("Setting Crazyradio USB dongle AckRetryDelay to {0}.", ackRetryDelay);
-
-				ControlTransferOut(CrazyradioRequest.SetDataRate, (short) ackRetryDelay, 0, 0, new byte[0]);
-
-				Log.DebugFormat("Successfully set Crazyradio USB dongle AckRetryDelay to {0}.", ackRetryDelay);
-			}
-			catch (Exception ex)
-			{
-				var message = string.Format("Failed setting Crazyradio USB dongle ack retry delay to {0}", ackRetryDelay);
-				Log.Error(message);
-				throw new CrazyradioDriverException(message, ex);
-			}
-		}
-
-		private void SetAckPayloadLength(MessageAckPayloadLength ackPayloadLength)
-		{
-			try
-			{
-				Log.DebugFormat("Setting Crazyradio USB dongle AckPayloadLength to {0}.", ackPayloadLength);
-
-				var value = (byte) ((byte) ackPayloadLength | 0x80); // To set the ACK payload length the bit 7 of ARD must be set (length | 0x80).
-				ControlTransferOut(CrazyradioRequest.SetDataRate, value, 0, 0, new byte[0]);
-
-				Log.DebugFormat("Successfully set Crazyradio USB dongle AckPayloadLength to {0}.", ackPayloadLength);
-			}
-			catch (Exception ex)
-			{
-				var message = string.Format("Failed setting Crazyradio USB dongle ack payload length to {0}", ackPayloadLength);
-				Log.Error(message);
-				throw new CrazyradioDriverException(message, ex);
-			}
-		}
-
-		private ScanChannelsResult ScanChannelsUsingDataRate(RadioDataRate dataRate, RadioChannel channelStart, RadioChannel channelStop)
-		{
-			var results = new List<RadioChannel>();
-
-			DataRate = dataRate;
-
-			if (FirmwareVersion.CompareTo(MinimumCrazyradioFastFirmwareChannelScanFirmware) >= 0)
-			{
-				StartRadioScanningChannels(channelStart, channelStop);
-				results.AddRange(GetRadioChannelScanningResults());
-			}
-			else // slow pc level channel scan
-			{
-				results.AddRange(ManuallyScanForChannels(channelStart, channelStop));
-			}
-
-			return new ScanChannelsResult(dataRate, results);
-		}
-
-		private void StartRadioScanningChannels(RadioChannel channelStart, RadioChannel channelStop)
-		{
-			try
-			{
-				Log.DebugFormat("Starting firmware level Crazyradio USB dongle ChannelScan. StartChannel: {0}, StopChannel: {1}.", channelStart, channelStop);
-
-				ControlTransferOut(CrazyradioRequest.ScanChannels, (short) channelStart, (short) channelStop, 1, new byte[] {0xFF});
-
-				Log.DebugFormat("Successfully started firmware level Crazyradio USB dongle ChannelScan. StartChannel: {0}, StopChannel: {1}.", channelStart, channelStop);
-			}
-			catch (Exception ex)
-			{
-				var message = string.Format("Failed starting firmware level Crazyradio USB dongle channel scan. Start Channel: {0}, Stop Channel: {1}.", channelStart, channelStop);
-				Log.Error(message);
-				throw new CrazyradioDriverException(message, ex);
-			}
-		}
-
-		private IEnumerable<RadioChannel> GetRadioChannelScanningResults()
-		{
-			try
-			{
-				Log.Debug("Getting firmware level Crazyradio USB dongle ChannelScan results.");
-
-				var data = new byte[63];
-				ControlTransferIn(CrazyradioRequest.ScanChannels, 0, 0, (short) data.Length, data);
-
-				Log.Debug("Successfully got firmware level Crazyradio USB dongle ChannelScan results.");
-
-				return data.Where(a => a != 0).Select(b => (RadioChannel) b);
-			}
-			catch (Exception ex)
-			{
-				const string message = "Failed getting firmware level Crazyradio USB dongle channel scan results.";
-				Log.Error(message);
-				throw new CrazyradioDriverException(message, ex);
-			}
-		}
-
-		private IEnumerable<RadioChannel> ManuallyScanForChannels(RadioChannel channelStart, RadioChannel channelStop)
-		{
-			try
-			{
-				Log.DebugFormat("Starting manual Crazyradio USB dongle ChannelScan. StartChannel: {0}, StopChannel: {1}.", channelStart, channelStop);
-
-				var results = new List<RadioChannel>();
-
-				var ackPacket = new byte[] {0xFF};
-				for (var currentChannel = channelStart; currentChannel <= channelStop; currentChannel++)
-				{
-					Channel = currentChannel;
-					var result = SendData(ackPacket);
-				}
-
-				Log.Debug("Manual Crazyradio USB dongle ChannelScan completed.");
-
-				return results;
-			}
-			catch (Exception ex)
-			{
-				var message = string.Format("Failed running manual Crazyradio USB dongle channel scan. Start Channel: {0}, Stop Channel: {1}.", channelStart, channelStop);
-				Log.Error(message);
-				throw new CrazyradioDriverException(message, ex);
-			}
-		}
-
-		private void ControlTransferOut(CrazyradioRequest request, short value, short index, short length, byte[] data)
-		{
-			ControlTransfer(UsbRequestType.TypeVendor, UsbRequestRecipient.RecipDevice, UsbEndpointDirection.EndpointOut, (byte) request, value, index, length, data);
-		}
-
-		private void ControlTransferIn(CrazyradioRequest request, short value, short index, short length, byte[] data)
-		{
-			ControlTransfer(UsbRequestType.TypeVendor, UsbRequestRecipient.RecipDevice, UsbEndpointDirection.EndpointIn, (byte) request, value, index, length, data);
-		}
-
-		private void ControlTransfer(UsbRequestType requestType, UsbRequestRecipient requestRecipient, UsbEndpointDirection requestDirection, byte request, short value, short index, short length, byte[] data)
-		{
-			if (!IsOpen)
-			{
-				const string message = "Crazyradio USB dongle is not open.";
-				Log.Error(message);
-				throw new CrazyradioDriverException(message);
-			}
-
-			var lengthTransferred = -1;
-			var messageFailed = true;
-
-			var requestTypeByte = (byte) requestType;
-			var requestRecipientByte = (byte) requestRecipient;
-			var requestDirectionByte = (byte) requestDirection;
-			var fullRequestTypeByte = (byte) (requestTypeByte | requestRecipientByte | requestDirectionByte);
-			var setupPacket = new UsbSetupPacket(fullRequestTypeByte, request, value, index, length);
-
-			var controlTransferInputsString = string.Format("Control transfer inputs: \n\tFullRequestTypeByte: 0x{0:x2} => (0x{1:x2} (RequestType: {2}) | 0x{3:x2} (RequestRecipient: {4}) | 0x{5:x2} (RequestDirection: {6})), \n\tRequest: 0x{7:x2}, \n\tValue: {8}, \n\tIndex: {9}, \n\tLength: {10}, \n\tData: [{11}].", fullRequestTypeByte, requestTypeByte, requestType, requestRecipientByte, requestRecipient, requestDirectionByte, requestDirection, request, value, index, length, BitConverter.ToString(data));
-			Log.Debug(controlTransferInputsString);
-
-			Log.Debug("Sending Crazyradio USB dongle a control transfer message.");
-			messageFailed = !_crazyradioUsbDevice.ControlTransfer(ref setupPacket, data, data.Length, out lengthTransferred);
-
-			if (messageFailed)
-			{
-				var message = string.Format("Failed sending Crazyradio USB dongle a control message. {0}\nUsbErrorMessage:\n{1}", controlTransferInputsString, UsbDevice.LastErrorString);
-				Log.Error(message);
-				throw new CrazyradioDriverException(message);
-			}
-			else
-			{
-				Log.DebugFormat("Successfully sent Crazyradio USB dongle a control message. \n\tLength transferred: {0}, \n\tData: [{1}].", lengthTransferred, BitConverter.ToString(data));
-			}
-		}
 	}
 }

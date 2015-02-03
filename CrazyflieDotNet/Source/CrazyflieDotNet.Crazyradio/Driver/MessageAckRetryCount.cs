@@ -1,7 +1,7 @@
 namespace CrazyflieDotNet.Crazyradio.Driver
 {
 	/// <summary>
-	///   The number of times to rety waiting for an acknowledgement packet (ACK) from the crazyflie.
+	///     The number of times to rety waiting for an acknowledgement packet (ACK) from the crazyflie.
 	/// </summary>
 	public enum MessageAckRetryCount
 	{

@@ -4,11 +4,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		: IOutputPacketPayload
 	{
 		float Roll { get; }
-
 		float Pitch { get; }
-
 		float Yaw { get; }
-
 		ushort Thurst { get; }
 	}
 }

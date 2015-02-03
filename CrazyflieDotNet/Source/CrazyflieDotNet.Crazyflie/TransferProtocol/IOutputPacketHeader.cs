@@ -4,7 +4,6 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		: IPacketHeader
 	{
 		Port Port { get; }
-
 		Channel Channel { get; }
 	}
 }

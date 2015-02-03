@@ -15,7 +15,6 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		}
 
 		public RadioDataRate DataRate { get; private set; }
-
 		public IEnumerable<RadioChannel> Channels { get; private set; }
 	}
 }

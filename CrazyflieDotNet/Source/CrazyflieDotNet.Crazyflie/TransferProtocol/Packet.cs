@@ -49,39 +49,6 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			Payload = payload;
 		}
 
-		#region IPacket<TPacketHeader,TPacketPayload> Members
-
-		public TPacketHeader Header { get; private set; }
-
-		public TPacketPayload Payload { get; private set; }
-
-		IPacketHeader IPacket.Header
-		{
-			get { return Header; }
-		}
-
-		IPacketPayload IPacket.Payload
-		{
-			get { return Payload; }
-		}
-
-		public byte[] GetBytes()
-		{
-			try
-			{
-				var packetBytes = GetPacketBytes();
-
-				// so we never return null
-				return packetBytes ?? EmptyPacketBytes;
-			}
-			catch (Exception ex)
-			{
-				throw new DataException("Error obtaining packet bytes.", ex);
-			}
-		}
-
-		#endregion
-
 		protected virtual byte[] GetPacketBytes()
 		{
 			var headerByte = Header != null ? Header.GetByte() : null;
@@ -109,5 +76,38 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		protected abstract TPacketHeader ParseHeader(byte[] packetBytes);
 
 		protected abstract TPacketPayload ParsePayload(byte[] packetBytes);
+
+		#region IPacket<TPacketHeader,TPacketPayload> Members
+
+		public TPacketHeader Header { get; }
+
+		public TPacketPayload Payload { get; }
+
+		IPacketHeader IPacket.Header
+		{
+			get { return Header; }
+		}
+
+		IPacketPayload IPacket.Payload
+		{
+			get { return Payload; }
+		}
+
+		public byte[] GetBytes()
+		{
+			try
+			{
+				var packetBytes = GetPacketBytes();
+
+				// so we never return null
+				return packetBytes ?? EmptyPacketBytes;
+			}
+			catch (Exception ex)
+			{
+				throw new DataException("Error obtaining packet bytes.", ex);
+			}
+		}
+
+		#endregion
 	}
 }

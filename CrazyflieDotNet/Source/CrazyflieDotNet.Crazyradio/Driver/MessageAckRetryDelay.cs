@@ -1,7 +1,7 @@
 namespace CrazyflieDotNet.Crazyradio.Driver
 {
 	/// <summary>
-	///   Possible values for the delay after sending a message to wait for an acknowledgement packet (ACK).
+	///     Possible values for the delay after sending a message to wait for an acknowledgement packet (ACK).
 	/// </summary>
 	public enum MessageAckRetryDelay
 	{

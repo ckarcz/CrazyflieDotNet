@@ -9,29 +9,25 @@ using System.Linq;
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
 	/// <summary>
-	///   Commander Payload Format:
-	///   Name   |  Index  |  Type  |  Size (bytes)
-	///   roll        0       float      4
-	///   pitch       4       float      4
-	///   yaw         8       float      4
-	///   thurst      12      ushort     2
-	///   .............................total: 14 bytes
+	///     Commander Payload Format:
+	///     Name   |  Index  |  Type  |  Size (bytes)
+	///     roll        0       float      4
+	///     pitch       4       float      4
+	///     yaw         8       float      4
+	///     thurst      12      ushort     2
+	///     .............................total: 14 bytes
 	/// </summary>
 	public class CommanderPacketPayload
 		: PacketPayload, ICommanderPacketPayload
 	{
-		private static readonly int _floatSize = sizeof (float);
-		private static readonly int _shortSize = sizeof (ushort);
-		private static readonly int _commanderPayloadSize = _floatSize * 3 + _shortSize;
-
 		/// <summary>
-		///   Commander Payload Format:
-		///   Name   |  Index  |  Type  |  Size (bytes)
-		///   roll        0       float      4
-		///   pitch       4       float      4
-		///   yaw         8       float      4
-		///   thurst      12      ushort     2
-		///   .............................total: 14 bytes
+		///     Commander Payload Format:
+		///     Name   |  Index  |  Type  |  Size (bytes)
+		///     roll        0       float      4
+		///     pitch       4       float      4
+		///     yaw         8       float      4
+		///     thurst      12      ushort     2
+		///     .............................total: 14 bytes
 		/// </summary>
 		/// <param name="payloadBytes"> </param>
 		public CommanderPacketPayload(byte[] payloadBytes)
@@ -59,18 +55,6 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			Yaw = yaw;
 			Thurst = thrust;
 		}
-
-		#region ICommanderPacketPayload Members
-
-		public float Roll { get; private set; }
-
-		public float Pitch { get; private set; }
-
-		public float Yaw { get; private set; }
-
-		public ushort Thurst { get; private set; }
-
-		#endregion
 
 		protected override byte[] GetPacketPayloadBytes()
 		{
@@ -171,5 +155,21 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 				throw new DataException("Error getting commander packet header thrust value from header byte", ex);
 			}
 		}
+
+		private static readonly int _floatSize = sizeof (float);
+		private static readonly int _shortSize = sizeof (ushort);
+		private static readonly int _commanderPayloadSize = _floatSize * 3 + _shortSize;
+
+		#region ICommanderPacketPayload Members
+
+		public float Roll { get; }
+
+		public float Pitch { get; }
+
+		public float Yaw { get; }
+
+		public ushort Thurst { get; }
+
+		#endregion
 	}
 }

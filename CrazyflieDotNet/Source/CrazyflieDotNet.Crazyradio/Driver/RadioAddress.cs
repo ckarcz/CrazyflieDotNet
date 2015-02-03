@@ -9,7 +9,7 @@ using log4net;
 namespace CrazyflieDotNet.Crazyradio.Driver
 {
 	/// <summary>
-	///   The radio address of the Crazyradio.
+	///     The radio address of the Crazyradio.
 	/// </summary>
 	public sealed class RadioAddress
 		: IEquatable<RadioAddress>
@@ -17,7 +17,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		private static readonly ILog Log = LogManager.GetLogger(typeof (RadioAddress));
 
 		/// <summary>
-		///   Initializes a CrazyradioAddress instance.
+		///     Initializes a CrazyradioAddress instance.
 		/// </summary>
 		/// <param name="addressBytes"> The address bytes as single byte parameters. Address must be exactly 5 bytes long. </param>
 		public RadioAddress(params byte[] addressBytes)
@@ -39,14 +39,14 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		}
 
 		/// <summary>
-		///   The address bytes.
+		///     The address bytes.
 		/// </summary>
-		public byte[] Bytes { get; private set; }
+		public byte[] Bytes { get; }
 
 		#region IEquatable<RadioAddress> Members
 
 		/// <summary>
-		///   Checks for Crazyradio address equality.
+		///     Checks for Crazyradio address equality.
 		/// </summary>
 		/// <param name="other"> Other CrazyradioAddress comparing equality to. </param>
 		/// <returns> True if this address is equal to the other CrazyradioAddress. </returns>
@@ -63,7 +63,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		#endregion
 
 		/// <summary>
-		///   Checks for Crazyradio address equality.
+		///     Checks for Crazyradio address equality.
 		/// </summary>
 		/// <param name="obj"> Object comparing equality to. </param>
 		/// <returns> True if this address is equal to the other object. </returns>
@@ -73,7 +73,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		}
 
 		/// <summary>
-		///   Hashcode for this CrazyradioAddress.
+		///     Hashcode for this CrazyradioAddress.
 		/// </summary>
 		/// <returns> </returns>
 		public override int GetHashCode()
@@ -82,7 +82,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		}
 
 		/// <summary>
-		///   String representation of this CrazyradioAddress.
+		///     String representation of this CrazyradioAddress.
 		/// </summary>
 		/// <returns> The 5 byte Crazyradio address in hexadecimal form. </returns>
 		public override string ToString()

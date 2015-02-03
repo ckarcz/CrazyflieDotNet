@@ -1,7 +1,7 @@
 namespace CrazyflieDotNet.Crazyradio.Driver
 {
 	/// <summary>
-	///   The Crazyradio power level.
+	///     The Crazyradio power level.
 	/// </summary>
 	public enum RadioPowerLevel
 	{
