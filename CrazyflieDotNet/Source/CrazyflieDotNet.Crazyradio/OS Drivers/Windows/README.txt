@@ -1,4 +1,4 @@
-﻿NEW WAY:
+NEW WAY:
 Get this Zadig USB Tool:
 http://zadig.akeo.ie/
 
