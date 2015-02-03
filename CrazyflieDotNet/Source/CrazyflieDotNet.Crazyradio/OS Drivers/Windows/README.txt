@@ -4,7 +4,7 @@ http://zadig.akeo.ie/
 
 Install the driver for the crazy radio usb dongle for libusb-win32.
 
-NOTE the vendor and device IDs! This library assumes vendorID=0x1915, deviceID=0x7777!
+NOTE the vendor and device IDs! This library assumes vendorID=0x1915, productID=0x7777!
 You use these IDs to find the LIBUSB device(s) to provide the .NET crazyradio abstraction API:
 var crazyRadiosRegDeviceList = UsbDevice.AllDevices.FindAll(new UsbDeviceFinder(CrazyradioDeviceId.VendorId, CrazyradioDeviceId.ProductId));
 
@@ -26,7 +26,7 @@ Plug in your crazyradio dongle and open the wizard.
 
 Navigate the inf wizard application, selecting the crazyradio dongle and generating a generic libusb driver for windows for the device.
 
-NOTE the vendor and device IDs! This library assumes vendorID=0x1915, deviceID=0x7777!
+NOTE the vendor and device IDs! This library assumes vendorID=0x1915, productID=0x7777!
 You use these IDs to find the LIBUSB device(s) to provide the .NET crazyradio abstraction API:
 var crazyRadiosRegDeviceList = UsbDevice.AllDevices.FindAll(new UsbDeviceFinder(CrazyradioDeviceId.VendorId, CrazyradioDeviceId.ProductId));
 

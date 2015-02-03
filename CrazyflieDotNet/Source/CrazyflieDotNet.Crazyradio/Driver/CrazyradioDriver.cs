@@ -521,29 +521,34 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 
 		public static IEnumerable<ICrazyradioDriver> GetCrazyradios()
 		{
-			Log.Debug("Looking for Crazyradio USB dongles...");
-
-			var crazyRadioDrivers = new List<ICrazyradioDriver>();
-
-			var crazyRadiosRegDeviceList = UsbDevice.AllDevices.FindAll(new UsbDeviceFinder(CrazyradioDeviceId.VendorId, CrazyradioDeviceId.ProductId));
-			if (crazyRadiosRegDeviceList.Any())
-			{
-				Log.DebugFormat("Found {0} Crazyradio USB dongle(s).", crazyRadiosRegDeviceList.Count);
-
-				foreach (UsbRegistry crazyRadioUsbDevice in crazyRadiosRegDeviceList)
-				{
-					crazyRadioDrivers.Add(new CrazyradioDriver(crazyRadioUsbDevice.Device));
-				}
-			}
-			else
-			{
-				Log.Warn("Found no Crazyradio USB dongles.");
-			}
-
-			return crazyRadioDrivers;
+			return GetCrazyradios(CrazyradioDeviceId.VendorId, CrazyradioDeviceId.ProductId);
 		}
 
-		public override bool Equals(object obj)
+        public static IEnumerable<ICrazyradioDriver> GetCrazyradios(int vendorId, int productId)
+        {
+            Log.Debug("Looking for Crazyradio USB dongles...");
+
+            var crazyRadioDrivers = new List<ICrazyradioDriver>();
+
+            var crazyRadiosRegDeviceList = UsbDevice.AllDevices.FindAll(new UsbDeviceFinder(vendorId, productId));
+            if (crazyRadiosRegDeviceList.Any())
+            {
+                Log.DebugFormat("Found {0} Crazyradio USB dongle(s).", crazyRadiosRegDeviceList.Count);
+
+                foreach (UsbRegistry crazyRadioUsbDevice in crazyRadiosRegDeviceList)
+                {
+                    crazyRadioDrivers.Add(new CrazyradioDriver(crazyRadioUsbDevice.Device));
+                }
+            }
+            else
+            {
+                Log.Warn("Found no Crazyradio USB dongles.");
+            }
+
+            return crazyRadioDrivers;
+        }
+
+        public override bool Equals(object obj)
 		{
 			return Equals(obj as ICrazyradioDriver);
 		}
