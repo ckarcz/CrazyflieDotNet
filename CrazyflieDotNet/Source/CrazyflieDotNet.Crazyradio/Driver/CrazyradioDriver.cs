@@ -113,17 +113,33 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			var crazyRadiosRegDeviceList = UsbDevice.AllDevices.FindAll(new UsbDeviceFinder(vendorId, productId));
 			if (crazyRadiosRegDeviceList.Any())
 			{
-				Log.DebugFormat("Found {0} Crazyradio USB dongle(s).", crazyRadiosRegDeviceList.Count);
+				Log.DebugFormat("Found {0} registered Crazyradio USB dongle(s).", crazyRadiosRegDeviceList.Count);
 
 				foreach (UsbRegistry crazyRadioUsbDevice in crazyRadiosRegDeviceList)
 				{
-					crazyRadioDrivers.Add(new CrazyradioDriver(crazyRadioUsbDevice.Device));
+					if (crazyRadioUsbDevice.Device != null)
+					{
+						if (crazyRadioUsbDevice.DeviceProperties.ContainsKey("Class"))
+						{
+							var driverClass = crazyRadioUsbDevice.DeviceProperties["Class"] as string;
+							if (driverClass != null && driverClass.Contains("libusb-win32"))
+							{
+								crazyRadioDrivers.Add(new CrazyradioDriver(crazyRadioUsbDevice.Device));
+							}
+						}
+					}
+					else
+					{
+						Log.WarnFormat("Found a registered Crazyradio USB dongle(s) with NULL Device property. (It's OK - Probably NOT a libusb-win32 driver registered device entry.)");
+					}
 				}
 			}
 			else
 			{
-				Log.Warn("Found no Crazyradio USB dongles.");
+				Log.Warn("Found no registered Crazyradio USB dongles.");
 			}
+
+			Log.DebugFormat("Found {0} proper libusb-win32 registered Crazyradio USB dongle(s).", crazyRadioDrivers.Count);
 
 			return crazyRadioDrivers;
 		}
