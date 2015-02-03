@@ -38,6 +38,8 @@ Setting Up Your Development Environment:
 8. In Team Explorer Window: Local Git Repositories > Add. Browse to your GitHub repos folder (ex: C:\Dev\GitHub\).
 9. Team Explorer should load all found git repos within that folder.
 10. Double click this repo. Now you should see the solution(s) listed, which you can double click to open.
+11. Go to Tools > Options > Text Editor > C# > Tabs > USE TABS!
+12. If you use ReSharper, please load the shared dot settings file and use that for the solution! Use the provided clean to clean your files! Keep the code style the same! Once in a while the MASTER branch will be cleaned to ensure consistensy in style. Finally, please comment your code as done in already submitted files!
 
 Generating the libusb-win32 usb device driver for the Crazyradio USB dongle:
 ==============================
