@@ -45,7 +45,7 @@ Generating the libusb-win32 usb device driver for the Crazyradio USB dongle:
 2. Run the Zadig executable.
 2. In the drop down, select the "Crazyradio USB Dongle".
 3. Select "libusb-win32 (vx.x.x.x)" as the driver to use for the device.
-4. Note the USB IDs. The default, assumed by this library, are: 1915 (vendor ID) and 7777 (device ID).
+4. Note the USB IDs. The default, assumed by this library, are: 1915 (vendor ID) and 7777 (product ID).
 5. Click Install Driver.
 6. Open Device Management (devmgmt.msc in run box).
 7. Navigate to "libusb-win32 devices" to ensure that "Crazyradio USB Dongle" is listed.
