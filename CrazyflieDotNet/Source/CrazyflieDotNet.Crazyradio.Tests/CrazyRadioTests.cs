@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using CrazyflieDotNet.Crazyflie.TransferProtocol;
 using CrazyflieDotNet.Crazyradio.Driver;
@@ -13,7 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CrazyflieDotNet.Crazyradio.Tests
 {
 	/// <summary>
-	/// Test class with main purpose to show how to use the driver abstraction for the crazyradio.
+	///     Test class with main purpose to show how to use the driver abstraction for the crazyradio.
 	/// </summary>
 	[TestClass]
 	public class CrazyRadioTests
@@ -22,7 +21,7 @@ namespace CrazyflieDotNet.Crazyradio.Tests
 		private IEnumerable<ICrazyradioDriver> crazyradioDrivers = null;
 
 		/// <summary>
-		/// This method initializes the GetCrazyRadio scan collection for uses in later tests.
+		///     This method initializes the GetCrazyRadio scan collection for uses in later tests.
 		/// </summary>
 		[TestInitialize]
 		public void Initailize()
@@ -46,8 +45,8 @@ namespace CrazyflieDotNet.Crazyradio.Tests
 		}
 
 		/// <summary>
-		/// This test method tests selecting a crazyflie quadcopter to communication to by using the first communication tuple (dataRate + radioChannel),
-		/// opens the CrazyradioDriver for communication, and attempts to ping the copter 10 times.
+		///     This test method tests selecting a crazyflie quadcopter to communication to by using the first communication tuple
+		///     (dataRate + radioChannel), opens the CrazyradioDriver for communication, and attempts to ping the copter 10 times.
 		/// </summary>
 		[TestMethod]
 		public void TestPingCopter()
@@ -80,19 +79,21 @@ namespace CrazyflieDotNet.Crazyradio.Tests
 
 						// Create a ping packet to set to the Crazyflie we're going to ping 10 times.
 						// We can reuse this same ping packet object. No point in creating a new one for each ping.
-						var pingPacket = new PingPacket();					
+						var pingPacket = new PingPacket();
+
+						// Get ping packet bytes just to print out.
+						var pingPacketBytes = pingPacket.GetBytes();
 
 						int i = 0;
 						while (i < 10)
 						{
-							// Get ping packet bytes just to pring out.
-							var pingPacketBytes = pingPacket.GetBytes();
+							// Print out the ping packet bytes.
 							Console.WriteLine("Ping Packet Bytes: {0}", BitConverter.ToString(pingPacketBytes));
 
-							// Send the ping packate bytes via the CrazyradioDriver and get ACK (acknowledgement) response bytes.
+							// Send the ping packet bytes via the CrazyradioDriver and get ACK (acknowledgement) response bytes.
 							var ackResponse = crazyradioDriver.SendData(pingPacketBytes);
 
-							// Pring the ACK response bytes.
+							// Print out the ACK response bytes.
 							Console.WriteLine("ACK Response Bytes (using driver): {0}", BitConverter.ToString(ackResponse));
 
 							// one more time!
