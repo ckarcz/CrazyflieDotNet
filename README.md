@@ -61,4 +61,5 @@ Due to the fact this is using libusb and the availability of mono (and soon x-pl
 
 Continuous Build:
 ==============================
+(currently broken)
 https://travis-ci.org/ckarcz/CrazyflieDotNet
