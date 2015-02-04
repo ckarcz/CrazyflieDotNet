@@ -87,13 +87,13 @@ namespace CrazyflieDotNet.Crazyradio.Tests
 						{
 							// Get ping packet bytes just to pring out.
 							var pingPacketBytes = pingPacket.GetBytes();
-							Debug.Print("Ping Packet Bytes: {0}", BitConverter.ToString(pingPacketBytes));
+							Console.WriteLine("Ping Packet Bytes: {0}", BitConverter.ToString(pingPacketBytes));
 
 							// Send the ping packate bytes via the CrazyradioDriver and get ACK (acknowledgement) response bytes.
 							var ackResponse = crazyradioDriver.SendData(pingPacketBytes);
 
 							// Pring the ACK response bytes.
-							Debug.Print("ACK Response Bytes (using driver): {0}", BitConverter.ToString(ackResponse));
+							Console.WriteLine("ACK Response Bytes (using driver): {0}", BitConverter.ToString(ackResponse));
 
 							// one more time!
 							i++;
