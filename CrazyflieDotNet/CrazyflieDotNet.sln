@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.22512.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyflieDotNet", "Source\CrazyflieDotNet\CrazyflieDotNet.csproj", "{AB4EF799-1939-49A3-9294-FC2D0A059AE5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyflieDotNet.Crazyradio", "Source\CrazyflieDotNet.Crazyradio\CrazyflieDotNet.Crazyradio.csproj", "{B99BA1D6-E560-46F0-A440-443ABC7763F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyflieDotNet.Crazyflie", "Source\CrazyflieDotNet.Crazyflie\CrazyflieDotNet.Crazyflie.csproj", "{3361E209-67A9-4F9F-8D72-6B2082A0B124}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyflieDotNet.Crazyradio.Tests", "CrazyflieDotNet.Crazyradio.Tests\CrazyflieDotNet.Crazyradio.Tests.csproj", "{178D10BE-27AD-43DE-838D-77F17FDADE63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +29,10 @@ Global
 		{3361E209-67A9-4F9F-8D72-6B2082A0B124}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3361E209-67A9-4F9F-8D72-6B2082A0B124}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3361E209-67A9-4F9F-8D72-6B2082A0B124}.Release|Any CPU.Build.0 = Release|Any CPU
+		{178D10BE-27AD-43DE-838D-77F17FDADE63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{178D10BE-27AD-43DE-838D-77F17FDADE63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{178D10BE-27AD-43DE-838D-77F17FDADE63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{178D10BE-27AD-43DE-838D-77F17FDADE63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -114,8 +114,10 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		ScanChannelsResult ScanChannels(RadioDataRate dataRate, RadioChannel channelStart = RadioChannel.Channel1, RadioChannel channelStop = RadioChannel.Channel125);
 
 		/// <summary>
-		///     TODO
+		/// Sends a packet of data in array of byte form via the Crazyradio USB dongle.
 		/// </summary>
+		/// <param name="packetData">The array of bytes to send by this Crazyradio USB dongle.</param>
+		/// <returns></returns>
 		byte[] SendData(byte[] packetData);
 	}
 }

@@ -63,15 +63,6 @@ namespace CrazyflieDotNet
 						var loop = true;
 						while (loop)
 						{
-							// test 1 (using "driver" lib directly)
-							{
-								Log.InfoFormat("Ping Packet Bytes: {0}", BitConverter.ToString(pingPacketBytes));
-
-								var ackResponse = crazyradioDriver.SendData(pingPacketBytes);
-
-								Log.InfoFormat("ACK Response Bytes (using driver): {0}", BitConverter.ToString(ackResponse));
-							}
-
 							// test 2 (using CTRP lib)
 							{
 								Log.InfoFormat("Ping Packet Bytes: {0}", BitConverter.ToString(pingPacketBytes));
