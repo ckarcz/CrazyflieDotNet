@@ -12,10 +12,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CrazyflieDotNet.Crazyflie")]
 [assembly: AssemblyDescription("Crazyflie Quadcopter Dot.NET Framework.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("messiër")]
+[assembly: AssemblyCompany("Chris Karcz")]
 [assembly: AssemblyProduct("CrazyflieDotNet")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
-[assembly: AssemblyTrademark("messiër")]
+[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyTrademark("Chris Karcz")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
