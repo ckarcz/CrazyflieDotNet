@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyflieDotNet.Crazyradio"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyflieDotNet.Crazyflie", "Source\CrazyflieDotNet.Crazyflie\CrazyflieDotNet.Crazyflie.csproj", "{3361E209-67A9-4F9F-8D72-6B2082A0B124}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyflieDotNet.Crazyradio.Tests", "CrazyflieDotNet.Crazyradio.Tests\CrazyflieDotNet.Crazyradio.Tests.csproj", "{178D10BE-27AD-43DE-838D-77F17FDADE63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyflieDotNet.Crazyradio.Tests", "Source\CrazyflieDotNet.Crazyradio.Tests\CrazyflieDotNet.Crazyradio.Tests.csproj", "{178D10BE-27AD-43DE-838D-77F17FDADE63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

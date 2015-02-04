@@ -15,3 +15,8 @@ Homebrew Install:
 	sudo brew update
 --obtain libusb via homebrew. (in terminal, enter below:):
 	sudo brew install libusb
+
+
+
+
+// Rest....TODO..

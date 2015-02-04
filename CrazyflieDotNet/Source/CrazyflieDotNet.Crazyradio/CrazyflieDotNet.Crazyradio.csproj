@@ -75,9 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="OS Drivers\OS X\README.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Content Include="OS Drivers\OS X\README.txt" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -85,9 +83,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="OS Drivers\Linux\README.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Content Include="OS Drivers\Linux\README.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="OS Drivers\Windows\README.txt" />
