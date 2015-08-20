@@ -5,6 +5,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 	/// </summary>
 	public enum RadioChannel
 	{
+		Channel0 = 0,
 		Channel1 = 1,
 		Channel2 = 2,
 		Channel3 = 3,
