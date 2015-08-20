@@ -702,13 +702,13 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			var results1Mps = ScanChannelsUsingDataRate(RadioDataRate.DataRate1Mps, channelStart, channelStop);
 			if (results1Mps.Channels.Any())
 			{
-				results.Add(results250Kps);
+				results.Add(results1Mps);
 			}
 
 			var results2Mps = ScanChannelsUsingDataRate(RadioDataRate.DataRate2Mps, channelStart, channelStop);
 			if (results2Mps.Channels.Any())
 			{
-				results.Add(results250Kps);
+				results.Add(results2Mps);
 			}
 
 			Log.DebugFormat("Results of scanning channels in range. Found: {0}. StartChannel: {1}, StopChannel: {2}.", results.Count(), channelStart, channelStop);
