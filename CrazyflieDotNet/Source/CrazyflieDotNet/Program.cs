@@ -44,7 +44,7 @@ namespace CrazyflieDotNet
 				{
 					crazyradioDriver.Open();
 
-					var scanResults = crazyradioDriver.ScanChannels();
+					var scanResults = crazyradioDriver.ScanChannels(RadioChannel.Channel0, RadioChannel.Channel125);
 					if (scanResults.Any())
 					{
 						var firstScanResult = scanResults.First();
