@@ -722,7 +722,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 
 		public ScanChannelsResult ScanChannels(RadioDataRate dataRate, RadioChannel channelStart = RadioChannel.Channel1, RadioChannel channelStop = RadioChannel.Channel125)
 		{
-			if (channelStart < channelStop)
+			if (channelStart > channelStop)
 			{
 				const string message = "Stop channel must be a higher channel number than start channel.";
 				Log.Error(message);
