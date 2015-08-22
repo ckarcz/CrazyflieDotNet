@@ -702,13 +702,13 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			var results1Mps = ScanChannelsUsingDataRate(RadioDataRate.DataRate1Mps, channelStart, channelStop);
 			if (results1Mps.Channels.Any())
 			{
-				results.Add(results250Kps);
+				results.Add(results1Mps);
 			}
 
 			var results2Mps = ScanChannelsUsingDataRate(RadioDataRate.DataRate2Mps, channelStart, channelStop);
 			if (results2Mps.Channels.Any())
 			{
-				results.Add(results250Kps);
+				results.Add(results2Mps);
 			}
 
 			Log.DebugFormat("Results of scanning channels in range. Found: {0}. StartChannel: {1}, StopChannel: {2}.", results.Count(), channelStart, channelStop);
@@ -722,7 +722,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 
 		public ScanChannelsResult ScanChannels(RadioDataRate dataRate, RadioChannel channelStart = RadioChannel.Channel1, RadioChannel channelStop = RadioChannel.Channel125)
 		{
-			if (channelStart < channelStop)
+			if (channelStart > channelStop)
 			{
 				const string message = "Stop channel must be a higher channel number than start channel.";
 				Log.Error(message);
