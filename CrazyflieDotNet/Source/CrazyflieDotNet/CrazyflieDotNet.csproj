@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="app2.config">
+    <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
