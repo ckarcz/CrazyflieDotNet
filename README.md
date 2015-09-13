@@ -35,7 +35,8 @@ The C# CrazyradioDriver is completed and working. This library (CrazyflieDotNet.
 
 Dev Environment:
 ==============================
-1. Windows OS (you can try to set up on MacOS/Unix/Linux, but no steps provided and not tested).
+WINDOWS:
+1. Windows OS.
 2. Visual Studio (with NuGet installed).
 3. GitHub Windows client: https://windows.github.com/
 4. Git for Windows libraries and tools: http://msysgit.github.io/
@@ -48,6 +49,12 @@ Dev Environment:
 10. Double click this repo. Now you should see the solution(s) listed, which you can double click to open.
 11. Go to Tools > Options > Text Editor > C# > Tabs > USE TABS!
 12. If you use ReSharper, please load the shared dot settings file and use that for the solution! Use the provided clean to clean your files! Keep the code style the same! Once in a while the MASTER branch will be cleaned to ensure consistensy in style. Finally, please comment your code as done in already submitted files!
+
+MAC:
+1. Mac OS 10.
+2. Mono Framework: http://www.mono-project.com/download/
+3. MonoDevelop (Xamarin Studio): http://www.monodevelop.com/download/
+4. Install homebrew and using homebrew, install libusb (see below OS drivers section for MacOS).
 
 OS Driver (Windows):
 ==============================
@@ -62,7 +69,9 @@ OS Driver (Windows):
 
 OS Driver (MacOS/Unix/Linux):
 ==============================
-Due to the fact this is using libusb and the availability of mono (and soon x-plat dotnet core), you *should* be able to develop, build, and uses these libraries on other platforms. This is currently not tested as working. Read up and give it a shot.
+1. Install homebrew: http://brew.sh/
+2. Update homebrew, just in case. In terminal: brew update
+3. Build latest libusb, download, and install. In terminal: brew install libusb --universal --HEAD
 
 Continuous Build:
 ==============================
