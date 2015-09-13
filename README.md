@@ -33,7 +33,7 @@ Milestones:
 
 The C# CrazyradioDriver is completed and working. This library (CrazyflieDotNet.Crazyradio.dll) provides a type safe API for communication with the Crazyradio USB dongle with Crazyflies. The library and "driver" expose all available configurations for the USB dongle, including defaults. The API is quite nice and easy to understand and use, even for a beginner.
 
-Dev Environment:
+Windows Dev Environment:
 ==============================
 1. Windows OS.
 2. Visual Studio (with NuGet installed).
@@ -49,6 +49,8 @@ Dev Environment:
 11. Go to Tools > Options > Text Editor > C# > Tabs > USE TABS!
 12. If you use ReSharper, please load the shared dot settings file and use that for the solution! Use the provided clean to clean your files! Keep the code style the same! Once in a while the MASTER branch will be cleaned to ensure consistensy in style. Finally, please comment your code as done in already submitted files!
 
+MacOS Dev Environment:
+==============================
 1. Mac OS 10.
 2. Mono Framework: http://www.mono-project.com/download/
 3. MonoDevelop (Xamarin Studio): http://www.monodevelop.com/download/
