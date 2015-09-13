@@ -35,7 +35,6 @@ The C# CrazyradioDriver is completed and working. This library (CrazyflieDotNet.
 
 Dev Environment:
 ==============================
-WINDOWS:
 1. Windows OS.
 2. Visual Studio (with NuGet installed).
 3. GitHub Windows client: https://windows.github.com/
@@ -50,7 +49,6 @@ WINDOWS:
 11. Go to Tools > Options > Text Editor > C# > Tabs > USE TABS!
 12. If you use ReSharper, please load the shared dot settings file and use that for the solution! Use the provided clean to clean your files! Keep the code style the same! Once in a while the MASTER branch will be cleaned to ensure consistensy in style. Finally, please comment your code as done in already submitted files!
 
-MAC:
 1. Mac OS 10.
 2. Mono Framework: http://www.mono-project.com/download/
 3. MonoDevelop (Xamarin Studio): http://www.monodevelop.com/download/
