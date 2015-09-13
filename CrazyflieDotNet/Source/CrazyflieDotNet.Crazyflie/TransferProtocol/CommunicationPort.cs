@@ -1,6 +1,6 @@
 ﻿namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
-	public enum Port
+	public enum CommunicationPort
 	{
 		Console = 0x00,
 

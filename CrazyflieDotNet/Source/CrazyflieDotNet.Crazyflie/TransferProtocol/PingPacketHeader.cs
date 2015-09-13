@@ -8,12 +8,12 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 		}
 
-		public PingPacketHeader(Channel channel = DefaultChannel)
-			: this(Port.All, channel)
+		public PingPacketHeader(CommunicationChannel channel = DefaultChannel)
+			: this(CommunicationPort.All, channel)
 		{
 		}
 
-		public PingPacketHeader(Port port, Channel channel = DefaultChannel)
+		public PingPacketHeader(CommunicationPort port, CommunicationChannel channel = DefaultChannel)
 			: base(port, channel)
 		{
 		}

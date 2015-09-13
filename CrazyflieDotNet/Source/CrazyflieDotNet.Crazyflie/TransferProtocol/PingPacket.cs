@@ -13,7 +13,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 		}
 
-		public PingPacket(Channel channel = Channel.Channel0)
+		public PingPacket(CommunicationChannel channel = CommunicationChannel.Channel0)
 			: this(new PingPacketHeader(channel))
 		{
 		}

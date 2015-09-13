@@ -119,16 +119,9 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 				{
 					if (crazyRadioUsbDevice.Device != null)
 					{
-						if (crazyRadioUsbDevice.DeviceProperties.ContainsKey("Class"))
-						{
-							var driverClass = crazyRadioUsbDevice.DeviceProperties["Class"] as string;
-							if (driverClass != null && driverClass.Contains("libusb-win32"))
-							{
-								Log.DebugFormat("Found a registered Crazyradio USB dongle with a libusb-win32 driver registered device entry.)");
+						Log.DebugFormat("Found a registered Crazyradio USB dongle device. Added to collection.");
 
-								crazyRadioDrivers.Add(new CrazyradioDriver(crazyRadioUsbDevice.Device));
-							}
-						}
+						crazyRadioDrivers.Add(new CrazyradioDriver(crazyRadioUsbDevice.Device));
 					}
 					else
 					{
@@ -409,6 +402,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 				{
 					Channel = currentChannel;
 					var result = SendData(ackPacket);
+					// TODO - check result and if good ACK received, add Channel to results.
 				}
 
 				Log.Debug("Manual Crazyradio USB dongle ChannelScan completed.");

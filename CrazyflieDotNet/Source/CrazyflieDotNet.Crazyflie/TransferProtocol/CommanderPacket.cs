@@ -13,7 +13,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 		}
 
-		public CommanderPacket(float roll, float pitch, float yaw, ushort thrust, Channel channel = OutputPacketHeader.DefaultChannel)
+		public CommanderPacket(float roll, float pitch, float yaw, ushort thrust, CommunicationChannel channel = OutputPacketHeader.DefaultChannel)
 			: this(new CommanderPacketHeader(channel), new CommanderPacketPayload(roll, pitch, yaw, thrust))
 		{
 		}

@@ -1,6 +1,6 @@
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
-	public enum Channel
+	public enum CommunicationChannel
 	{
 		Channel0 = 0x00,
 

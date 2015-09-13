@@ -31,10 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,6 +38,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="log4net">
+      <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TransferProtocol\CommanderPacketHeader.cs" />
@@ -49,7 +48,6 @@
     <Compile Include="TransferProtocol\CrazyflieMessenger.cs" />
     <Compile Include="TransferProtocol\AckPacket.cs" />
     <Compile Include="TransferProtocol\AckPacketHeader.cs" />
-    <Compile Include="TransferProtocol\Channel.cs" />
     <Compile Include="TransferProtocol\CommanderPacket.cs" />
     <Compile Include="TransferProtocol\IAckPacket.cs" />
     <Compile Include="TransferProtocol\ICommanderPacket.cs" />
@@ -64,7 +62,6 @@
     <Compile Include="TransferProtocol\PacketPayload.cs" />
     <Compile Include="TransferProtocol\PingPacket.cs" />
     <Compile Include="TransferProtocol\PingPacketHeader.cs" />
-    <Compile Include="TransferProtocol\Port.cs" />
     <Compile Include="TransferProtocol\ICrazyflieMessenger.cs" />
     <Compile Include="TransferProtocol\IAckPacketHeader.cs" />
     <Compile Include="TransferProtocol\IOutputPacket.cs" />
@@ -74,10 +71,12 @@
     <Compile Include="TransferProtocol\IPacketHeader.cs" />
     <Compile Include="TransferProtocol\IPacketPayload.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransferProtocol\CommunicationPort.cs" />
+    <Compile Include="TransferProtocol\CommunicationChannel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrazyflieDotNet.Crazyradio\CrazyflieDotNet.Crazyradio.csproj">
-      <Project>{b99ba1d6-e560-46f0-a440-443abc7763f3}</Project>
+      <Project>{B99BA1D6-E560-46F0-A440-443ABC7763F3}</Project>
       <Name>CrazyflieDotNet.Crazyradio</Name>
     </ProjectReference>
   </ItemGroup>

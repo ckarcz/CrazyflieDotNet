@@ -8,8 +8,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 		}
 
-		public CommanderPacketHeader(Channel channel = DefaultChannel)
-			: base(Port.Commander, channel)
+		public CommanderPacketHeader(CommunicationChannel channel = DefaultChannel)
+			: base(CommunicationPort.Commander, channel)
 		{
 		}
 	}

@@ -17,7 +17,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 	public abstract class OutputPacketHeader
 		: PacketHeader, IOutputPacketHeader
 	{
-		public const Channel DefaultChannel = Channel.Channel0;
+		public const CommunicationChannel DefaultChannel = CommunicationChannel.Channel0;
 
 		/// <summary>
 		///     Header Format (1 byte):
@@ -33,7 +33,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			Channel = GetChannel(headerByte);
 		}
 
-		protected OutputPacketHeader(Port port, Channel channel = DefaultChannel)
+		protected OutputPacketHeader(CommunicationPort port, CommunicationChannel channel = DefaultChannel)
 		{
 			Port = port;
 			Channel = channel;
@@ -60,13 +60,13 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		protected virtual Port GetPort(byte headerByte)
+		protected virtual CommunicationPort GetPort(byte headerByte)
 		{
 			try
 			{
 				var headerByteRightShiftedFour = (byte) (headerByte >> 4);
 				var portByte = (byte) (headerByteRightShiftedFour & 0x0F);
-				var port = (Port) Enum.ToObject(typeof (Port), portByte);
+				var port = (CommunicationPort) Enum.ToObject(typeof (CommunicationPort), portByte);
 				return port;
 			}
 			catch (Exception ex)
@@ -75,12 +75,12 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		protected virtual Channel GetChannel(byte headerByte)
+		protected virtual CommunicationChannel GetChannel(byte headerByte)
 		{
 			try
 			{
 				var channelByte = (byte) (headerByte & 0x03);
-				var channel = (Channel) Enum.ToObject(typeof (Channel), channelByte);
+				var channel = (CommunicationChannel) Enum.ToObject(typeof (CommunicationChannel), channelByte);
 				return channel;
 			}
 			catch (Exception ex)
@@ -91,9 +91,9 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 		#region IOutputPacketHeader Members
 
-		public Port Port { get; }
+		public CommunicationPort Port { get; }
 
-		public Channel Channel { get; }
+		public CommunicationChannel Channel { get; }
 
 		#endregion
 	}

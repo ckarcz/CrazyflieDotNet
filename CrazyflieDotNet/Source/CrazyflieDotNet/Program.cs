@@ -63,7 +63,7 @@ namespace CrazyflieDotNet
 						var loop = true;
 						while (loop)
 						{
-							// test 2 (using CTRP lib)
+							// test 2 (using CRTP lib)
 							{
 								Log.InfoFormat("Ping Packet Bytes: {0}", BitConverter.ToString(pingPacketBytes));
 
