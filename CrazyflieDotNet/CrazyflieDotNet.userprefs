@@ -1,1 +1,18 @@
-﻿<Properties StartupItem="Source/CrazyflieDotNet/CrazyflieDotNet.csproj" />
+﻿<Properties StartupItem="Source/CrazyflieDotNet/CrazyflieDotNet.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Source/CrazyflieDotNet/App.config">
+    <Files>
+      <File FileName="Source/CrazyflieDotNet/Program.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/RadioChannel.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyflie/TransferProtocol/CommunicationChannel.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet/App.config" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/chris/Documents/Dev/C#/CrazyflieDotNet/CrazyflieDotNet/Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDriver.cs" line="113" column="1" />
+      <Breakpoint file="/Users/chris/Documents/Dev/C#/CrazyflieDotNet/CrazyflieDotNet/Source/CrazyflieDotNet/Program.cs" line="32" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
