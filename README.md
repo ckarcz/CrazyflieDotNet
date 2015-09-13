@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ckarcz/CrazyflieDotNet.svg)](https://travis-ci.org/ckarcz/CrazyflieDotNet)
+
 CrazyflieDotNet
 ==============================
 Dot.NET libraries written in C# for Crazyflie Quadcopters and Crazyradios.
