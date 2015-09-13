@@ -52,9 +52,10 @@ Windows Dev Environment:
 MacOS Dev Environment:
 ==============================
 1. Mac OS 10.
-2. Mono Framework: http://www.mono-project.com/download/
-3. MonoDevelop (Xamarin Studio): http://www.monodevelop.com/download/
-4. Install homebrew and using homebrew, install libusb (see below OS drivers section for MacOS).
+2. Github Desktop for Mac: https://desktop.github.com/
+3. Mono Framework: http://www.mono-project.com/download/
+4. MonoDevelop (Xamarin Studio): http://www.monodevelop.com/download/
+5. Install homebrew and using homebrew, install libusb (see below OS drivers section for MacOS).
 
 OS Driver (Windows):
 ==============================
