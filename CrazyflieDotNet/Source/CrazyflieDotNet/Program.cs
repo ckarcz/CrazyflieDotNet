@@ -55,40 +55,92 @@ namespace CrazyflieDotNet
 
 						crazyradioDriver.DataRate = dataRateWithCrazyflie;
 						crazyradioDriver.Channel = channelWithCrazyflie;
-
-						var pingPacket = new PingPacket();
-						var pingPacketBytes = pingPacket.GetBytes();
-
-                        // thrust of 20,000 spins blades but does not take off. small test.
-                        var commanderPacket = new CommanderPacket(0, 0, 0, 20000);
-
+                        
                         IPacket ackPacket = null;
-                        byte[] ackPacketBytes = null;						
+                        byte[] ackPacketBytes = null;
+
+                        Log.InfoFormat("Ping Packet Request: {0}", PingPacket.Instance);
+                        ackPacket = crazyRadioMessenger.SendMessage(PingPacket.Instance);
+                        Log.InfoFormat("ACK Response: {0}", ackPacket);
+
+
+                        ushort thrustIncrements = 1000;
+                        float pitchIncrements = 1;
+                        float yawIncrements = 1;
+                        float rollIncrements = 1;
+                        ushort thrust = 10000;
+                        float pitch = 0;
+                        float yaw = 0;
+                        float roll = 0;
 
                         var loop = true;
 						while (loop)
 						{
-							// test 2 (using CRTP lib)
-							{
-                                // you only need to ping to GET data...if needed...but for now...
+                            Log.InfoFormat("Thrust: {0}, Pitch: {1}, Roll: {2}, Yaw: {3}.", thrust, pitch, roll, yaw);
 
-								Log.InfoFormat("Ping Packet Request: {0}", pingPacket);
+                            if (Console.KeyAvailable)
+                            {
+                                switch (Console.ReadKey().Key)
+                                {
+                                    // end
+                                    case ConsoleKey.Escape:
+                                        loop = false;
+                                        break;
+                                    // pause
+                                    case ConsoleKey.Spacebar:
+                                        Log.InfoFormat("Paused...");
 
-								ackPacket = crazyRadioMessenger.SendMessage(PingPacket.Instance);
+                                        var commanderPacket = new CommanderPacket(0, 0, 0, thrust=10000);
+                                        Log.InfoFormat("Commander Packet Request: {0}", commanderPacket);
+                                        ackPacket = crazyRadioMessenger.SendMessage(commanderPacket);
+                                        Log.InfoFormat("ACK Response: {0}", ackPacket);
 
-                                Log.InfoFormat("ACK Response: {0}", ackPacket);
-
-                                Log.InfoFormat("Commander Packet Request: {0}", commanderPacket);
-
-                                ackPacket = crazyRadioMessenger.SendMessage(commanderPacket);
-
-                                Log.InfoFormat("ACK Response: {0}", ackPacket);
+                                        var pauseLoop = true;
+                                        while (pauseLoop)
+                                        {
+                                            // resume
+                                            if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Spacebar)
+                                            {
+                                                pauseLoop = false;
+                                            }
+                                        }
+                                        break;
+                                    // thrust up
+                                    case ConsoleKey.UpArrow:
+                                        thrust += thrustIncrements;
+                                        break;
+                                    // thrust down
+                                    case ConsoleKey.DownArrow:
+                                        thrust -= thrustIncrements;
+                                        break;
+                                    // pitch forward
+                                    case ConsoleKey.W:
+                                        pitch += pitchIncrements;
+                                        break;
+                                    // pitch backward
+                                    case ConsoleKey.S:
+                                        pitch -= pitchIncrements;
+                                        break;
+                                    // roll left
+                                    case ConsoleKey.A:
+                                        roll += rollIncrements;
+                                        break;
+                                    // roll right
+                                    case ConsoleKey.D:
+                                        roll += rollIncrements;
+                                        break;
+                                    default:
+                                        Log.InfoFormat("Invalid key for action.");
+                                        break;
+                                }
                             }
 
-							if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Spacebar)
-							{
-								loop = false;
-							}
+                            {
+                                var commanderPacket = new CommanderPacket(roll, pitch, yaw, thrust);
+                                Log.InfoFormat("Commander Packet Request: {0}", commanderPacket);
+                                ackPacket = crazyRadioMessenger.SendMessage(commanderPacket);
+                                Log.InfoFormat("ACK Response: {0}", ackPacket);
+                            }
 						}
 					}
 					else
@@ -111,12 +163,12 @@ namespace CrazyflieDotNet
 				Log.Warn("No Crazyradio USB dongles found!");
 			}
 
-			Log.Info("Sleepy time...Hit space to exit.");
+			Log.Info("Sleepy time...Hit ESC to exit.");
 
 			var sleep = true;
 			while (sleep)
 			{
-				if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Spacebar)
+				if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Escape)
 				{
 					sleep = false;
 				}
