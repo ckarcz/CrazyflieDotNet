@@ -127,7 +127,7 @@ namespace CrazyflieDotNet
                                         break;
                                     // roll right
                                     case ConsoleKey.D:
-                                        roll += rollIncrements;
+                                        roll -= rollIncrements;
                                         break;
                                     default:
                                         Log.InfoFormat("Invalid key for action.");
