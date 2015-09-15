@@ -23,7 +23,12 @@ namespace CrazyflieDotNet
 		{
 			SetUpLogging();
 
-			IEnumerable<ICrazyradioDriver> crazyradioDrivers = null;
+			// initial game pad testing. first, PS3 wired in via USB...
+			Log.Debug("Running PS3 USB SlimDX tests...");
+			var gamePadCrazyflieController = new GamePadCrazyflieController();
+            gamePadCrazyflieController.Test();
+            
+            IEnumerable<ICrazyradioDriver> crazyradioDrivers = null;
 
 			try
 			{
@@ -55,7 +60,7 @@ namespace CrazyflieDotNet
 
 						crazyradioDriver.DataRate = dataRateWithCrazyflie;
 						crazyradioDriver.Channel = channelWithCrazyflie;
-                        
+
                         IPacket ackPacket = null;
                         byte[] ackPacketBytes = null;
 
@@ -65,9 +70,9 @@ namespace CrazyflieDotNet
 
 
                         ushort thrustIncrements = 1000;
-                        float pitchIncrements = 1;
-                        float yawIncrements = 1;
-                        float rollIncrements = 1;
+                        float pitchIncrements = 5;
+                        float yawIncrements = 2;
+                        float rollIncrements = 5;
                         ushort thrust = 10000;
                         float pitch = 0;
                         float yaw = 0;
@@ -88,20 +93,29 @@ namespace CrazyflieDotNet
                                         break;
                                     // pause
                                     case ConsoleKey.Spacebar:
-                                        Log.InfoFormat("Paused...");
-
-                                        var commanderPacket = new CommanderPacket(0, 0, 0, thrust=10000);
+                                        var commanderPacket = new CommanderPacket(roll, pitch, yaw, thrust=10000);
                                         Log.InfoFormat("Commander Packet Request: {0}", commanderPacket);
                                         ackPacket = crazyRadioMessenger.SendMessage(commanderPacket);
                                         Log.InfoFormat("ACK Response: {0}", ackPacket);
 
+                                        Log.InfoFormat("Paused...Hit SPACE to resume, ESC to quit.");
+
                                         var pauseLoop = true;
                                         while (pauseLoop)
                                         {
-                                            // resume
-                                            if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Spacebar)
+                                            if (Console.KeyAvailable)
                                             {
-                                                pauseLoop = false;
+                                                switch (Console.ReadKey().Key)
+                                                {
+                                                    // resume
+                                                    case ConsoleKey.Spacebar:
+                                                        pauseLoop = false;
+                                                        break;
+                                                    // end
+                                                    case ConsoleKey.Escape:
+                                                        pauseLoop = loop = false;
+                                                        break;
+                                                }
                                             }
                                         }
                                         break;
@@ -113,20 +127,28 @@ namespace CrazyflieDotNet
                                     case ConsoleKey.DownArrow:
                                         thrust -= thrustIncrements;
                                         break;
-                                    // pitch forward
-                                    case ConsoleKey.W:
-                                        pitch += pitchIncrements;
+                                    // yaw right
+                                    case ConsoleKey.RightArrow:
+                                        yaw += yawIncrements;
+                                        break;
+                                    // yaw left
+                                    case ConsoleKey.LeftArrow:
+                                        yaw -= yawIncrements;
                                         break;
                                     // pitch backward
                                     case ConsoleKey.S:
-                                        pitch -= pitchIncrements;
+                                        pitch += pitchIncrements;
                                         break;
-                                    // roll left
-                                    case ConsoleKey.A:
-                                        roll += rollIncrements;
+                                    // pitch forward
+                                    case ConsoleKey.W:
+                                        pitch -= pitchIncrements;
                                         break;
                                     // roll right
                                     case ConsoleKey.D:
+                                        roll += rollIncrements;
+                                        break;
+                                    // roll left
+                                    case ConsoleKey.A:
                                         roll -= rollIncrements;
                                         break;
                                     default:
@@ -163,7 +185,7 @@ namespace CrazyflieDotNet
 				Log.Warn("No Crazyradio USB dongles found!");
 			}
 
-			Log.Info("Sleepy time...Hit ESC to exit.");
+			Log.Info("Sleepy time...Hit ESC to quit.");
 
 			var sleep = true;
 			while (sleep)
