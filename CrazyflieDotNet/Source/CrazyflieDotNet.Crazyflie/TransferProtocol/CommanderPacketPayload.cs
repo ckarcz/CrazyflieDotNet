@@ -45,7 +45,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			Roll = GetRoll(payloadBytes);
 			Pitch = GetPitch(payloadBytes);
 			Yaw = GetYaw(payloadBytes);
-			Thurst = GetThurst(payloadBytes);
+			Thrust = GetThurst(payloadBytes);
 		}
 
 		public CommanderPacketPayload(float roll, float pitch, float yaw, ushort thrust)
@@ -53,24 +53,24 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			Roll = roll;
 			Pitch = pitch;
 			Yaw = yaw;
-			Thurst = thrust;
+			Thrust = thrust;
 		}
 
 		protected override byte[] GetPacketPayloadBytes()
 		{
 			try
 			{
-				var rollByte = (byte) Roll;
-				var pitchByte = (byte) Pitch;
-				var yawByte = (byte) Yaw;
-				var thrustByte = (byte) Thurst;
+                var rollBytes = BitConverter.GetBytes(Roll);
+				var pitchBytes = BitConverter.GetBytes(Pitch);
+                var yawBytes = BitConverter.GetBytes(Yaw);
+                var thrustBytes = BitConverter.GetBytes(Thrust);
 
-				var commanderPayloadBytes = new byte[_commanderPayloadSize];
+                var commanderPayloadBytes = new byte[_commanderPayloadSize];
 
-				commanderPayloadBytes[0] = rollByte; // @ 0
-				commanderPayloadBytes[_floatSize] = pitchByte; // @ 4
-				commanderPayloadBytes[_floatSize * 2] = yawByte; // @ 8
-				commanderPayloadBytes[_floatSize * 3] = thrustByte; // @ 12
+                Array.Copy(rollBytes, 0, commanderPayloadBytes, 0, rollBytes.Length);
+                Array.Copy(pitchBytes, 0, commanderPayloadBytes, rollBytes.Length, pitchBytes.Length);
+                Array.Copy(yawBytes, 0, commanderPayloadBytes, rollBytes.Length + pitchBytes.Length, yawBytes.Length);
+                Array.Copy(thrustBytes, 0, commanderPayloadBytes, rollBytes.Length + pitchBytes.Length + yawBytes.Length, thrustBytes.Length);
 
 				return commanderPayloadBytes;
 			}
@@ -89,8 +89,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 			try
 			{
-				var rollBytes = payloadBytes.Skip(0).Take(_floatSize);
-				var roll = Convert.ToSingle(rollBytes);
+				var rollBytes = payloadBytes.Take(_floatSize).ToArray();
+				var roll = BitConverter.ToSingle(rollBytes, 0);
 				return roll;
 			}
 			catch (Exception ex)
@@ -108,8 +108,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 			try
 			{
-				var pitchBytes = payloadBytes.Skip(_floatSize).Take(_floatSize);
-				var pitch = Convert.ToSingle(pitchBytes);
+				var pitchBytes = payloadBytes.Skip(_floatSize).Take(_floatSize).ToArray();
+				var pitch = BitConverter.ToSingle(pitchBytes, 0);
 				return pitch;
 			}
 			catch (Exception ex)
@@ -127,8 +127,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 			try
 			{
-				var yawBytes = payloadBytes.Skip(_floatSize * 2).Take(_floatSize);
-				var yaw = Convert.ToSingle(yawBytes);
+				var yawBytes = payloadBytes.Skip(_floatSize * 2).Take(_floatSize).ToArray();
+				var yaw = BitConverter.ToSingle(yawBytes, 0);
 				return yaw;
 			}
 			catch (Exception ex)
@@ -146,8 +146,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 			try
 			{
-				var thrustBytes = payloadBytes.Skip(_floatSize * 3).Take(_shortSize);
-				var thrust = Convert.ToUInt16(thrustBytes);
+				var thrustBytes = payloadBytes.Skip(_floatSize * 3).Take(_shortSize).ToArray();
+				var thrust = BitConverter.ToUInt16(thrustBytes, 0);
 				return thrust;
 			}
 			catch (Exception ex)
@@ -168,7 +168,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 		public float Yaw { get; }
 
-		public ushort Thurst { get; }
+		public ushort Thrust { get; }
 
 		#endregion
 	}

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
@@ -35,7 +36,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			if (packetBytes != null && packetBytes.Length != 0)
 			{
-				var packetPayload = new CommanderPacketPayload(packetBytes);
+				var packetPayload = new CommanderPacketPayload(packetBytes.Skip(1).ToArray());
 				return packetPayload;
 			}
 
@@ -44,7 +45,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
         public override string ToString()
         {
-            return string.Format("Null/Ping Packet (0xff). {0}", BitConverter.ToString(GetBytes()));
+            return string.Format("Roll: {0}, Pitch: {1}, Yaw: {2}, Thrust: {3}. Bytes: {4}", Payload.Roll, Payload.Pitch, Payload.Yaw, Payload.Thrust, BitConverter.ToString(GetBytes()));
         }
     }
 }

@@ -39,8 +39,9 @@ namespace CrazyflieDotNet
 			if (crazyradioDrivers != null && crazyradioDrivers.Any())
 			{
 				var crazyradioDriver = crazyradioDrivers.First();
+                var crazyRadioMessenger = new CrazyradioMessenger(crazyradioDriver);
 
-				try
+                try
 				{
 					crazyradioDriver.Open();
 
@@ -58,28 +59,31 @@ namespace CrazyflieDotNet
 						var pingPacket = new PingPacket();
 						var pingPacketBytes = pingPacket.GetBytes();
 
-                        IPacket ackPacket = null;
-                        byte[] ackPacketBytes = null;
+                        // thrust of 20,000 spins blades but does not take off. small test.
+                        var commanderPacket = new CommanderPacket(0, 0, 0, 20000);
 
-						var crazyRadioMessenger = new CrazyradioMessenger(crazyradioDriver);
+                        IPacket ackPacket = null;
+                        byte[] ackPacketBytes = null;						
 
                         var loop = true;
 						while (loop)
 						{
 							// test 2 (using CRTP lib)
 							{
+                                // you only need to ping to GET data...if needed...but for now...
+
 								Log.InfoFormat("Ping Packet Request: {0}", pingPacket);
 
 								ackPacket = crazyRadioMessenger.SendMessage(PingPacket.Instance);
 
-                                Log.InfoFormat("Ping ACK Response: {0}", ackPacket);
+                                Log.InfoFormat("ACK Response: {0}", ackPacket);
 
-                                /*var commanderPacket = new CommanderPacket(0, 0, 0, 20000);
-                                ackPacket = crazyRadioMessenger.SendMessage(pingPacket);
-                                ackPacketBytes = ackPacket.GetBytes();
+                                Log.InfoFormat("Commander Packet Request: {0}", commanderPacket);
 
-                                Log.InfoFormat("Commander ACK Response Bytes (using CTRP): {0}", BitConverter.ToString(ackPacketBytes));*/
-							}
+                                ackPacket = crazyRadioMessenger.SendMessage(commanderPacket);
+
+                                Log.InfoFormat("ACK Response: {0}", ackPacket);
+                            }
 
 							if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Spacebar)
 							{
@@ -98,7 +102,8 @@ namespace CrazyflieDotNet
 				}
 				finally
 				{
-					crazyradioDriver.Close();
+                    crazyRadioMessenger.SendMessage(new CommanderPacket(0, 0, 0, 0));
+                    crazyradioDriver.Close();
 				}
 			}
 			else

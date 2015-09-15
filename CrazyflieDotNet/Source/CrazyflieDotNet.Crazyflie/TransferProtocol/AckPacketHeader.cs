@@ -74,8 +74,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			try
 			{
-				var headerByteRightShiftedFour = (byte) (headerByte >> 4);
-				var retryCountByte = (byte) (headerByteRightShiftedFour & 0x0F);
+                var retryCountByte = (byte)(headerByte >> 4);
 				var retryCount = (int) Convert.ToInt32(retryCountByte);
 				return retryCount;
 			}
@@ -89,8 +88,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			try
 			{
-				var headerByteRightShiftedOne = (byte) (headerByte >> 1);
-				var powerDetectorByte = (byte) (headerByteRightShiftedOne & 0x01);
+				var powerDetectorByte = (byte) (headerByte & 0x02);
 				var powerDetector = Convert.ToBoolean(powerDetectorByte);
 				return powerDetector;
 			}

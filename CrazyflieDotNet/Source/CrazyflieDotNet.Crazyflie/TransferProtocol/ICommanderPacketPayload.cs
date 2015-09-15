@@ -6,6 +6,6 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		float Roll { get; }
 		float Pitch { get; }
 		float Yaw { get; }
-		ushort Thurst { get; }
+		ushort Thrust { get; }
 	}
 }
