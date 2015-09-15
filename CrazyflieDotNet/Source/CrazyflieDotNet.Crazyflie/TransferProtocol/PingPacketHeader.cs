@@ -1,21 +1,20 @@
+using System;
+
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
-	public class PingPacketHeader
-		: OutputPacketHeader, IPingPacketHeader
+	public sealed class PingPacketHeader
+		: PacketHeader, IPingPacketHeader
 	{
-		public PingPacketHeader(byte headerByte)
-			: base(headerByte)
-		{
-		}
+        private readonly byte pingPacketHeaderByte = 0xff;
 
-		public PingPacketHeader(CommunicationChannel channel = DefaultChannel)
-			: this(CommunicationPort.All, channel)
+        public PingPacketHeader(byte headerByte)
 		{
-		}
+            pingPacketHeaderByte = headerByte;
+        }
 
-		public PingPacketHeader(CommunicationPort port, CommunicationChannel channel = DefaultChannel)
-			: base(port, channel)
-		{
-		}
-	}
+        protected override byte? GetPacketHeaderByte()
+        {
+            return pingPacketHeaderByte;
+        }
+    }
 }

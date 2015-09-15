@@ -35,14 +35,14 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			AckRecieved = GetAckRecieved(headerByte);
 		}
 
-		public AckPacketHeader(MessageAckRetryCount retryCount, bool powerDetector, bool ackRecieved)
+		public AckPacketHeader(int retryCount, bool powerDetector, bool ackRecieved)
 		{
 			RetryCount = retryCount;
 			PowerDetector = powerDetector;
 			AckRecieved = ackRecieved;
 		}
 
-		public MessageAckRetryCount RetryCount { get; }
+		public int RetryCount { get; }
 		public bool PowerDetector { get; }
 		public bool AckRecieved { get; }
 
@@ -70,13 +70,13 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		private MessageAckRetryCount GetRetryCount(byte headerByte)
+		private int GetRetryCount(byte headerByte)
 		{
 			try
 			{
 				var headerByteRightShiftedFour = (byte) (headerByte >> 4);
 				var retryCountByte = (byte) (headerByteRightShiftedFour & 0x0F);
-				var retryCount = (MessageAckRetryCount) Enum.ToObject(typeof (MessageAckRetryCount), retryCountByte);
+				var retryCount = (int) Convert.ToInt32(retryCountByte);
 				return retryCount;
 			}
 			catch (Exception ex)

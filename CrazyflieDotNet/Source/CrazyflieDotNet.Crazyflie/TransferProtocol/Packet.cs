@@ -77,6 +77,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 		protected abstract TPacketPayload ParsePayload(byte[] packetBytes);
 
+        public override abstract string ToString();
+
 		#region IPacket<TPacketHeader,TPacketPayload> Members
 
 		public TPacketHeader Header { get; }

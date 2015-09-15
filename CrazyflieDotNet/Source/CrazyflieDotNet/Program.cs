@@ -58,19 +58,27 @@ namespace CrazyflieDotNet
 						var pingPacket = new PingPacket();
 						var pingPacketBytes = pingPacket.GetBytes();
 
+                        IPacket ackPacket = null;
+                        byte[] ackPacketBytes = null;
+
 						var crazyRadioMessenger = new CrazyradioMessenger(crazyradioDriver);
 
-						var loop = true;
+                        var loop = true;
 						while (loop)
 						{
 							// test 2 (using CRTP lib)
 							{
-								Log.InfoFormat("Ping Packet Bytes: {0}", BitConverter.ToString(pingPacketBytes));
+								Log.InfoFormat("Ping Packet Request: {0}", pingPacket);
 
-								var ackPacket = crazyRadioMessenger.SendMessage(new PingPacket());
-								var ackPacketBytes = ackPacket.GetBytes();
+								ackPacket = crazyRadioMessenger.SendMessage(PingPacket.Instance);
 
-								Log.InfoFormat("ACK Response Bytes (using CTRP): {0}", BitConverter.ToString(ackPacketBytes));
+                                Log.InfoFormat("Ping ACK Response: {0}", ackPacket);
+
+                                /*var commanderPacket = new CommanderPacket(0, 0, 0, 20000);
+                                ackPacket = crazyRadioMessenger.SendMessage(pingPacket);
+                                ackPacketBytes = ackPacket.GetBytes();
+
+                                Log.InfoFormat("Commander ACK Response Bytes (using CTRP): {0}", BitConverter.ToString(ackPacketBytes));*/
 							}
 
 							if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Spacebar)

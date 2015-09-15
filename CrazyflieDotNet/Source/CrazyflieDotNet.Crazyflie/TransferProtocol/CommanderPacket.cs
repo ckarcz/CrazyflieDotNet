@@ -1,3 +1,5 @@
+using System;
+
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
 	public class CommanderPacket
@@ -29,7 +31,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			return null;
 		}
 
-		protected override ICommanderPacketPayload ParsePayload(byte[] packetBytes)
+        protected override ICommanderPacketPayload ParsePayload(byte[] packetBytes)
 		{
 			if (packetBytes != null && packetBytes.Length != 0)
 			{
@@ -39,5 +41,10 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 			return null;
 		}
-	}
+
+        public override string ToString()
+        {
+            return string.Format("Null/Ping Packet (0xff). {0}", BitConverter.ToString(GetBytes()));
+        }
+    }
 }
