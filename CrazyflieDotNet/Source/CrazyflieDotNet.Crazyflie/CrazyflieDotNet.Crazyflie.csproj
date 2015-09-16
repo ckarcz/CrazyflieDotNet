@@ -57,6 +57,7 @@
     <Compile Include="TransferProtocol\IPingPacketHeader.cs" />
     <Compile Include="TransferProtocol\OutputPacket.cs" />
     <Compile Include="TransferProtocol\OutputPacketHeader.cs" />
+    <Compile Include="TransferProtocol\OutputPacketPayload.cs" />
     <Compile Include="TransferProtocol\Packet.cs" />
     <Compile Include="TransferProtocol\PacketHeader.cs" />
     <Compile Include="TransferProtocol\PacketPayload.cs" />
