@@ -264,7 +264,7 @@ namespace CrazyflieDotNet
 					// Max/min values
 					float rollRange = 50;
 					float pitchRange = 50;
-					float yawRange = 50;
+					float yawRange = 100;
 					ushort thrustRange = 50000;
 
 					// Stick ranges
