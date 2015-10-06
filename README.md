@@ -6,10 +6,6 @@ Dot.NET libraries written in C# for Crazyflie Quadcopters and Crazyradios.
 
 (these libraries are for version 1.0 of the quadcopters, 2.0 untested, possibly supported/not supported)
 
-Releases:
-==============================
-* Version 1.0 of the CrazyradioDriver .NET library is available for download and use! This library exposes the core functionality of the Crazyradio USB dongle. This is NOT the CTRP library (not done yet) and all communication is "raw" in that req/resp are all arrays of bytes:
- * https://github.com/ckarcz/CrazyflieDotNet/tree/master/Releases/CrazyflieDotNet.CrazyradioDriver
 
 About The CrazyFlie:
 ==============================
