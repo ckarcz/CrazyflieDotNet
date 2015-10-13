@@ -21,11 +21,12 @@ About This Project:
 ==============================
 This is currently a work in progress in my spare time.
 
+>RELEASES folder is OLD - do not use. Please build locally. I must delte the folder..<
+
 Milestones:
 - Working .NET abstraction "driver" for Crazyradio USB dongle - COMPLETED
-  - You are able to send the copter packets (byte array) and get an ACK packet back.
-  Currently I have only tested pinging the copter as I am working on the remainder of the transfer protocol. 
 - Implement the Crazyradio Transfer Protocol (CRTP) - IN PROGRESS
+  - Able to ping copter and send commander packages. Working flight with wired in PS3 controller.
 - Front end design and development - NOT STARTED
 - Cross platform support using Mono framework - IN PROGRESS
 
