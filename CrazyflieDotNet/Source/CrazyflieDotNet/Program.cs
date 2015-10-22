@@ -34,9 +34,7 @@ namespace CrazyflieDotNet
 				{
 					//TestCRTP(crazyradioDriver);
 
-					OriginalTestPS3Controller(crazyradioDriver);
-
-					//TestPS3ControllerSlimDx(crazyradioDriver);
+					TestPS3Controller(crazyradioDriver);
 				}
 				catch (Exception ex)
 				{
@@ -90,7 +88,7 @@ namespace CrazyflieDotNet
 				{
 					// Initialize driver
 					crazyradioDriver.Open();
-
+					
 					// Scan for any Crazyflie quadcopters ready for communication
 					var scanResults = crazyradioDriver.ScanChannels();
 					if (scanResults.Any())
@@ -115,7 +113,7 @@ namespace CrazyflieDotNet
 				catch (Exception ex)
 				{
 					var msg = "Error initializing Crazyradio USB dongle for communication with a Crazyflie quadcopter.";
-					Log.Error(msg, ex);
+                    Log.Error(msg, ex);
 					throw new ApplicationException(msg, ex);
 				}
 			}
@@ -140,6 +138,7 @@ namespace CrazyflieDotNet
 					Log.InfoFormat("Ping Packet Request: {0}", PingPacket.Instance);
 					ackPacket = crazyRadioMessenger.SendMessage(PingPacket.Instance);
 					Log.InfoFormat("ACK Response: {0}", ackPacket);
+
 
 					ushort thrustIncrements = 1000;
 					float pitchIncrements = 5;
@@ -248,7 +247,7 @@ namespace CrazyflieDotNet
 			}
 		}
 
-		private static void OriginalTestPS3Controller(ICrazyradioDriver crazyradioDriver)
+		private static void TestPS3Controller(ICrazyradioDriver crazyradioDriver)
 		{
 			if (crazyradioDriver != null)
 			{
@@ -285,15 +284,12 @@ namespace CrazyflieDotNet
 
 					foreach (DeviceObjectInstance doi in joystick.GetObjects(ObjectDeviceType.Axis))
 					{
-						joystick.GetObjectPropertiesById((int) doi.ObjectType).SetRange(-1 * stickRange, stickRange);
+						joystick.GetObjectPropertiesById((int)doi.ObjectType).SetRange(-1 * stickRange, stickRange);
 					}
 
 					joystick.Properties.AxisMode = DeviceAxisMode.Absolute;
 					var acquireResult = joystick.Acquire();
 					var joystickState = new JoystickState();
-
-					var holdThrust = false;
-                    var holdThrustToggled = false;
 
 					var loop = true;
 					while (loop)
@@ -370,8 +366,8 @@ namespace CrazyflieDotNet
 						roll = rollRange * rightStickX / stickRange;
 						pitch = pitchRange * rightStickY / stickRange;
 						yaw = yawRange * leftStickX / stickRange;
-						thrust = holdThrust ? thrust : (ushort) (leftStickY > 0 ? 0 : thrustRange * -1 * leftStickY / stickRange);
-
+						thrust = (ushort) (leftStickY > 0 ? 0 : thrustRange * -1 * leftStickY / stickRange);
+						
 						var infoString = String.Format("LX:{0,7}, LY:{1,7}, RX:{2,7}, RY:{3,7}, Buttons:{4,7}.\tRoll:{5, 7}, Pitch:{6, 7}, Yaw:{7, 7}, Thrust:{8, 7}.", leftStickX, leftStickY, rightStickX, rightStickY, buttonsPressedString, roll, pitch, yaw, thrust);
 						Console.WriteLine(infoString);
 
