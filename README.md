@@ -6,10 +6,6 @@ Dot.NET libraries written in C# for Crazyflie Quadcopters and Crazyradios.
 
 (these libraries are for version 1.0 of the quadcopters, 2.0 untested, possibly supported/not supported)
 
-Releases:
-==============================
-* Version 1.0 of the CrazyradioDriver .NET library is available for download and use! This library exposes the core functionality of the Crazyradio USB dongle. This is NOT the CTRP library (not done yet) and all communication is "raw" in that req/resp are all arrays of bytes:
- * https://github.com/ckarcz/CrazyflieDotNet/tree/master/Releases/CrazyflieDotNet.CrazyradioDriver
 
 About The CrazyFlie:
 ==============================
@@ -25,11 +21,12 @@ About This Project:
 ==============================
 This is currently a work in progress in my spare time.
 
+>RELEASES folder is OLD - do not use. Please build locally. I must delte the folder..<
+
 Milestones:
 - Working .NET abstraction "driver" for Crazyradio USB dongle - COMPLETED
-  - You are able to send the copter packets (byte array) and get an ACK packet back.
-  Currently I have only tested pinging the copter as I am working on the remainder of the transfer protocol. 
 - Implement the Crazyradio Transfer Protocol (CRTP) - IN PROGRESS
+  - Able to ping copter and send commander packages. Working flight with wired in PS3 controller.
 - Front end design and development - NOT STARTED
 - Cross platform support using Mono framework - IN PROGRESS
 
