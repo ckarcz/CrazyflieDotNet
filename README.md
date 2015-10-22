@@ -21,8 +21,6 @@ About This Project:
 ==============================
 This is currently a work in progress in my spare time.
 
->RELEASES folder is OLD - do not use. Please build locally. I must delte the folder..<
-
 Milestones:
 - Working .NET abstraction "driver" for Crazyradio USB dongle - COMPLETED
 - Implement the Crazyradio Transfer Protocol (CRTP) - IN PROGRESS
