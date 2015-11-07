@@ -80,14 +80,6 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 
 		#endregion
 
-		/// <summary>
-		///     Destructor that disposes resources used in this Crazyradio USB dongle driver.
-		/// </summary>
-		~CrazyradioDriver()
-		{
-			((IDisposable) this).Dispose();
-		}
-
 		public static bool IsCrazyradioUsbDongle(UsbDevice USBDevice)
 		{
 			if (USBDevice == null)
