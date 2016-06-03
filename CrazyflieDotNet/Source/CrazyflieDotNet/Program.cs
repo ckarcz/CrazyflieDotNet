@@ -34,7 +34,7 @@ namespace CrazyflieDotNet
 				{
 					//TestCRTP(crazyradioDriver);
 
-					TestPS3Controller(crazyradioDriver);
+					//TestPS3Controller(crazyradioDriver);
 				}
 				catch (Exception ex)
 				{
@@ -253,6 +253,8 @@ namespace CrazyflieDotNet
 			{
 				var crazyRadioMessenger = new CrazyradioMessenger(crazyradioDriver);
 
+				var stopMotorsCommanderPacket = new CommanderPacket(roll: 0, pitch: 0, yaw: 0, thrust: 0);
+
 				try
 				{
 					// Init
@@ -269,8 +271,6 @@ namespace CrazyflieDotNet
 
 					// Stick ranges
 					int stickRange = 1000;
-
-					var stopMotorsCommanderPacket = new CommanderPacket(roll = 0, pitch = 0, yaw = 0, thrust = 0);
 
 					// Get first attached game controller found
 					var directInput = new DirectInput();
@@ -381,7 +381,7 @@ namespace CrazyflieDotNet
 				}
 				finally
 				{
-					crazyRadioMessenger.SendMessage(new CommanderPacket(0, 0, 0, 0));
+					crazyRadioMessenger.SendMessage(stopMotorsCommanderPacket);
 				}
 			}
 		}

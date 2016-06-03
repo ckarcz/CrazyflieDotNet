@@ -8,8 +8,7 @@ using System.Data;
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
 	public abstract class Packet<TPacketHeader>
-		: Packet<TPacketHeader, IPacketPayload>
-		where TPacketHeader : IPacketHeader
+		: Packet<TPacketHeader, IPacketPayload> where TPacketHeader : IPacketHeader
 	{
 		protected Packet(byte[] packetBytes)
 			: base(packetBytes)
@@ -28,9 +27,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 	}
 
 	public abstract class Packet<TPacketHeader, TPacketPayload>
-		: IPacket<TPacketHeader, TPacketPayload>
-		where TPacketHeader : IPacketHeader
-		where TPacketPayload : IPacketPayload
+		: IPacket<TPacketHeader, TPacketPayload> where TPacketHeader : IPacketHeader where TPacketPayload : IPacketPayload
 	{
 		public static readonly byte[] EmptyPacketBytes = new byte[0];
 

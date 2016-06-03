@@ -71,10 +71,19 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			}
 		}
 
+		~CrazyradioDriver()
+		{
+			Log.Debug("Finalizer called.");
+
+			Close();
+		}
+
 		#region IDisposable Members
 
 		void IDisposable.Dispose()
 		{
+			Log.Debug("Disposing...");
+
 			Close();
 		}
 
@@ -819,27 +828,40 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		{
 			try
 			{
-				Log.Debug("Closing Crazyradio USB dongle from communication...");
+				Log.Debug("Closing Crazyradio USB dongle...");
 
 				if (_crazyradioDataEndpointReader != null && !_crazyradioDataEndpointReader.IsDisposed)
 				{
+					Log.Debug("Closing Crazyradio USB dongle endpoint reader.");
+
 					_crazyradioDataEndpointReader.Dispose();
+				}
+				else
+				{
+					Log.Debug("Crazyradio USB dongle endpoint reader already closed.");
 				}
 
 				if (_crazyradioDataEndpointWriter != null && !_crazyradioDataEndpointWriter.IsDisposed)
 				{
+					Log.Debug("Closing Crazyradio USB dongle endpoint writer.");
+
 					_crazyradioDataEndpointWriter.Dispose();
+				}
+				else
+				{
+					Log.Debug("Crazyradio USB dongle endpoint writer already closed.");
 				}
 
 				if (_crazyradioUsbDevice.IsOpen)
 				{
-					_crazyradioUsbDevice.Close();
 
-					Log.Debug("Successfully closed Crazyradio USB dongle from communication.");
+					Log.Debug("Closed Crazyradio USB dongle.");
+
+					_crazyradioUsbDevice.Close();
 				}
 				else
 				{
-					Log.DebugFormat("Crazyradio USB dongle is already closed.");
+					Log.Debug("Crazyradio USB dongle is already closed.");
 				}
 			}
 			catch (Exception ex)

@@ -1,9 +1,7 @@
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
 	public interface IPacket<out TPacketHeader, out TPacketPayload>
-		: IPacket<TPacketHeader>
-		where TPacketHeader : IPacketHeader
-		where TPacketPayload : IPacketPayload
+		: IPacket<TPacketHeader> where TPacketHeader : IPacketHeader where TPacketPayload : IPacketPayload
 	{
 		new TPacketPayload Payload { get; }
 	}
