@@ -1,13 +1,12 @@
 [![Build Status](https://travis-ci.org/ckarcz/CrazyflieDotNet.svg)](https://travis-ci.org/ckarcz/CrazyflieDotNet)
 
-CrazyflieDotNet
+#CrazyflieDotNet
 ==============================
 Dot.NET libraries written in C# for Crazyflie Quadcopters and Crazyradios.
 
-(these libraries are for version 1.0 of the quadcopters, 2.0 untested, possibly supported/not supported)
+(these libraries are for version 1.0 of the quadcopters, 2.0 untested, possibly not supported)
 
-
-About The CrazyFlie:
+#About The CrazyFlie
 ==============================
 A Crazyflie is a tiny open source picocopter/quadcopter that began as a side project by a bunch of engineers and grew to great internet acclaim via a HackADay posting in 2011 (http://hackaday.com/2011/04/29/mini-quadrocopter-is-crazy-awesome/).
 
@@ -17,11 +16,11 @@ Crazyflie wiki: http://wiki.bitcraze.se/projects:crazyflie:index, http://wiki.bi
 
 Crazyradio wiki: http://wiki.bitcraze.se/projects:crazyradio:index
 
-About This Project:
+#About This Project
 ==============================
 This is currently a work in progress in my spare time.
 
-Milestones:
+##Milestones:
 - Working .NET abstraction "driver" for Crazyradio USB dongle - COMPLETED
 - Implement the Crazyradio Transfer Protocol (CRTP) - IN PROGRESS
   - Able to ping copter and send commander packages. Working flight with wired in PS3 controller.
@@ -30,7 +29,11 @@ Milestones:
 
 The C# CrazyradioDriver is completed and working. This library (CrazyflieDotNet.Crazyradio.dll) provides a type safe API for communication with the Crazyradio USB dongle with Crazyflies. The library and "driver" expose all available configurations for the USB dongle, including defaults. The API is quite nice and easy to understand and use, even for a beginner.
 
-Windows Dev Environment:
+#Development
+
+##Windows
+
+###Dev Environment:
 ==============================
 1. Windows OS.
 2. Visual Studio (with NuGet installed).
@@ -46,15 +49,7 @@ Windows Dev Environment:
 11. Go to Tools > Options > Text Editor > C# > Tabs > USE TABS!
 12. If you use ReSharper, please load the shared dot settings file and use that for the solution! Use the provided clean to clean your files! Keep the code style the same! Once in a while the MASTER branch will be cleaned to ensure consistensy in style. Finally, please comment your code as done in already submitted files!
 
-MacOS Dev Environment:
-==============================
-1. Mac OS 10.
-2. Github Desktop for Mac: https://desktop.github.com/
-3. Mono Framework: http://www.mono-project.com/download/
-4. MonoDevelop (Xamarin Studio): http://www.monodevelop.com/download/
-5. Install homebrew and using homebrew, install libusb (see below OS drivers section for MacOS).
-
-OS Driver (Windows):
+###OS Driver:
 ==============================
 1. Get the Zadig USB Tool: http://zadig.akeo.ie/
 2. Run the Zadig executable.
@@ -65,13 +60,27 @@ OS Driver (Windows):
 6. Open Device Management (devmgmt.msc in run box).
 7. Navigate to "libusb-win32 devices" to ensure that "Crazyradio USB Dongle" is listed.
 
-OS Driver (MacOS/Unix/Linux):
-==============================
-1. Install homebrew: http://brew.sh/
-2. Update homebrew, just in case. In terminal: brew update
-3. Build latest libusb, download, and install. In terminal: brew install libusb --universal --HEAD
+#License
+```
+MIT License
 
-Continuous Build:
-==============================
-(currently broken)
-https://travis-ci.org/ckarcz/CrazyflieDotNet
+Copyright (c) [year] [fullname]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
