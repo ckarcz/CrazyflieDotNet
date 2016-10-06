@@ -1,7 +1,6 @@
 [![Build Status](https://travis-ci.org/ckarcz/CrazyflieDotNet.svg)](https://travis-ci.org/ckarcz/CrazyflieDotNet)
 [![GitHub issues](https://img.shields.io/github/issues/ckarcz/CrazyflieDotNet.svg)](https://github.com/ckarcz/CrazyflieDotNet/issues) 
 [![](https://img.shields.io/github/downloads/ckarcz/CrazyflieDotNet/total.svg)](https://github.com/RolandPheasant/ckarcz/CrazyflieDotNet) 
-[![Build Status](https://travis-ci.org/ckarcz/CrazyflieDotNet.svg)](https://travis-ci.org/ckarcz/CrazyflieDotNet)
 ---
 #CrazyflieDotNet
 Dot.NET libraries written in C# for Crazyflie Quadcopters and Crazyradios.
