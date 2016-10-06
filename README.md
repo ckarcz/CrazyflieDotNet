@@ -1,5 +1,7 @@
-[![Build Status](https://travis-ci.org/ckarcz/CrazyflieDotNet.svg)](https://travis-ci.org/ckarcz/CrazyflieDotNet)
-[![GitHub issues](https://img.shields.io/github/issues/ckarcz/CrazyflieDotNet.svg)](https://github.com/ckarcz/CrazyflieDotNet/issues) 
+[![](https://travis-ci.org/ckarcz/CrazyflieDotNet.svg)](https://travis-ci.org/ckarcz/CrazyflieDotNet)
+
+[![](https://img.shields.io/github/issues/ckarcz/CrazyflieDotNet.svg)](https://github.com/ckarcz/CrazyflieDotNet/issues) 
+
 [![](https://img.shields.io/github/downloads/ckarcz/CrazyflieDotNet/total.svg)](https://github.com/RolandPheasant/ckarcz/CrazyflieDotNet) 
 ---
 #CrazyflieDotNet
