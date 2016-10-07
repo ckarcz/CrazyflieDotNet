@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyflieDotNet.Crazyradio"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyflieDotNet.Crazyflie", "Source\CrazyflieDotNet.Crazyflie\CrazyflieDotNet.Crazyflie.csproj", "{3361E209-67A9-4F9F-8D72-6B2082A0B124}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{093544E9-EB0D-4A57-880A-7E1DC2561BAB}"
+	ProjectSection(SolutionItems) = preProject
+		Source\GlobalAssemblyInfo.cs = Source\GlobalAssemblyInfo.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

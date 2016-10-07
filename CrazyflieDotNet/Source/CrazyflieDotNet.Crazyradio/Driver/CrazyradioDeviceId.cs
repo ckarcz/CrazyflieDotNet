@@ -1,5 +1,6 @@
 ﻿namespace CrazyflieDotNet.Crazyradio.Driver
 {
+	// TODO - Make these fields configurable.
 	/// <summary>
 	///     USB device ids for Crazyradio USB dongle.
 	/// </summary>

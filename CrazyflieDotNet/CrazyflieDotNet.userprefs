@@ -1,13 +1,16 @@
-﻿<Properties StartupItem="Source/CrazyflieDotNet/CrazyflieDotNet.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Source/CrazyflieDotNet/app.config">
+﻿<Properties StartupConfiguration="{AB4EF799-1939-49A3-9294-FC2D0A059AE5}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDriver.cs">
     <Files>
-      <File FileName="Source/CrazyflieDotNet/Program.cs" Line="1" Column="1" />
-      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/RadioChannel.cs" Line="1" Column="1" />
-      <File FileName="Source/CrazyflieDotNet.Crazyflie/TransferProtocol/CommunicationChannel.cs" Line="1" Column="1" />
-      <File FileName="Source/CrazyflieDotNet/app.config" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet/Program.cs" Line="156" Column="7" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDataEndpointId.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDefaults.cs" Line="48" Column="38" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDeviceId.cs" Line="3" Column="43" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDriver.cs" Line="624" Column="46" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/MessageAckPayloadLength.cs" Line="9" Column="3" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/MessageAckRetryDelay.cs" Line="6" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/chris/Documents/Dev/C#/CrazyflieDotNet/CrazyflieDotNet/Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDriver.cs" line="113" column="1" />
@@ -15,4 +18,5 @@
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.CrazyflieDotNet PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>
