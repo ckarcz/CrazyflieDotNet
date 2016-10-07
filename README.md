@@ -1,8 +1,7 @@
-[![Build](https://img.shields.io/travis/ckarcz/CrazyflieDotNet.svg)](https://travis-ci.org/ckarcz/CrazyflieDotNet) [![Issues](https://img.shields.io/github/issues/ckarcz/CrazyflieDotNet.svg)](https://github.com/ckarcz/CrazyflieDotNet/issues) [![Downloads](https://img.shields.io/github/downloads/ckarcz/CrazyflieDotNet/total.svg)](https://github.com/ckarcz/CrazyflieDotNet/releases) 
----
 #CrazyflieDotNet
 Dot.NET libraries written in C# for Crazyflie Quadcopters and Crazyradios.
-(these libraries are for version 1.0 of the quadcopters, 2.0 untested, possibly not supported)
+
+[![Build](https://img.shields.io/travis/ckarcz/CrazyflieDotNet.svg)](https://travis-ci.org/ckarcz/CrazyflieDotNet) [![Issues](https://img.shields.io/github/issues/ckarcz/CrazyflieDotNet.svg)](https://github.com/ckarcz/CrazyflieDotNet/issues) [![Downloads](https://img.shields.io/github/downloads/ckarcz/CrazyflieDotNet/total.svg)](https://github.com/ckarcz/CrazyflieDotNet/releases) 
 
 #About The CrazyFlie
 The [Crazyflie](https://www.bitcraze.io/crazyflie/) is a tiny open source picocopter/quadcopter that began as a side project by a bunch of engineers and grew to great internet acclaim via a [HackADay posting in 2011](http://hackaday.com/2011/04/29/mini-quadrocopter-is-crazy-awesome).
