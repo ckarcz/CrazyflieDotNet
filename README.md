@@ -1,4 +1,4 @@
-[![Build](https://img.shields.io/travis/ckarcz/CrazyflieDotNet.svg)](https://travis-ci.org/ckarcz/CrazyflieDotNet) [![Issues](https://img.shields.io/github/issues/ckarcz/CrazyflieDotNet.svg)](https://github.com/ckarcz/CrazyflieDotNet/issues) [![Downloads](https://img.shields.io/github/downloads/ckarcz/CrazyflieDotNet/total.svg)](https://github.com/RolandPheasant/ckarcz/CrazyflieDotNet) 
+[![Build](https://img.shields.io/travis/ckarcz/CrazyflieDotNet.svg)](https://travis-ci.org/ckarcz/CrazyflieDotNet) [![Issues](https://img.shields.io/github/issues/ckarcz/CrazyflieDotNet.svg)](https://github.com/ckarcz/CrazyflieDotNet/issues) [![Downloads](https://img.shields.io/github/downloads/ckarcz/CrazyflieDotNet/total.svg)](https://github.com/ckarcz/CrazyflieDotNet/releases) 
 ---
 #CrazyflieDotNet
 Dot.NET libraries written in C# for Crazyflie Quadcopters and Crazyradios.
@@ -59,7 +59,7 @@ The C# CrazyradioDriver is completed and working. This library (CrazyflieDotNet.
 MIT License
 
 CrazyflieDotNet [https://github.com/ckarcz/CrazyflieDotNet]
-Copyright (c) [2014] [Chris Karcz]
+Copyright (c) [2013] [Chris Karcz]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
