@@ -54,11 +54,12 @@ The C# CrazyradioDriver is completed and working. This library (CrazyflieDotNet.
 6. Open Device Management (devmgmt.msc in run box).
 7. Navigate to "libusb-win32 devices" to ensure that "Crazyradio USB Dongle" is listed.
 
-#License
+#[License](license.txt)
 ```
 MIT License
 
-Copyright (c) [2016] [Chris Karcz]
+CrazyflieDotNet [https://github.com/ckarcz/CrazyflieDotNet]
+Copyright (c) [2014] [Chris Karcz]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
