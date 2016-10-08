@@ -14,7 +14,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 	public sealed class RadioAddress
 		: IEquatable<RadioAddress>
 	{
-		private static readonly ILog Log = LogManager.GetLogger(typeof (RadioAddress));
+		private static readonly ILog Log = LogManager.GetLogger(typeof(RadioAddress));
 
 		/// <summary>
 		///     Initializes a CrazyradioAddress instance.
@@ -25,7 +25,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			if (addressBytes == null)
 			{
 				Log.Error("Address byte array is null.");
-				throw new ArgumentNullException("addressBytes");
+				throw new ArgumentNullException(nameof(addressBytes));
 			}
 
 			if (addressBytes.Length != 5)
@@ -69,7 +69,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		/// <returns> True if this address is equal to the other object. </returns>
 		public override bool Equals(object obj)
 		{
-			return Equals((RadioAddress) obj);
+			return Equals((RadioAddress)obj);
 		}
 
 		/// <summary>

@@ -19,7 +19,7 @@ namespace CrazyflieDotNet
 	/// </summary>
 	internal class Program
 	{
-		private static readonly ILog Log = LogManager.GetLogger(typeof (Program));
+		private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
 
 		private static void Main(string[] args)
 		{
@@ -88,7 +88,7 @@ namespace CrazyflieDotNet
 				{
 					// Initialize driver
 					crazyradioDriver.Open();
-					
+
 					// Scan for any Crazyflie quadcopters ready for communication
 					var scanResults = crazyradioDriver.ScanChannels();
 					if (scanResults.Any())
@@ -113,7 +113,7 @@ namespace CrazyflieDotNet
 				catch (Exception ex)
 				{
 					var msg = "Error initializing Crazyradio USB dongle for communication with a Crazyflie quadcopter.";
-                    Log.Error(msg, ex);
+					Log.Error(msg, ex);
 					throw new ApplicationException(msg, ex);
 				}
 			}
@@ -128,7 +128,7 @@ namespace CrazyflieDotNet
 		{
 			if (crazyradioDriver != null)
 			{
-				var crazyRadioMessenger = new CrazyradioMessenger(crazyradioDriver);
+				var crazyRadioMessenger = new CrazyflieMessenger(crazyradioDriver);
 
 				try
 				{
@@ -158,73 +158,73 @@ namespace CrazyflieDotNet
 						{
 							switch (Console.ReadKey().Key)
 							{
-								// end
-								case ConsoleKey.Escape:
-									loop = false;
-									break;
-								// pause
-								case ConsoleKey.Spacebar:
-									var commanderPacket = new CommanderPacket(roll, pitch, yaw, thrust = 10000);
-									Log.InfoFormat("Commander Packet Request: {0}", commanderPacket);
-									ackPacket = crazyRadioMessenger.SendMessage(commanderPacket);
-									Log.InfoFormat("ACK Response: {0}", ackPacket);
+							// end
+							case ConsoleKey.Escape:
+								loop = false;
+								break;
+							// pause
+							case ConsoleKey.Spacebar:
+								var commanderPacket = new CommanderPacket(roll, pitch, yaw, thrust = 10000);
+								Log.InfoFormat("Commander Packet Request: {0}", commanderPacket);
+								ackPacket = crazyRadioMessenger.SendMessage(commanderPacket);
+								Log.InfoFormat("ACK Response: {0}", ackPacket);
 
-									Log.InfoFormat("Paused...Hit SPACE to resume, ESC to quit.");
+								Log.InfoFormat("Paused...Hit SPACE to resume, ESC to quit.");
 
-									var pauseLoop = true;
-									while (pauseLoop)
+								var pauseLoop = true;
+								while (pauseLoop)
+								{
+									if (Console.KeyAvailable)
 									{
-										if (Console.KeyAvailable)
+										switch (Console.ReadKey().Key)
 										{
-											switch (Console.ReadKey().Key)
-											{
-												// resume
-												case ConsoleKey.Spacebar:
-													pauseLoop = false;
-													break;
-												// end
-												case ConsoleKey.Escape:
-													pauseLoop = loop = false;
-													break;
-											}
+										// resume
+										case ConsoleKey.Spacebar:
+											pauseLoop = false;
+											break;
+										// end
+										case ConsoleKey.Escape:
+											pauseLoop = loop = false;
+											break;
 										}
 									}
-									break;
-								// thrust up
-								case ConsoleKey.UpArrow:
-									thrust += thrustIncrements;
-									break;
-								// thrust down
-								case ConsoleKey.DownArrow:
-									thrust -= thrustIncrements;
-									break;
-								// yaw right
-								case ConsoleKey.RightArrow:
-									yaw += yawIncrements;
-									break;
-								// yaw left
-								case ConsoleKey.LeftArrow:
-									yaw -= yawIncrements;
-									break;
-								// pitch backward
-								case ConsoleKey.S:
-									pitch += pitchIncrements;
-									break;
-								// pitch forward
-								case ConsoleKey.W:
-									pitch -= pitchIncrements;
-									break;
-								// roll right
-								case ConsoleKey.D:
-									roll += rollIncrements;
-									break;
-								// roll left
-								case ConsoleKey.A:
-									roll -= rollIncrements;
-									break;
-								default:
-									Log.InfoFormat("Invalid key for action.");
-									break;
+								}
+								break;
+							// thrust up
+							case ConsoleKey.UpArrow:
+								thrust += thrustIncrements;
+								break;
+							// thrust down
+							case ConsoleKey.DownArrow:
+								thrust -= thrustIncrements;
+								break;
+							// yaw right
+							case ConsoleKey.RightArrow:
+								yaw += yawIncrements;
+								break;
+							// yaw left
+							case ConsoleKey.LeftArrow:
+								yaw -= yawIncrements;
+								break;
+							// pitch backward
+							case ConsoleKey.S:
+								pitch += pitchIncrements;
+								break;
+							// pitch forward
+							case ConsoleKey.W:
+								pitch -= pitchIncrements;
+								break;
+							// roll right
+							case ConsoleKey.D:
+								roll += rollIncrements;
+								break;
+							// roll left
+							case ConsoleKey.A:
+								roll -= rollIncrements;
+								break;
+							default:
+								Log.InfoFormat("Invalid key for action.");
+								break;
 							}
 						}
 
@@ -251,7 +251,7 @@ namespace CrazyflieDotNet
 		{
 			if (crazyradioDriver != null)
 			{
-				var crazyRadioMessenger = new CrazyradioMessenger(crazyradioDriver);
+				var crazyRadioMessenger = new CrazyflieMessenger(crazyradioDriver);
 
 				var stopMotorsCommanderPacket = new CommanderPacket(roll: 0, pitch: 0, yaw: 0, thrust: 0);
 
@@ -298,42 +298,42 @@ namespace CrazyflieDotNet
 						{
 							switch (Console.ReadKey().Key)
 							{
-								// end
-								case ConsoleKey.Escape:
-									loop = false;
-									break;
-								// pause
-								case ConsoleKey.Spacebar:
-									Log.InfoFormat("Paused...Hit SPACE to resume, ESC to quit.");
+							// end
+							case ConsoleKey.Escape:
+								loop = false;
+								break;
+							// pause
+							case ConsoleKey.Spacebar:
+								Log.InfoFormat("Paused...Hit SPACE to resume, ESC to quit.");
 
-									thrust = 0;
-									pitch = 0;
-									yaw = 0;
-									roll = 0;
-									crazyRadioMessenger.SendMessage(stopMotorsCommanderPacket);
+								thrust = 0;
+								pitch = 0;
+								yaw = 0;
+								roll = 0;
+								crazyRadioMessenger.SendMessage(stopMotorsCommanderPacket);
 
-									var pauseLoop = true;
-									while (pauseLoop)
+								var pauseLoop = true;
+								while (pauseLoop)
+								{
+									if (Console.KeyAvailable)
 									{
-										if (Console.KeyAvailable)
+										switch (Console.ReadKey().Key)
 										{
-											switch (Console.ReadKey().Key)
-											{
-												// resume
-												case ConsoleKey.Spacebar:
-													pauseLoop = false;
-													break;
-												// end
-												case ConsoleKey.Escape:
-													pauseLoop = loop = false;
-													break;
-											}
+										// resume
+										case ConsoleKey.Spacebar:
+											pauseLoop = false;
+											break;
+										// end
+										case ConsoleKey.Escape:
+											pauseLoop = loop = false;
+											break;
 										}
 									}
-									break;
-								default:
-									Log.InfoFormat("Invalid key for action.");
-									break;
+								}
+								break;
+							default:
+								Log.InfoFormat("Invalid key for action.");
+								break;
 							}
 						}
 
@@ -366,8 +366,8 @@ namespace CrazyflieDotNet
 						roll = rollRange * rightStickX / stickRange;
 						pitch = pitchRange * rightStickY / stickRange;
 						yaw = yawRange * leftStickX / stickRange;
-						thrust = (ushort) (leftStickY > 0 ? 0 : thrustRange * -1 * leftStickY / stickRange);
-						
+						thrust = (ushort)(leftStickY > 0 ? 0 : thrustRange * -1 * leftStickY / stickRange);
+
 						var infoString = String.Format("LX:{0,7}, LY:{1,7}, RX:{2,7}, RY:{3,7}, Buttons:{4,7}.\tRoll:{5, 7}, Pitch:{6, 7}, Yaw:{7, 7}, Thrust:{8, 7}.", leftStickX, leftStickY, rightStickX, rightStickY, buttonsPressedString, roll, pitch, yaw, thrust);
 						Console.WriteLine(infoString);
 
@@ -388,7 +388,7 @@ namespace CrazyflieDotNet
 
 		private static void SetUpLogging()
 		{
-			BasicConfigurator.Configure();
+			XmlConfigurator.Configure();
 		}
 	}
 }

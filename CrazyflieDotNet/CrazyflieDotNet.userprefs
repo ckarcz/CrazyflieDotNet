@@ -1,13 +1,39 @@
 ﻿<Properties StartupConfiguration="{AB4EF799-1939-49A3-9294-FC2D0A059AE5}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDriver.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Source/CrazyflieDotNet/app.config">
     <Files>
-      <File FileName="Source/CrazyflieDotNet/Program.cs" Line="156" Column="7" />
-      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDataEndpointId.cs" Line="1" Column="1" />
-      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDefaults.cs" Line="48" Column="38" />
-      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDeviceId.cs" Line="3" Column="43" />
-      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDriver.cs" Line="624" Column="46" />
+      <File FileName="Source/CrazyflieDotNet/Program.cs" Line="135" Column="4" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDataEndpointId.cs" Line="8" Column="2" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDeviceId.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDriver.cs" Line="744" Column="34" />
       <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/MessageAckPayloadLength.cs" Line="9" Column="3" />
       <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/MessageAckRetryDelay.cs" Line="6" Column="14" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioRequest.cs" Line="43" Column="3" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/MessageAckMode.cs" Line="6" Column="14" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDefault.cs" Line="48" Column="47" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/CrazyradioDriverException.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/FirmwareVersion.cs" Line="73" Column="50" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/ICrazyradioDriver.cs" Line="97" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/MessageAckRetryCount.cs" Line="6" Column="14" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/RadioAddress.cs" Line="30" Column="4" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/RadioChannel.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/RadioDataRate.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/RadioMode.cs" Line="15" Column="45" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/RadioPowerLevel.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyradio/Driver/ScanChannelsResult.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyflie/TransferProtocol/AckPacket.cs" Line="6" Column="11" />
+      <File FileName="Source/CrazyflieDotNet.Crazyflie/TransferProtocol/Packet.cs" Line="43" Column="29" />
+      <File FileName="Source/CrazyflieDotNet.Crazyflie/TransferProtocol/ICommanderPacket.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyflie/TransferProtocol/ICommanderPacketHeader.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyflie/TransferProtocol/ICommanderPacketPayload.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyflie/TransferProtocol/PingPacket.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyflie/TransferProtocol/CrazyflieMessenger.cs" Line="36" Column="64" />
+      <File FileName="Source/CrazyflieDotNet.Crazyflie/TransferProtocol/CommanderPacketPayload.cs" Line="147" Column="7" />
+      <File FileName="Source/CrazyflieDotNet.Crazyflie/TransferProtocol/CommanderPacketHeader.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyflie/TransferProtocol/CommunicationChannel.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyflie/TransferProtocol/CommunicationPort.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyflie/TransferProtocol/IAckPacket.cs" Line="1" Column="1" />
+      <File FileName="Source/CrazyflieDotNet.Crazyflie/TransferProtocol/ICrazyflieMessenger.cs" Line="5" Column="25" />
+      <File FileName="Source/CrazyflieDotNet/app.config" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />

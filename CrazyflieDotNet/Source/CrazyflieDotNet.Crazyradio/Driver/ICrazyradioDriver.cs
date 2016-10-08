@@ -93,7 +93,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		/// <summary>
 		///     Sets the crazy radio driver settings to defaults.
 		/// </summary>
-		void SetsToDefaults();
+		void SetToDefaults();
 
 		/// <summary>
 		///     Scans for available Crazyradio USB dongle channels on all DataRates within the given range (or full range of

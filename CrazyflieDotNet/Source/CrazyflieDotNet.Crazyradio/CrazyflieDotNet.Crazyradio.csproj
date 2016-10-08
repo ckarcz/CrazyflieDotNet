@@ -55,7 +55,6 @@
     <Compile Include="Driver\RadioAddress.cs" />
     <Compile Include="Driver\RadioChannel.cs" />
     <Compile Include="Driver\RadioDataRate.cs" />
-    <Compile Include="Driver\CrazyradioDefaults.cs" />
     <Compile Include="Driver\CrazyradioDriver.cs" />
     <Compile Include="Driver\CrazyradioDeviceId.cs" />
     <Compile Include="Driver\CrazyradioDriverException.cs" />
@@ -74,9 +73,9 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Driver\CrazyradioDefault.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <Content Include="OS Drivers\OS X\README.txt" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

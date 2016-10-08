@@ -15,11 +15,11 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		/// <summary>
 		/// The data READ endpoint for the Crazyradio USB dongle.
 		/// </summary>
-		public static readonly ReadEndpointID DataReadEndpointId = ReadEndpointID.Ep01;
+		public static readonly ReadEndpointID Read = ReadEndpointID.Ep01;
 
 		/// <summary>
 		/// The data WRITE endpoint for the Crazyradio USB dongle.
 		/// </summary>
-		public static readonly WriteEndpointID DataWriteEndpointId = WriteEndpointID.Ep01;
+		public static readonly WriteEndpointID Write = WriteEndpointID.Ep01;
 	}
 }

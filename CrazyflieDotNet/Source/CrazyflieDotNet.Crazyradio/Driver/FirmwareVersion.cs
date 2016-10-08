@@ -70,7 +70,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		{
 			if (other == null)
 			{
-				throw new ArgumentNullException("other");
+				throw new ArgumentNullException(nameof(other));
 			}
 
 			var thisVersion = (100 * MajorVersion) + (10 * MinorVersion) + PatchVersion;

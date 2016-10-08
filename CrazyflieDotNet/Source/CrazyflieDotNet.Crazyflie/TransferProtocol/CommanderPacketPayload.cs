@@ -34,7 +34,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			if (payloadBytes == null)
 			{
-				throw new ArgumentNullException("payloadBytes");
+				throw new ArgumentNullException(nameof(payloadBytes));
 			}
 
 			if (payloadBytes.Length != _commanderPayloadSize)
@@ -60,17 +60,17 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			try
 			{
-                var rollBytes = BitConverter.GetBytes(Roll);
+				var rollBytes = BitConverter.GetBytes(Roll);
 				var pitchBytes = BitConverter.GetBytes(Pitch);
-                var yawBytes = BitConverter.GetBytes(Yaw);
-                var thrustBytes = BitConverter.GetBytes(Thrust);
+				var yawBytes = BitConverter.GetBytes(Yaw);
+				var thrustBytes = BitConverter.GetBytes(Thrust);
 
-                var commanderPayloadBytes = new byte[_commanderPayloadSize];
+				var commanderPayloadBytes = new byte[_commanderPayloadSize];
 
-                Array.Copy(rollBytes, 0, commanderPayloadBytes, 0, rollBytes.Length);
-                Array.Copy(pitchBytes, 0, commanderPayloadBytes, rollBytes.Length, pitchBytes.Length);
-                Array.Copy(yawBytes, 0, commanderPayloadBytes, rollBytes.Length + pitchBytes.Length, yawBytes.Length);
-                Array.Copy(thrustBytes, 0, commanderPayloadBytes, rollBytes.Length + pitchBytes.Length + yawBytes.Length, thrustBytes.Length);
+				Array.Copy(rollBytes, 0, commanderPayloadBytes, 0, rollBytes.Length);
+				Array.Copy(pitchBytes, 0, commanderPayloadBytes, rollBytes.Length, pitchBytes.Length);
+				Array.Copy(yawBytes, 0, commanderPayloadBytes, rollBytes.Length + pitchBytes.Length, yawBytes.Length);
+				Array.Copy(thrustBytes, 0, commanderPayloadBytes, rollBytes.Length + pitchBytes.Length + yawBytes.Length, thrustBytes.Length);
 
 				return commanderPayloadBytes;
 			}
@@ -84,7 +84,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			if (payloadBytes == null)
 			{
-				throw new ArgumentNullException("payloadBytes");
+				throw new ArgumentNullException(nameof(payloadBytes));
 			}
 
 			try
@@ -103,7 +103,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			if (payloadBytes == null)
 			{
-				throw new ArgumentNullException("payloadBytes");
+				throw new ArgumentNullException(nameof(payloadBytes));
 			}
 
 			try
@@ -122,7 +122,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			if (payloadBytes == null)
 			{
-				throw new ArgumentNullException("payloadBytes");
+				throw new ArgumentNullException(nameof(payloadBytes));
 			}
 
 			try
@@ -141,7 +141,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			if (payloadBytes == null)
 			{
-				throw new ArgumentNullException("payloadBytes");
+				throw new ArgumentNullException(nameof(payloadBytes));
 			}
 
 			try
@@ -156,8 +156,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		private static readonly int _floatSize = sizeof (float);
-		private static readonly int _shortSize = sizeof (ushort);
+		private static readonly int _floatSize = sizeof(float);
+		private static readonly int _shortSize = sizeof(ushort);
 		private static readonly int _commanderPayloadSize = _floatSize * 3 + _shortSize;
 
 		#region ICommanderPacketPayload Members
