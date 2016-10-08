@@ -29,6 +29,8 @@ A lot of hard and a couple years later, they were able to bring their Crazyflie 
 
 * [Crazyradio Wiki](http://wiki.bitcraze.se/projects:crazyradio:index)
 
+* [Crazyradio Documentation](https://wiki.bitcraze.io/doc:crazyradio:index)
+
 #About This Project
 This is currently a work in progress in my spare time. Pull requests are welcome if good implementation and clean code!
 
