@@ -50,7 +50,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			if (packetBytes != null && packetBytes.Length != 0)
 			{
-				var packetHeader = new CommanderPacketHeader(packetBytes[0]);
+				var packetHeader = new CommanderPacketHeader(packetBytes.First());
 				return packetHeader;
 			}
 

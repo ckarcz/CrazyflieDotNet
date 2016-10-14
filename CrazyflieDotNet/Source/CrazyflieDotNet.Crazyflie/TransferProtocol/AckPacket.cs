@@ -78,7 +78,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			if (packetBytes != null && packetBytes.Length != 0)
 			{
-				var packetHeader = new AckPacketHeader(packetBytes[0]);
+				var packetHeader = new AckPacketHeader(packetBytes.First());
 				return packetHeader;
 			}
 
