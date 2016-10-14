@@ -132,7 +132,7 @@ namespace CrazyflieDotNet
 
 				try
 				{
-					IPacket ackPacket = null;
+					IAckPacket ackPacket = null;
 					byte[] ackPacketBytes = null;
 
 					Log.InfoFormat("Ping Packet Request: {0}", PingPacket.Instance);

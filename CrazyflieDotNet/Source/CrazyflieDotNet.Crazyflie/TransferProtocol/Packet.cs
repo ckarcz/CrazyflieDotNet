@@ -27,9 +27,9 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 	}
 
 	public abstract class Packet<TPacketHeader, TPacketPayload>
-		: IPacket<TPacketHeader, TPacketPayload> where TPacketHeader : IPacketHeader where TPacketPayload : IPacketPayload
+		: IPacket<TPacketHeader, TPacketPayload> where TPacketHeader : IProvideBytes where TPacketPayload : IProvideBytes
 	{
-		public static readonly byte[] EmptyPacketBytes = new byte[0];
+		protected static readonly byte[] EmptyPacketBytes = new byte[0];
 
 		protected Packet(byte[] packetBytes)
 		{
@@ -48,23 +48,23 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 		protected virtual byte[] GetPacketBytes()
 		{
-			var headerByte = Header != null ? Header.GetByte() : null;
-			var headerByteLength = (headerByte != null ? 1 : 0);
+			var headerBytes = Header != null ? Header.GetBytes() : null;
+			var headerBytesLength = (headerBytes != null ? 1 : 0);
 
 			var payloadBytes = Payload != null ? Payload.GetBytes() : null;
 			var payloadBytesLength = (payloadBytes != null ? payloadBytes.Length : 0);
 
-			var packetBytesArraySize = headerByteLength + payloadBytesLength;
+			var packetBytesArraySize = headerBytesLength + payloadBytesLength;
 			var packetBytesArray = new byte[packetBytesArraySize];
 
-			if (headerByte != null && headerByteLength > 0)
+			if (headerBytes != null && headerBytesLength > 0)
 			{
-				Array.Copy(new byte[] {(byte)headerByte}, 0, packetBytesArray, 0, headerByteLength);
+				Array.Copy(headerBytes, 0, packetBytesArray, 0, headerBytesLength);
 			}
 
 			if (payloadBytes != null && payloadBytesLength > 0)
 			{
-				Array.Copy(payloadBytes, 0, packetBytesArray, headerByteLength, payloadBytesLength);
+				Array.Copy(payloadBytes, 0, packetBytesArray, headerBytesLength, payloadBytesLength);
 			}
 
 			return packetBytesArray;
@@ -74,7 +74,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 		protected abstract TPacketPayload ParsePayload(byte[] packetBytes);
 
-        public override abstract string ToString();
+		public override abstract string ToString();
 
 		#region IPacket<TPacketHeader,TPacketPayload> Members
 
@@ -82,14 +82,20 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 		public TPacketPayload Payload { get; }
 
-		IPacketHeader IPacket.Header
+		IProvideBytes IPacket.Header
 		{
-			get { return Header; }
+			get
+			{
+				return Header;
+			}
 		}
 
-		IPacketPayload IPacket.Payload
+		IProvideBytes IPacket.Payload
 		{
-			get { return Payload; }
+			get
+			{
+				return Payload;
+			}
 		}
 
 		public byte[] GetBytes()

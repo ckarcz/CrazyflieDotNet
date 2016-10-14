@@ -39,20 +39,20 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			Channel = channel;
 		}
 
-		protected override byte? GetPacketHeaderByte()
+		protected override byte[] GetPacketHeaderBytes()
 		{
 			try
 			{
-				var portByte = (byte) Port;
-				var portByteAnd15 = (byte) (portByte & 0x0F);
-				var portByteAnd15LeftShifted4 = (byte) (portByteAnd15 << 4);
+				var portByte = (byte)Port;
+				var portByteAnd15 = (byte)(portByte & 0x0F);
+				var portByteAnd15LeftShifted4 = (byte)(portByteAnd15 << 4);
 
-				var reservedLeftShifted2 = (byte) (0x03 << 2);
+				var reservedLeftShifted2 = (byte)(0x03 << 2);
 
-				var channelByte = (byte) Channel;
-				var channelByteAnd3 = (byte) (channelByte & 0x03);
+				var channelByte = (byte)Channel;
+				var channelByteAnd3 = (byte)(channelByte & 0x03);
 
-				return (byte) (portByteAnd15LeftShifted4 | reservedLeftShifted2 | channelByteAnd3);
+				return new[] { (byte)(portByteAnd15LeftShifted4 | reservedLeftShifted2 | channelByteAnd3) };
 			}
 			catch (Exception ex)
 			{
@@ -64,9 +64,9 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			try
 			{
-				var headerByteRightShiftedFour = (byte) (headerByte >> 4);
-				var portByte = (byte) (headerByteRightShiftedFour & 0x0F);
-				var port = (CommunicationPort) Enum.ToObject(typeof (CommunicationPort), portByte);
+				var headerByteRightShiftedFour = (byte)(headerByte >> 4);
+				var portByte = (byte)(headerByteRightShiftedFour & 0x0F);
+				var port = (CommunicationPort)Enum.ToObject(typeof(CommunicationPort), portByte);
 				return port;
 			}
 			catch (Exception ex)
@@ -79,8 +79,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			try
 			{
-				var channelByte = (byte) (headerByte & 0x03);
-				var channel = (CommunicationChannel) Enum.ToObject(typeof (CommunicationChannel), channelByte);
+				var channelByte = (byte)(headerByte & 0x03);
+				var channel = (CommunicationChannel)Enum.ToObject(typeof(CommunicationChannel), channelByte);
 				return channel;
 			}
 			catch (Exception ex)

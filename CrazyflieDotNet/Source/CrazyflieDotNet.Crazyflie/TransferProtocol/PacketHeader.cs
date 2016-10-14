@@ -12,21 +12,21 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 	{
 		#region IPacketHeader Members
 
-		public byte? GetByte()
+		public byte[] GetBytes()
 		{
 			try
 			{
-				var packetHeaderByte = GetPacketHeaderByte();
-				return packetHeaderByte;
+				var packetHeaderBytes = GetPacketHeaderBytes();
+				return packetHeaderBytes;
 			}
 			catch (Exception ex)
 			{
-				throw new DataException("Error obtaining packet header byte.", ex);
+				throw new DataException("Error obtaining packet header bytes.", ex);
 			}
 		}
 
 		#endregion
 
-		protected abstract byte? GetPacketHeaderByte();
+		protected abstract byte[] GetPacketHeaderBytes();
 	}
 }

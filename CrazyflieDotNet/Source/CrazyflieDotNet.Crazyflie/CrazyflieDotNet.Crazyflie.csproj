@@ -77,6 +77,8 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="TransferProtocol\IProvideBytes.cs" />
+    <Compile Include="TransferProtocol\AckPacketPayload.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrazyflieDotNet.Crazyradio\CrazyflieDotNet.Crazyradio.csproj">

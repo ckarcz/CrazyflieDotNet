@@ -3,12 +3,12 @@ using System;
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
 	public sealed class PingPacket
-		: Packet<IPingPacketHeader>, IPingPacket
+		: Packet<IPingPacketHeader, IProvideBytes>, IPingPacket
 	{
-        private static PingPacket _instance;
+		private static PingPacket _instance;
 
-        public PingPacket()
-			: base(new PingPacketHeader(0xff))
+		public PingPacket()
+			: base(new PingPacketHeader(0xff), null)
 		{
 		}
 
@@ -23,14 +23,19 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			return null;
 		}
 
-        public override string ToString()
-        {
-            return string.Format("Null/Ping Packet (0xff). Bytes: {0}.", BitConverter.ToString(GetBytes()));
-        }
+		protected override IProvideBytes ParsePayload(byte[] packetBytes)
+		{
+			return null;
+		}
 
-        public static PingPacket Instance
-        {
-            get { return _instance ?? (_instance = new PingPacket()); }
-        }
-    }
+		public override string ToString()
+		{
+			return string.Format("Null/Ping Packet (0xff). Bytes: {0}.", BitConverter.ToString(GetBytes()));
+		}
+
+		public static PingPacket Instance
+		{
+			get { return _instance ?? (_instance = new PingPacket()); }
+		}
+	}
 }

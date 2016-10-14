@@ -46,23 +46,23 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		public bool PowerDetector { get; }
 		public bool AckRecieved { get; }
 
-		protected override byte? GetPacketHeaderByte()
+		protected override byte[] GetPacketHeaderBytes()
 		{
 			try
 			{
-				var retryCountByte = (byte) RetryCount;
-				var retryCountByteAnd15 = (byte) (retryCountByte & 0x0F);
-				var retryCountByteAnd15LeftShifted4 = (byte) (retryCountByteAnd15 << 4);
-				var reservedLeftShifted2 = (byte) (0x03 << 2);
+				var retryCountByte = (byte)RetryCount;
+				var retryCountByteAnd15 = (byte)(retryCountByte & 0x0F);
+				var retryCountByteAnd15LeftShifted4 = (byte)(retryCountByteAnd15 << 4);
+				var reservedLeftShifted2 = (byte)(0x03 << 2);
 
 				var powerDetectorByte = Convert.ToByte(PowerDetector);
-				var powerDetectorByteAnd1 = (byte) (powerDetectorByte & 0x01);
-				var powerDetectorByteLeftShifted1 = (byte) (powerDetectorByteAnd1 << 1);
+				var powerDetectorByteAnd1 = (byte)(powerDetectorByte & 0x01);
+				var powerDetectorByteLeftShifted1 = (byte)(powerDetectorByteAnd1 << 1);
 
 				var ackRecievedByte = Convert.ToByte(AckRecieved);
-				var ackRecievedByteAnd1 = (byte) (ackRecievedByte & 0x01);
+				var ackRecievedByteAnd1 = (byte)(ackRecievedByte & 0x01);
 
-				return (byte) (retryCountByteAnd15LeftShifted4 | reservedLeftShifted2 | powerDetectorByteLeftShifted1 | ackRecievedByteAnd1);
+				return new[] { (byte)(retryCountByteAnd15LeftShifted4 | reservedLeftShifted2 | powerDetectorByteLeftShifted1 | ackRecievedByteAnd1) };
 			}
 			catch (Exception ex)
 			{
@@ -74,8 +74,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			try
 			{
-                var retryCountByte = (byte)(headerByte >> 4);
-				var retryCount = (int) Convert.ToInt32(retryCountByte);
+				var retryCountByte = (byte)(headerByte >> 4);
+				var retryCount = (int)Convert.ToInt32(retryCountByte);
 				return retryCount;
 			}
 			catch (Exception ex)
@@ -88,7 +88,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			try
 			{
-				var powerDetectorByte = (byte) (headerByte & 0x02);
+				var powerDetectorByte = (byte)(headerByte & 0x02);
 				var powerDetector = Convert.ToBoolean(powerDetectorByte);
 				return powerDetector;
 			}
@@ -102,7 +102,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		{
 			try
 			{
-				var ackReceivedByte = (byte) (headerByte & 0x01);
+				var ackReceivedByte = (byte)(headerByte & 0x01);
 				var ackReceived = Convert.ToBoolean(ackReceivedByte);
 				return ackReceived;
 			}

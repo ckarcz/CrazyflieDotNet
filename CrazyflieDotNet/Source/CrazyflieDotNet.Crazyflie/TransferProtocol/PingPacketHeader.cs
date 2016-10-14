@@ -5,16 +5,16 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 	public sealed class PingPacketHeader
 		: PacketHeader, IPingPacketHeader
 	{
-        private readonly byte pingPacketHeaderByte = 0xff;
+		private readonly byte pingPacketHeaderByte = 0xff;
 
-        public PingPacketHeader(byte headerByte)
+		public PingPacketHeader(byte headerByte)
 		{
-            pingPacketHeaderByte = headerByte;
-        }
+			pingPacketHeaderByte = headerByte;
+		}
 
-        protected override byte? GetPacketHeaderByte()
-        {
-            return pingPacketHeaderByte;
-        }
-    }
+		protected override byte[] GetPacketHeaderBytes()
+		{
+			return new[] { pingPacketHeaderByte };
+		}
+	}
 }
