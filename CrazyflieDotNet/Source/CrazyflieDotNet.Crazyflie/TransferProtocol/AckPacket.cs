@@ -8,41 +8,24 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 	/// Ack packet with header but no payload.
 	/// </summary>
 	public class AckPacket
-		: Packet<IAckPacketHeader>, IAckPacket
+		: AckPacket<IProvideBytes>, IAckPacket
 	{
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.AckPacket"/> class.
 		/// </summary>
-		/// <param name="header">The Ack packet header.</param>
+		/// <param name="header">Header.</param>
 		public AckPacket(IAckPacketHeader header)
-			: base(header)
+			: base(header, null)
 		{
 		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.AckPacket"/> class.
 		/// </summary>
-		/// <param name="packetBytes">Ack packet bytes.</param>
-		public AckPacket(byte[] packetBytes)
-			: base(packetBytes)
-		{
-		}
-
-		/// <summary>
-		/// Parses the header.
-		/// </summary>
-		/// <returns>The header.</returns>
 		/// <param name="packetBytes">Packet bytes.</param>
-		protected override IAckPacketHeader ParseHeader(byte[] packetBytes)
+		public AckPacket(byte[] packetBytes)
+			: base(packetBytes, null)
 		{
-			if (packetBytes != null && packetBytes.Length != 0)
-			{
-				var packetHeader = new AckPacketHeader(packetBytes[0]);
-				return packetHeader;
-			}
-
-			return default(IAckPacketHeader);
 		}
 	}
 
