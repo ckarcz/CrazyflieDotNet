@@ -63,10 +63,10 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		/// Sends the message and returns an ack with payload.
 		/// </summary>
 		/// <returns>The message.</returns>
-		/// <param name="packetPayload">Packet.</param>
-		/// <param name="ackPayloadBuilder">Ack payload builder/delegate.</param>
+		/// <param name="packet">Packet.</param>
+		/// <param name="createAckPayload">Ack payload builder/delegate.</param>
 		/// <typeparam name="TPacketPayload">Ack pa.</typeparam>
-		public IAckPacket<TAckPacketPayload> SendMessage<TAckPacketPayload>(IPacket packet, BuildAckPayload<TAckPacketPayload> ackPayloadBuilder) where TAckPacketPayload : IProvideBytes
+		public IAckPacket<TAckPacketPayload> SendMessage<TAckPacketPayload>(IPacket packet, CreateAckPayload<TAckPacketPayload> createAckPayload) where TAckPacketPayload : IProvideBytes
 		{
 			var packetBytes = packet.GetBytes();
 
@@ -76,7 +76,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 			if (responseBytes != null)
 			{
-				var ackResponse = new AckPacket<TAckPacketPayload>(responseBytes, ackPayloadBuilder);
+				var ackResponse = new AckPacket<TAckPacketPayload>(responseBytes, createAckPayload);
 
 				Log.InfoFormat("Sent packet. Got ACK response {0} (bytes: {1})", ackResponse, responseBytes);
 

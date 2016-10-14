@@ -133,7 +133,6 @@ namespace CrazyflieDotNet
 				try
 				{
 					IAckPacket ackPacket = null;
-					byte[] ackPacketBytes = null;
 
 					Log.InfoFormat("Ping Packet Request: {0}", PingPacket.Instance);
 					ackPacket = crazyRadioMessenger.SendMessage(PingPacket.Instance);
@@ -288,7 +287,7 @@ namespace CrazyflieDotNet
 					}
 
 					joystick.Properties.AxisMode = DeviceAxisMode.Absolute;
-					var acquireResult = joystick.Acquire();
+					joystick.Acquire();
 					var joystickState = new JoystickState();
 
 					var loop = true;

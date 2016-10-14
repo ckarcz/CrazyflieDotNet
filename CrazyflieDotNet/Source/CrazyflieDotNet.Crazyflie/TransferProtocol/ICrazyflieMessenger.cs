@@ -20,8 +20,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		/// </summary>
 		/// <returns>The message.</returns>
 		/// <param name="packet">Packet.</param>
-		/// <param name="ackPayloadBuilder">Ack payload builder.</param>
+		/// <param name="createAckPayload">Ack payload builder/delegate.</param>
 		/// <typeparam name="TAckPacketPayload">The 1st type parameter.</typeparam>
-		IAckPacket<TAckPacketPayload> SendMessage<TAckPacketPayload>(IPacket packet, CreateAckPayload<TAckPacketPayload> ackPayloadBuilder = null) where TAckPacketPayload : IProvideBytes;
+		IAckPacket<TAckPacketPayload> SendMessage<TAckPacketPayload>(IPacket packet, CreateAckPayload<TAckPacketPayload> createAckPayload = null) where TAckPacketPayload : IProvideBytes;
 	}
 }
