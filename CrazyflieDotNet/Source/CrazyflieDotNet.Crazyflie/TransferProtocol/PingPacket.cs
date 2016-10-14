@@ -14,7 +14,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		/// Initializes a new instance of the <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.PingPacket"/> class.
 		/// </summary>
 		public PingPacket()
-			: base(new PingPacketHeader(0xff), null)
+			: base(new PingPacketHeader(0xFF), null)
 		{
 		}
 

@@ -850,22 +850,34 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 
 		private IEnumerable<RadioChannel> ManuallyScanForChannels(RadioChannel channelStart, RadioChannel channelStop)
 		{
-			// TODO
-
-			throw new NotSupportedException("Manual channel scan is currently not supported by the CrazyradioDriver.");
-
 			try
 			{
 				Log.DebugFormat("Starting manual channel scan. StartChannel: {0}, StopChannel: {1}.", channelStart, channelStop);
 
 				var results = new List<RadioChannel>();
 
-				var ackPacket = new byte[] { 0xFF };
+				var ping = new byte[] { 0xFF };
 				for (var currentChannel = channelStart; currentChannel <= channelStop; currentChannel++)
 				{
 					Channel = currentChannel;
-					var result = SendData(ackPacket);
-					// TODO - check result and if good ACK received, add Channel to results.
+
+					Log.DebugFormat("Sending data {0} on channel data {1}.", BitConverter.ToString(ping), currentChannel);
+					var ack = SendData(ping);
+					Log.DebugFormat("Received data {0} on channel {1}.", BitConverter.ToString(ping), currentChannel);
+
+					if (ack != null && ack.Length > 0)
+					{
+						var ackReceivedBytes = (byte)(ack[0] & 0x01);
+						var ackReceived = Convert.ToBoolean(ackReceivedBytes);
+
+						Log.DebugFormat("AckReceived? {0} (Bytes: {1}) on channel {2}.", ackReceived, BitConverter.ToString(new[] { ackReceivedBytes }), currentChannel);
+
+						if (ackReceived)
+						{
+							Log.DebugFormat("Adding channel {0} to results.", currentChannel);
+							results.Add(currentChannel);
+						}
+					}
 				}
 
 				Log.DebugFormat("Manual channel scan completed with {0} results. StartChannel: {1}, StopChannel: {2}.", results, channelStart, channelStop);
