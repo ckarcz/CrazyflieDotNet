@@ -66,7 +66,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		/// <param name="packetPayload">Packet.</param>
 		/// <param name="ackPayloadBuilder">Ack payload builder/delegate.</param>
 		/// <typeparam name="TPacketPayload">Ack pa.</typeparam>
-		public IAckPacket<TAckPacketPayload> SendMessage<TAckPacketPayload>(IPacket packet, Func<byte[], TAckPacketPayload> ackPayloadBuilder) where TAckPacketPayload : IProvideBytes
+		public IAckPacket<TAckPacketPayload> SendMessage<TAckPacketPayload>(IPacket packet, BuildAckPayload<TAckPacketPayload> ackPayloadBuilder) where TAckPacketPayload : IProvideBytes
 		{
 			var packetBytes = packet.GetBytes();
 

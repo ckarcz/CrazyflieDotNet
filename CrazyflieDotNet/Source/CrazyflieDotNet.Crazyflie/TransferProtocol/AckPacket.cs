@@ -1,8 +1,9 @@
-using System;
 using System.Linq;
 
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
+	public delegate TAckPacketPayload BuildAckPayload<TAckPacketPayload>(byte[] payloadBytes);
+
 	/// <summary>
 	/// Ack packet with header but no payload.
 	/// </summary>
@@ -48,22 +49,22 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 	/// <summary>
 	/// Ack packet with header and payload.
 	/// </summary>
-	public class AckPacket<TPacketPayload>
-		: Packet<IAckPacketHeader, TPacketPayload>, IAckPacket<TPacketPayload> where TPacketPayload : IProvideBytes
+	public class AckPacket<TAckPacketPayload>
+		: Packet<IAckPacketHeader, TAckPacketPayload>, IAckPacket<TAckPacketPayload> where TAckPacketPayload : IProvideBytes
 	{
-		readonly Func<byte[], TPacketPayload> ackPayloadBuilder;
+		private readonly BuildAckPayload<TAckPacketPayload> ackPayloadBuilder;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.AckPacket`1"/> class.
 		/// </summary>
 		/// <param name="header">Ack packet header.</param>
 		/// <param name="ackPayloadBuilder">Ack payload builder/delegate.</param>
-		public AckPacket(IAckPacketHeader header, Func<byte[], TPacketPayload> ackPayloadBuilder)
-			: base(header, default(TPacketPayload))
+		public AckPacket(IAckPacketHeader header, BuildAckPayload<TAckPacketPayload> ackPayloadBuilder)
+			: base(header, default(TAckPacketPayload))
 		{
 			if (ackPayloadBuilder == null)
 			{
-				ackPayloadBuilder = (arg) => default(TPacketPayload);
+				ackPayloadBuilder = (arg) => default(TAckPacketPayload);
 			}
 
 			this.ackPayloadBuilder = ackPayloadBuilder;
@@ -74,12 +75,12 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		/// </summary>
 		/// <param name="packetBytes">Ack packet bytes.</param>
 		/// <param name="ackPayloadBuilder">Ack payload builder/delegate.</param>
-		public AckPacket(byte[] packetBytes, Func<byte[], TPacketPayload> ackPayloadBuilder)
+		public AckPacket(byte[] packetBytes, BuildAckPayload<TAckPacketPayload> ackPayloadBuilder)
 			: base(packetBytes)
 		{
 			if (ackPayloadBuilder == null)
 			{
-				ackPayloadBuilder = (arg) => default(TPacketPayload);
+				ackPayloadBuilder = (arg) => default(TAckPacketPayload);
 			}
 
 			this.ackPayloadBuilder = ackPayloadBuilder;
@@ -106,7 +107,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		/// </summary>
 		/// <returns>The payload.</returns>
 		/// <param name="packetBytes">Packet bytes.</param>
-		protected override TPacketPayload ParsePayload(byte[] packetBytes)
+		protected override TAckPacketPayload ParsePayload(byte[] packetBytes)
 		{
 			if (packetBytes != null && packetBytes.Length > 0)
 			{
@@ -114,7 +115,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 				return packetHeader;
 			}
 
-			return default(TPacketPayload);
+			return default(TAckPacketPayload);
 		}
 	}
 }
