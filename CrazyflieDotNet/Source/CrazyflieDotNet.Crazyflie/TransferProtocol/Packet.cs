@@ -7,30 +7,53 @@ using System.Data;
 
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
+	/// <summary>
+	/// Packet.
+	/// </summary>
 	public abstract class Packet<TPacketHeader>
 		: Packet<TPacketHeader, IPacketPayload> where TPacketHeader : IPacketHeader
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.Packet`1"/> class.
+		/// </summary>
+		/// <param name="packetBytes">Packet bytes.</param>
 		protected Packet(byte[] packetBytes)
 			: base(packetBytes)
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.Packet`1"/> class.
+		/// </summary>
+		/// <param name="header">Header.</param>
 		protected Packet(TPacketHeader header)
 			: base(header, null)
 		{
 		}
 
+		/// <summary>
+		/// Parses the payload.
+		/// </summary>
+		/// <returns>The payload.</returns>
+		/// <param name="packetBytes">Packet bytes.</param>
 		protected override IPacketPayload ParsePayload(byte[] packetBytes)
 		{
 			return null;
 		}
 	}
 
+	/// <summary>
+	/// Packet.
+	/// </summary>
 	public abstract class Packet<TPacketHeader, TPacketPayload>
 		: IPacket<TPacketHeader, TPacketPayload> where TPacketHeader : IProvideBytes where TPacketPayload : IProvideBytes
 	{
-		protected static readonly byte[] EmptyPacketBytes = new byte[0];
+		private static readonly byte[] EmptyPacketBytes = new byte[0];
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.Packet`2"/> class.
+		/// </summary>
+		/// <param name="packetBytes">Packet bytes.</param>
 		protected Packet(byte[] packetBytes)
 		{
 			if (packetBytes != null && packetBytes.Length > 0)
@@ -40,12 +63,21 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.Packet`2"/> class.
+		/// </summary>
+		/// <param name="header">Header.</param>
+		/// <param name="payload">Payload.</param>
 		protected Packet(TPacketHeader header, TPacketPayload payload)
 		{
 			Header = header;
 			Payload = payload;
 		}
 
+		/// <summary>
+		/// Gets the packet bytes.
+		/// </summary>
+		/// <returns>The packet bytes.</returns>
 		protected virtual byte[] GetPacketBytes()
 		{
 			var headerBytes = Header != null ? Header.GetBytes() : null;
@@ -70,18 +102,22 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			return packetBytesArray;
 		}
 
-		protected abstract TPacketHeader ParseHeader(byte[] packetBytes);
-
-		protected abstract TPacketPayload ParsePayload(byte[] packetBytes);
-
-		public override abstract string ToString();
-
-		#region IPacket<TPacketHeader,TPacketPayload> Members
-
+		/// <summary>
+		/// Gets the header.
+		/// </summary>
+		/// <value>The header.</value>
 		public TPacketHeader Header { get; }
 
+		/// <summary>
+		/// Gets the payload.
+		/// </summary>
+		/// <value>The payload.</value>
 		public TPacketPayload Payload { get; }
 
+		/// <summary>
+		/// Gets the header.
+		/// </summary>
+		/// <value>the header.</value>
 		IProvideBytes IPacket.Header
 		{
 			get
@@ -90,6 +126,10 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
+		/// <summary>
+		/// Gets the header.
+		/// </summary>
+		/// <value>the header.</value>
 		IProvideBytes IPacket.Payload
 		{
 			get
@@ -98,6 +138,24 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
+		/// <summary>
+		/// Parses the header.
+		/// </summary>
+		/// <returns>The header.</returns>
+		/// <param name="packetBytes">Packet bytes.</param>
+		protected abstract TPacketHeader ParseHeader(byte[] packetBytes);
+
+		/// <summary>
+		/// Parses the payload.
+		/// </summary>
+		/// <returns>The payload.</returns>
+		/// <param name="packetBytes">Packet bytes.</param>
+		protected abstract TPacketPayload ParsePayload(byte[] packetBytes);
+
+		/// <summary>
+		/// Gets the bytes.
+		/// </summary>
+		/// <returns>The bytes.</returns>
 		public byte[] GetBytes()
 		{
 			try
@@ -113,6 +171,9 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		#endregion
+		public override string ToString()
+		{
+			return string.Format("[Header={0}, Payload={1}]", Header, Payload);
+		}
 	}
 }
