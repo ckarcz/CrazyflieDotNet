@@ -10,10 +10,12 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 	public abstract class PacketPayload
 		: IPacketPayload
 	{
-		public static readonly byte[] EmptyPacketPayloadBytes = new byte[0];
+		private static readonly byte[] EmptyPacketPayloadBytes = new byte[0];
 
-		#region IPacketPayload Members
-
+		/// <summary>
+		/// Gets the bytes.
+		/// </summary>
+		/// <returns>The bytes.</returns>
 		public byte[] GetBytes()
 		{
 			try
@@ -29,8 +31,15 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		#endregion
-
 		protected abstract byte[] GetPacketPayloadBytes();
+
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.PingPacketHeader"/>.
+		/// </summary>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.PingPacketHeader"/>.</returns>
+		public override string ToString()
+		{
+			return string.Format("[{0}]", BitConverter.ToString(GetBytes()));
+		}
 	}
 }

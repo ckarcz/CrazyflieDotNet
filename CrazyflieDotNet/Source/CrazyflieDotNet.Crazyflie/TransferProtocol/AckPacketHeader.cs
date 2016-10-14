@@ -30,11 +30,17 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		/// <param name="headerByte"> </param>
 		public AckPacketHeader(byte headerByte)
 		{
-			RetryCount = GetRetryCount(headerByte);
-			PowerDetector = GetPowerDetector(headerByte);
-			AckRecieved = GetAckRecieved(headerByte);
+			RetryCount = ParseRetryCount(headerByte);
+			PowerDetector = ParsePowerDetector(headerByte);
+			AckRecieved = ParseAckReceived(headerByte);
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.AckPacketHeader"/> class.
+		/// </summary>
+		/// <param name="retryCount">Retry count.</param>
+		/// <param name="powerDetector">If set to <c>true</c> power detector.</param>
+		/// <param name="ackRecieved">If set to <c>true</c> ack recieved.</param>
 		public AckPacketHeader(int retryCount, bool powerDetector, bool ackRecieved)
 		{
 			RetryCount = retryCount;
@@ -42,10 +48,30 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			AckRecieved = ackRecieved;
 		}
 
+		/// <summary>
+		/// Gets the retry count.
+		/// </summary>
+		/// <value>The retry count.</value>
 		public int RetryCount { get; }
+
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.AckPacketHeader"/>
+		/// power detector.
+		/// </summary>
+		/// <value><c>true</c> if power detector; otherwise, <c>false</c>.</value>
 		public bool PowerDetector { get; }
+
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.AckPacketHeader"/>
+		/// ack recieved.
+		/// </summary>
+		/// <value><c>true</c> if ack recieved; otherwise, <c>false</c>.</value>
 		public bool AckRecieved { get; }
 
+		/// <summary>
+		/// Gets the packet header bytes.
+		/// </summary>
+		/// <returns>The packet header bytes.</returns>
 		protected override byte[] GetPacketHeaderBytes()
 		{
 			try
@@ -70,7 +96,12 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		private int GetRetryCount(byte headerByte)
+		/// <summary>
+		/// Parses the retry count.
+		/// </summary>
+		/// <returns>The retry count.</returns>
+		/// <param name="headerByte">Header byte.</param>
+		private int ParseRetryCount(byte headerByte)
 		{
 			try
 			{
@@ -84,7 +115,12 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		private bool GetPowerDetector(byte headerByte)
+		/// <summary>
+		/// Parses the power detector.
+		/// </summary>
+		/// <returns><c>true</c>, if power detector was parsed, <c>false</c> otherwise.</returns>
+		/// <param name="headerByte">Header byte.</param>
+		private bool ParsePowerDetector(byte headerByte)
 		{
 			try
 			{
@@ -98,7 +134,12 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		private bool GetAckRecieved(byte headerByte)
+		/// <summary>
+		/// Parses the ack received.
+		/// </summary>
+		/// <returns><c>true</c>, if ack received was parsed, <c>false</c> otherwise.</returns>
+		/// <param name="headerByte">Header byte.</param>
+		private bool ParseAckReceived(byte headerByte)
 		{
 			try
 			{
@@ -110,6 +151,15 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			{
 				throw new DataException("Error getting ack packet header ack received value from header byte", ex);
 			}
+		}
+
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.AckPacketHeader"/>.
+		/// </summary>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.AckPacketHeader"/>.</returns>
+		public override string ToString()
+		{
+			return string.Format("[RetryCount={0}, PowerDetector={1}, AckRecieved={2}]", RetryCount, PowerDetector, AckRecieved);
 		}
 	}
 }

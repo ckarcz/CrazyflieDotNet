@@ -1,13 +1,10 @@
-﻿#region Imports
-
-using System;
-
-#endregion
-
-namespace CrazyflieDotNet.Crazyflie.TransferProtocol
+﻿namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
-    public abstract class OutputPacketPayload
-        : PacketPayload, IOutputPacketPayload
-    {
-    }
+	/// <summary>
+	/// Output packet payload.
+	/// </summary>
+	public abstract class OutputPacketPayload
+		: PacketPayload, IOutputPacketPayload
+	{
+	}
 }

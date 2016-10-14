@@ -29,16 +29,37 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		/// <param name="headerByte"> </param>
 		protected OutputPacketHeader(byte headerByte)
 		{
-			Port = GetPort(headerByte);
-			Channel = GetChannel(headerByte);
+			Port = ParsePort(headerByte);
+			Channel = ParseChannel(headerByte);
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.OutputPacketHeader"/> class.
+		/// </summary>
+		/// <param name="port">Port.</param>
+		/// <param name="channel">Channel.</param>
 		protected OutputPacketHeader(CommunicationPort port, CommunicationChannel channel = DefaultChannel)
 		{
 			Port = port;
 			Channel = channel;
 		}
 
+		/// <summary>
+		/// Gets the port.
+		/// </summary>
+		/// <value>The port.</value>
+		public CommunicationPort Port { get; }
+
+		/// <summary>
+		/// Gets the channel.
+		/// </summary>
+		/// <value>The channel.</value>
+		public CommunicationChannel Channel { get; }
+
+		/// <summary>
+		/// Gets the packet header bytes.
+		/// </summary>
+		/// <returns>The packet header bytes.</returns>
 		protected override byte[] GetPacketHeaderBytes()
 		{
 			try
@@ -60,7 +81,12 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		protected virtual CommunicationPort GetPort(byte headerByte)
+		/// <summary>
+		/// Parses the port.
+		/// </summary>
+		/// <returns>The port.</returns>
+		/// <param name="headerByte">Header byte.</param>
+		protected virtual CommunicationPort ParsePort(byte headerByte)
 		{
 			try
 			{
@@ -75,7 +101,12 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		protected virtual CommunicationChannel GetChannel(byte headerByte)
+		/// <summary>
+		/// Parses the channel.
+		/// </summary>
+		/// <returns>The channel.</returns>
+		/// <param name="headerByte">Header byte.</param>
+		protected virtual CommunicationChannel ParseChannel(byte headerByte)
 		{
 			try
 			{
@@ -89,12 +120,13 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		#region IOutputPacketHeader Members
-
-		public CommunicationPort Port { get; }
-
-		public CommunicationChannel Channel { get; }
-
-		#endregion
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.OutputPacketHeader"/>.
+		/// </summary>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.OutputPacketHeader"/>.</returns>
+		public override string ToString()
+		{
+			return string.Format("[Port={0}, Channel={1}]", Port, Channel);
+		}
 	}
 }

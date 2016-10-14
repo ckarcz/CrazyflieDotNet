@@ -20,6 +20,10 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 	public class CommanderPacketPayload
 		: PacketPayload, ICommanderPacketPayload
 	{
+		private static readonly int _floatSize = sizeof(float);
+		private static readonly int _shortSize = sizeof(ushort);
+		private static readonly int _commanderPayloadSize = _floatSize * 3 + _shortSize;
+
 		/// <summary>
 		///     Commander Payload Format:
 		///     Name   |  Index  |  Type  |  Size (bytes)
@@ -42,12 +46,20 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 				throw new ArgumentException(string.Format("Commander packet payload size must be {0} bytes.", _commanderPayloadSize));
 			}
 
-			Roll = GetRoll(payloadBytes);
-			Pitch = GetPitch(payloadBytes);
-			Yaw = GetYaw(payloadBytes);
-			Thrust = GetThurst(payloadBytes);
+			Roll = ParseRoll(payloadBytes);
+			Pitch = ParsePitch(payloadBytes);
+			Yaw = ParseYaw(payloadBytes);
+			Thrust = ParseThrust(payloadBytes);
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.CommanderPacketPayload"/> class.
+		/// </summary>
+		/// <param name="roll">Roll.</param>
+		/// <param name="pitch">Pitch.</param>
+		/// <param name="yaw">Yaw.</param>
+		/// <param name="thrust">Thrust.</param>
 		public CommanderPacketPayload(float roll, float pitch, float yaw, ushort thrust)
 		{
 			Roll = roll;
@@ -56,6 +68,34 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			Thrust = thrust;
 		}
 
+		/// <summary>
+		/// Gets the roll.
+		/// </summary>
+		/// <value>The roll.</value>
+		public float Roll { get; }
+
+		/// <summary>
+		/// Gets the pitch.
+		/// </summary>
+		/// <value>The pitch.</value>
+		public float Pitch { get; }
+
+		/// <summary>
+		/// Gets the yaw.
+		/// </summary>
+		/// <value>The yaw.</value>
+		public float Yaw { get; }
+
+		/// <summary>
+		/// Gets the thrust.
+		/// </summary>
+		/// <value>The thrust.</value>
+		public ushort Thrust { get; }
+
+		/// <summary>
+		/// Gets the packet payload bytes.
+		/// </summary>
+		/// <returns>The packet payload bytes.</returns>
 		protected override byte[] GetPacketPayloadBytes()
 		{
 			try
@@ -80,7 +120,12 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		private float GetRoll(byte[] payloadBytes)
+		/// <summary>
+		/// Parses the roll.
+		/// </summary>
+		/// <returns>The roll.</returns>
+		/// <param name="payloadBytes">Payload bytes.</param>
+		private float ParseRoll(byte[] payloadBytes)
 		{
 			if (payloadBytes == null)
 			{
@@ -99,7 +144,12 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		private float GetPitch(byte[] payloadBytes)
+		/// <summary>
+		/// Parses the pitch.
+		/// </summary>
+		/// <returns>The pitch.</returns>
+		/// <param name="payloadBytes">Payload bytes.</param>
+		private float ParsePitch(byte[] payloadBytes)
 		{
 			if (payloadBytes == null)
 			{
@@ -118,7 +168,12 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		private float GetYaw(byte[] payloadBytes)
+		/// <summary>
+		/// Parses the yaw.
+		/// </summary>
+		/// <returns>The yaw.</returns>
+		/// <param name="payloadBytes">Payload bytes.</param>
+		private float ParseYaw(byte[] payloadBytes)
 		{
 			if (payloadBytes == null)
 			{
@@ -137,7 +192,12 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		private ushort GetThurst(byte[] payloadBytes)
+		/// <summary>
+		/// Parses the thrust.
+		/// </summary>
+		/// <returns>The thrust.</returns>
+		/// <param name="payloadBytes">Payload bytes.</param>
+		private ushort ParseThrust(byte[] payloadBytes)
 		{
 			if (payloadBytes == null)
 			{
@@ -156,20 +216,13 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		private static readonly int _floatSize = sizeof(float);
-		private static readonly int _shortSize = sizeof(ushort);
-		private static readonly int _commanderPayloadSize = _floatSize * 3 + _shortSize;
-
-		#region ICommanderPacketPayload Members
-
-		public float Roll { get; }
-
-		public float Pitch { get; }
-
-		public float Yaw { get; }
-
-		public ushort Thrust { get; }
-
-		#endregion
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.CommanderPacketPayload"/>.
+		/// </summary>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.CommanderPacketPayload"/>.</returns>
+		public override string ToString()
+		{
+			return string.Format("[Roll={0}, Pitch={1}, Yaw={2}, Thrust={3}]", Roll, Pitch, Yaw, Thrust);
+		}
 	}
 }

@@ -8,6 +8,9 @@ using log4net;
 
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
+	/// <summary>
+	/// Crazyflie messenger.
+	/// </summary>
 	public class CrazyflieMessenger
 		: ICrazyflieMessenger
 	{
@@ -26,8 +29,12 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			Log.DebugFormat("Initialized with CrazyradioDriver instance {0}.", crazyradioDriver);
 		}
 
-		#region ICrazyflieMessenger Members
-
+		/// <summary>
+		/// Sends the message.
+		/// </summary>
+		/// <returns>The message.</returns>
+		/// <param name="packet">Packet.</param>
+		/// <typeparam name="TPacket">The 1st type parameter.</typeparam>
 		public IAckPacket SendMessage<TPacket>(TPacket packet) where TPacket : IProvideBytes
 		{
 			var packetBytes = packet.GetBytes();
@@ -52,7 +59,14 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			}
 		}
 
-		public IAckPacket<TPacket> SendMessage<TPacket>(TPacket packet, Func<byte[], TPacket> ackPayloadBuilder) where TPacket : IProvideBytes
+		/// <summary>
+		/// Sends the message and returns an ack with payload.
+		/// </summary>
+		/// <returns>The message.</returns>
+		/// <param name="packetPayload">Packet.</param>
+		/// <param name="ackPayloadBuilder">Ack payload builder/delegate.</param>
+		/// <typeparam name="TPacketPayload">Ack pa.</typeparam>
+		public IAckPacket<TAckPacketPayload> SendMessage<TAckPacketPayload>(IPacket packet, BuildAckPayload<TAckPacketPayload> ackPayloadBuilder) where TAckPacketPayload : IProvideBytes
 		{
 			var packetBytes = packet.GetBytes();
 
@@ -62,7 +76,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 			if (responseBytes != null)
 			{
-				var ackResponse = new AckPacket<TPacket>(responseBytes, ackPayloadBuilder);
+				var ackResponse = new AckPacket<TAckPacketPayload>(responseBytes, ackPayloadBuilder);
 
 				Log.InfoFormat("Sent packet. Got ACK response {0} (bytes: {1})", ackResponse, responseBytes);
 
@@ -75,7 +89,5 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 				return null;
 			}
 		}
-
-		#endregion
 	}
 }

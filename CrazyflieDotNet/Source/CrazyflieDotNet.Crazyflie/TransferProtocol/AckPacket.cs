@@ -1,22 +1,39 @@
-using System;
 using System.Linq;
 
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
+	public delegate TAckPacketPayload BuildAckPayload<TAckPacketPayload>(byte[] payloadBytes);
+
+	/// <summary>
+	/// Ack packet with header but no payload.
+	/// </summary>
 	public class AckPacket
 		: Packet<IAckPacketHeader>, IAckPacket
 	{
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.AckPacket"/> class.
+		/// </summary>
+		/// <param name="header">The Ack packet header.</param>
 		public AckPacket(IAckPacketHeader header)
 			: base(header)
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.AckPacket"/> class.
+		/// </summary>
+		/// <param name="packetBytes">Ack packet bytes.</param>
 		public AckPacket(byte[] packetBytes)
 			: base(packetBytes)
 		{
 		}
 
+		/// <summary>
+		/// Parses the header.
+		/// </summary>
+		/// <returns>The header.</returns>
+		/// <param name="packetBytes">Packet bytes.</param>
 		protected override IAckPacketHeader ParseHeader(byte[] packetBytes)
 		{
 			if (packetBytes != null && packetBytes.Length != 0)
@@ -27,40 +44,53 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 
 			return default(IAckPacketHeader);
 		}
-
-		public override string ToString()
-		{
-			return string.Format("AckReceived: {0}, PowerDetector: {1}, RetryCount: {2}. Bytes: {3}.", Header.AckRecieved, Header.PowerDetector, Header.RetryCount, BitConverter.ToString(GetBytes()));
-		}
 	}
 
-	public class AckPacket<TResponse>
-		: Packet<IAckPacketHeader, TResponse>, IAckPacket<TResponse> where TResponse : IProvideBytes
+	/// <summary>
+	/// Ack packet with header and payload.
+	/// </summary>
+	public class AckPacket<TAckPacketPayload>
+		: Packet<IAckPacketHeader, TAckPacketPayload>, IAckPacket<TAckPacketPayload> where TAckPacketPayload : IProvideBytes
 	{
-		readonly Func<byte[], TResponse> ackPayloadBuilder;
+		private readonly BuildAckPayload<TAckPacketPayload> ackPayloadBuilder;
 
-		public AckPacket(IAckPacketHeader header, Func<byte[], TResponse> ackPayloadBuilder)
-			: base(header, default(TResponse))
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.AckPacket`1"/> class.
+		/// </summary>
+		/// <param name="header">Ack packet header.</param>
+		/// <param name="ackPayloadBuilder">Ack payload builder/delegate.</param>
+		public AckPacket(IAckPacketHeader header, BuildAckPayload<TAckPacketPayload> ackPayloadBuilder)
+			: base(header, default(TAckPacketPayload))
 		{
 			if (ackPayloadBuilder == null)
 			{
-				ackPayloadBuilder = (arg) => default(TResponse);
+				ackPayloadBuilder = (arg) => default(TAckPacketPayload);
 			}
 
 			this.ackPayloadBuilder = ackPayloadBuilder;
 		}
 
-		public AckPacket(byte[] packetBytes, Func<byte[], TResponse> ackPayloadBuilder)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.AckPacket`1"/> class.
+		/// </summary>
+		/// <param name="packetBytes">Ack packet bytes.</param>
+		/// <param name="ackPayloadBuilder">Ack payload builder/delegate.</param>
+		public AckPacket(byte[] packetBytes, BuildAckPayload<TAckPacketPayload> ackPayloadBuilder)
 			: base(packetBytes)
 		{
 			if (ackPayloadBuilder == null)
 			{
-				ackPayloadBuilder = (arg) => default(TResponse);
+				ackPayloadBuilder = (arg) => default(TAckPacketPayload);
 			}
 
 			this.ackPayloadBuilder = ackPayloadBuilder;
 		}
 
+		/// <summary>
+		/// Parses the header.
+		/// </summary>
+		/// <returns>The header.</returns>
+		/// <param name="packetBytes">Packet bytes.</param>
 		protected override IAckPacketHeader ParseHeader(byte[] packetBytes)
 		{
 			if (packetBytes != null && packetBytes.Length != 0)
@@ -72,7 +102,12 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 			return default(IAckPacketHeader);
 		}
 
-		protected override TResponse ParsePayload(byte[] packetBytes)
+		/// <summary>
+		/// Parses the payload.
+		/// </summary>
+		/// <returns>The payload.</returns>
+		/// <param name="packetBytes">Packet bytes.</param>
+		protected override TAckPacketPayload ParsePayload(byte[] packetBytes)
 		{
 			if (packetBytes != null && packetBytes.Length > 0)
 			{
@@ -80,12 +115,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 				return packetHeader;
 			}
 
-			return default(TResponse);
-		}
-
-		public override string ToString()
-		{
-			return string.Format("AckReceived: {0}, PowerDetector: {1}, RetryCount: {2}. Bytes: {3}.", Header.AckRecieved, Header.PowerDetector, Header.RetryCount, BitConverter.ToString(GetBytes()));
+			return default(TAckPacketPayload);
 		}
 	}
 }
