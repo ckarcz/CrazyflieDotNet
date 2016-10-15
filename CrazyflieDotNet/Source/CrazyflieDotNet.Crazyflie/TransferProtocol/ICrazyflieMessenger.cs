@@ -13,7 +13,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		/// <returns>The message.</returns>
 		/// <param name="packet">Packet.</param>
 		/// <typeparam name="TPacket">The 1st type parameter.</typeparam>
-		IAckPacket SendMessage<TPacket>(TPacket packet) where TPacket : IProvideBytes;
+		IAckPacket SendMessage(IPacket packet);
 
 		/// <summary>
 		/// Sends the message.

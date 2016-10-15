@@ -34,8 +34,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		/// </summary>
 		/// <returns>The message.</returns>
 		/// <param name="packet">Packet.</param>
-		/// <typeparam name="TPacket">The 1st type parameter.</typeparam>
-		public IAckPacket SendMessage<TPacket>(TPacket packet) where TPacket : IProvideBytes
+		public IAckPacket SendMessage(IPacket packet)
 		{
 			var packetBytes = packet.GetBytes();
 
@@ -65,7 +64,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		/// <returns>The message.</returns>
 		/// <param name="packet">Packet.</param>
 		/// <param name="createAckPayload">Ack payload builder/delegate.</param>
-		/// <typeparam name="TPacketPayload">Ack pa.</typeparam>
+		/// <typeparam name="TPacketPayload">Ack payload type.</typeparam>
 		public IAckPacket<TAckPacketPayload> SendMessage<TAckPacketPayload>(IPacket packet, CreateAckPayload<TAckPacketPayload> createAckPayload) where TAckPacketPayload : IProvideBytes
 		{
 			var packetBytes = packet.GetBytes();
