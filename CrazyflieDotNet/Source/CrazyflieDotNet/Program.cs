@@ -32,9 +32,9 @@ namespace CrazyflieDotNet
 				// TESTS:
 				try
 				{
-					//TestCRTP(crazyradioDriver);
-
-					TestPS3Controller(crazyradioDriver);
+					TestCRTP(crazyradioDriver);
+					//TestPS3Controller(crazyradioDriver);
+					//TestPS4Controller(crazyradioDriver);
 				}
 				catch (Exception ex)
 				{
@@ -167,8 +167,9 @@ namespace CrazyflieDotNet
 							case ConsoleKey.Spacebar:
 								var commanderPacket = new CommanderPacket(roll, pitch, yaw, thrust = 10000);
 								Log.InfoFormat("Commander Packet Request: {0}", commanderPacket);
+								ackPacket = crazyRadioMessenger.SendMessage(CommanderPacket.ZeroAll);
 								ackPacket = crazyRadioMessenger.SendMessage(commanderPacket);
-								Log.InfoFormat("ACK Response: {0}", ackPacket);
+									Log.InfoFormat("ACK Response: {0}", ackPacket);
 
 								Log.InfoFormat("Paused...Hit SPACE to resume, ESC to quit.");
 
@@ -237,14 +238,20 @@ namespace CrazyflieDotNet
 						}
 					}
 				}
-				catch (Exception ex)
+				catch (Exception)
 				{
-					Log.Error("Error testing Crazyradio.", ex);
+					try
+					{
+						crazyRadioMessenger.SendMessage(CommanderPacket.ZeroAll);
+					}
+					catch (Exception)
+					{
+					}
+
+					throw;
 				}
-				finally
-				{
-					crazyRadioMessenger.SendMessage(new CommanderPacket(0, 0, 0, 0));
-				}
+
+				crazyRadioMessenger.SendMessage(CommanderPacket.ZeroAll);
 			}
 		}
 
@@ -253,8 +260,6 @@ namespace CrazyflieDotNet
 			if (crazyradioDriver != null)
 			{
 				var crazyRadioMessenger = new CrazyflieMessenger(crazyradioDriver);
-
-				var stopMotorsCommanderPacket = new CommanderPacket(roll: 0, pitch: 0, yaw: 0, thrust: 0);
 
 				try
 				{
@@ -307,11 +312,7 @@ namespace CrazyflieDotNet
 							case ConsoleKey.Spacebar:
 								Log.InfoFormat("Paused...Hit SPACE to resume, ESC to quit.");
 
-								thrust = 0;
-								pitch = 0;
-								yaw = 0;
-								roll = 0;
-								crazyRadioMessenger.SendMessage(stopMotorsCommanderPacket);
+								crazyRadioMessenger.SendMessage(CommanderPacket.ZeroAll);
 
 								var pauseLoop = true;
 								while (pauseLoop)
@@ -376,14 +377,165 @@ namespace CrazyflieDotNet
 						crazyRadioMessenger.SendMessage(commanderPacket);
 					}
 				}
-				catch (Exception ex)
+				catch (Exception)
 				{
-					Log.Error("Error testing Crazyradio.", ex);
+					try
+					{
+						crazyRadioMessenger.SendMessage(CommanderPacket.ZeroAll);
+					}
+					catch (Exception)
+					{
+					}
+
+					throw;
 				}
-				finally
+
+				crazyRadioMessenger.SendMessage(CommanderPacket.ZeroAll);
+			}
+		}
+
+		private static void TestPS4Controller(ICrazyradioDriver crazyradioDriver)
+		{
+			if (crazyradioDriver != null)
+			{
+				var crazyRadioMessenger = new CrazyflieMessenger(crazyradioDriver);
+
+				var stopMotorsCommanderPacket = new CommanderPacket(roll: 0, pitch: 0, yaw: 0, thrust: 0);
+
+				try
 				{
-					crazyRadioMessenger.SendMessage(stopMotorsCommanderPacket);
+					// Init
+					float roll = 0;
+					float pitch = 0;
+					float yaw = 0;
+					ushort thrust = 0;
+
+					// Max/min values
+					float rollRange = 50;
+					float pitchRange = 50;
+					float yawRange = 100;
+					ushort thrustRange = 50000;
+
+					// Stick ranges
+					int stickRange = 1000;
+
+					// Get first attached game controller found
+					var directInput = new DirectInput();
+					var attahcedGameControllerDevices = directInput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly);
+					if (!attahcedGameControllerDevices.Any())
+					{
+						throw new ApplicationException("No available game controllers found.");
+					}
+					var attachedDeviceInstance = attahcedGameControllerDevices.First();
+					var joystick = new Joystick(directInput, attachedDeviceInstance.InstanceGuid);
+
+					foreach (DeviceObjectInstance doi in joystick.GetObjects(ObjectDeviceType.Axis))
+					{
+						joystick.GetObjectPropertiesById((int)doi.ObjectType).SetRange(-1 * stickRange, stickRange);
+					}
+
+					joystick.Properties.AxisMode = DeviceAxisMode.Absolute;
+					joystick.Acquire();
+					var joystickState = new JoystickState();
+
+					var loop = true;
+					while (loop)
+					{
+						if (Console.KeyAvailable)
+						{
+							switch (Console.ReadKey().Key)
+							{
+								// end
+								case ConsoleKey.Escape:
+									loop = false;
+									break;
+								// pause
+								case ConsoleKey.Spacebar:
+									Log.InfoFormat("Paused...Hit SPACE to resume, ESC to quit.");
+
+									thrust = 0;
+									pitch = 0;
+									yaw = 0;
+									roll = 0;
+									crazyRadioMessenger.SendMessage(stopMotorsCommanderPacket);
+
+									var pauseLoop = true;
+									while (pauseLoop)
+									{
+										if (Console.KeyAvailable)
+										{
+											switch (Console.ReadKey().Key)
+											{
+												// resume
+												case ConsoleKey.Spacebar:
+													pauseLoop = false;
+													break;
+												// end
+												case ConsoleKey.Escape:
+													pauseLoop = loop = false;
+													break;
+											}
+										}
+									}
+									break;
+								default:
+									Log.InfoFormat("Invalid key for action.");
+									break;
+							}
+						}
+
+						// Poll the device and get state
+						joystick.Poll();
+						joystick.GetCurrentState(ref joystickState);
+
+						// Get buttons pressed info
+						var stringWriter = new StringWriter();
+						var buttons = joystickState.GetButtons();
+						var anyButtonsPressed = buttons.Any(b => b == true);
+						if (anyButtonsPressed)
+						{
+							for (int buttonNumber = 0; buttonNumber < buttons.Length; buttonNumber++)
+							{
+								if (buttons[buttonNumber] == true)
+								{
+									stringWriter.Write(string.Format("{0}", buttonNumber));
+								}
+							}
+						}
+						var buttonsPressedString = stringWriter.ToString().Trim();
+
+						// Joystick info
+						var leftStickX = joystickState.X;
+						var leftStickY = joystickState.Y;
+						var rightStickX = joystickState.RotationX;
+						var rightStickY = joystickState.RotationY;
+
+						roll = rollRange * rightStickX / stickRange;
+						pitch = pitchRange * rightStickY / stickRange;
+						yaw = yawRange * leftStickX / stickRange;
+						thrust = (ushort)(leftStickY > 0 ? 0 : thrustRange * -1 * leftStickY / stickRange);
+
+						var infoString = String.Format("LX:{0,7}, LY:{1,7}, RX:{2,7}, RY:{3,7}, Buttons:{4,7}.\tRoll:{5, 7}, Pitch:{6, 7}, Yaw:{7, 7}, Thrust:{8, 7}.", leftStickX, leftStickY, rightStickX, rightStickY, buttonsPressedString, roll, pitch, yaw, thrust);
+						Console.WriteLine(infoString);
+
+						var commanderPacket = new CommanderPacket(roll, pitch, yaw, thrust);
+						crazyRadioMessenger.SendMessage(commanderPacket);
+					}
 				}
+				catch (Exception)
+				{
+					try
+					{
+						crazyRadioMessenger.SendMessage(CommanderPacket.ZeroAll);
+					}
+					catch (Exception)
+					{
+					}
+
+					throw;
+				}
+
+				crazyRadioMessenger.SendMessage(CommanderPacket.ZeroAll);
 			}
 		}
 
