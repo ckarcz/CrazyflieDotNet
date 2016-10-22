@@ -92,7 +92,7 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 		/// <param name="packetBytes">Packet bytes.</param>
 		protected override TAckPacketPayload ParsePayload(byte[] packetBytes)
 		{
-			if (packetBytes != null && packetBytes.Length > 0)
+			if (packetBytes != null && ackPayloadBuilder != null && packetBytes.Length > 1)
 			{
 				var packetHeader = ackPayloadBuilder(packetBytes.Skip(1).ToArray());
 				return packetHeader;

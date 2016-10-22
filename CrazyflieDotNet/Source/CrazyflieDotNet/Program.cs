@@ -39,6 +39,8 @@ namespace CrazyflieDotNet
 				catch (Exception ex)
 				{
 					Log.Error("Error testing Crazyradio.", ex);
+					crazyradioDriver?.Close();
+					throw;
 				}
 				finally
 				{
