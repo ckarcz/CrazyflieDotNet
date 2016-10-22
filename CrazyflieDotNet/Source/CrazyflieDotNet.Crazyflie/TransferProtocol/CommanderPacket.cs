@@ -9,6 +9,8 @@ namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 	public class CommanderPacket
 		: OutputPacket<ICommanderPacketHeader, ICommanderPacketPayload>, ICommanderPacket
 	{
+		public static readonly CommanderPacket ZeroAll = new CommanderPacket(0, 0, 0, 0);
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:CrazyflieDotNet.Crazyflie.TransferProtocol.CommanderPacket"/> class.
 		/// </summary>
