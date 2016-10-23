@@ -80,6 +80,11 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		bool IsOpen { get; }
 
 		/// <summary>
+		///     Returns true if the Crazyradio USB dongle is open and ready for communication.
+		/// </summary>
+		bool IsClosed { get; }
+
+		/// <summary>
 		///     Initializes and opens the Crazyradio USB dongle driver for communication. This must be done before using the
 		///     driver.
 		/// </summary>
@@ -93,7 +98,12 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		/// <summary>
 		///     Sets the crazy radio driver settings to defaults.
 		/// </summary>
-		void SetToDefaults();
+		void ResetSettings();
+
+		/// <summary>
+		///     Closes and Opens the crazy radio driver UsbDevice and sets settings to defaults.
+		/// </summary>
+		void ResetDriver();
 
 		/// <summary>
 		///     Scans for available Crazyradio USB dongle channels on all DataRates within the given range (or full range of

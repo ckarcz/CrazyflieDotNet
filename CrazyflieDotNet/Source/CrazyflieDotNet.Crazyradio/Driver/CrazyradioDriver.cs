@@ -33,7 +33,6 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		private RadioDataRate? _dataRate;
 		private RadioMode? _mode;
 		private RadioPowerLevel? _powerLevel;
-		private bool _propertiesInitializedToDefaults = false;
 		private readonly UsbDevice _crazyradioUsbDevice;
 
 		#endregion Private Members
@@ -497,6 +496,21 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			get { return _crazyradioUsbDevice.IsOpen; }
 		}
 
+		public bool IsClosed
+		{
+			get { return !IsOpen; }
+		}
+
+		public void ResetDriver()
+		{
+			Log.DebugFormat("Driver reset starting.");
+
+			Close();
+			Open();
+
+			Log.DebugFormat("Driver reset completed.");
+		}
+
 		public IEnumerable<ScanChannelsResult> ScanChannels(RadioChannel channelStart = RadioChannel.Channel1, RadioChannel channelStop = RadioChannel.Channel125)
 		{
 			if (channelStop < channelStart)
@@ -653,13 +667,10 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 					Log.Debug("Claimed interface 0 of UsbDevice.");
 				}
 
-				if (!_propertiesInitializedToDefaults)
-				{
-					SetToDefaults();
-				}
-
 				_crazyradioDataEndpointReader = _crazyradioUsbDevice.OpenEndpointReader(CrazyradioDataEndpointId.Read);
 				_crazyradioDataEndpointWriter = _crazyradioUsbDevice.OpenEndpointWriter(CrazyradioDataEndpointId.Write);
+
+				ResetSettings();
 
 				Log.Debug("Successfully opened CrazyradioDriver for communication.");
 			}
@@ -721,7 +732,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			Log.Debug("Closed CrazyradioDriver from communication.");
 		}
 
-		public void SetToDefaults()
+		public void ResetSettings()
 		{
 			Log.Debug("Resetting Crazyradio to default settings...");
 
@@ -734,8 +745,6 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			AckRetryCount = CrazyradioDefault.AckRetryCount;
 			AckRetryDelay = CrazyradioDefault.AckRetryDelay;
 			AckPayloadLength = CrazyradioDefault.AckPayloadLength;
-
-			_propertiesInitializedToDefaults = true;
 
 			Log.Debug("Successfully reset Crazyradio to default settings.");
 		}
