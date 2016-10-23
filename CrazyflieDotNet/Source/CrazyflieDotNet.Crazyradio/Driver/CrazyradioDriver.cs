@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CrazyflieDotNet.Crazyradio.Driver.USB;
 using log4net;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
@@ -173,7 +174,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 					Log.DebugFormat("Setting Mode to {0}.", value);
 
 					var enableContinuousCarrierMode = (value == RadioMode.ContinuousCarrierMode) ? 1 : 0;
-					ControlTransferOut(CrazyradioRequest.SetContinuousCarrierMode, (short)enableContinuousCarrierMode, 0, 0, new byte[0]);
+					ControlTransferOut(UsbDriverRequest.SetContinuousCarrierMode, (short)enableContinuousCarrierMode, 0, 0, new byte[0]);
 					_mode = value;
 
 					Log.InfoFormat("Mode set to {0}.", value);
@@ -205,7 +206,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 				{
 					Log.DebugFormat("Setting Channel to {0}.", value);
 
-					ControlTransferOut(CrazyradioRequest.SetChannel, (short)value, 0, 0, new byte[0]);
+					ControlTransferOut(UsbDriverRequest.SetChannel, (short)value, 0, 0, new byte[0]);
 					_channel = value;
 
 					Log.InfoFormat("Channel set to {0}.", value);
@@ -237,7 +238,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 				{
 					Log.DebugFormat("Setting Address to {0}.", value);
 
-					ControlTransferOut(CrazyradioRequest.SetAddress, 0, 0, 5, value.Bytes);
+					ControlTransferOut(UsbDriverRequest.SetAddress, 0, 0, 5, value.Bytes);
 					_address = value;
 
 					Log.InfoFormat("Address set to {0}.", value);
@@ -269,7 +270,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 				{
 					Log.DebugFormat("Setting DataRate to {0}.", value);
 
-					ControlTransferOut(CrazyradioRequest.SetDataRate, (short)value, 0, 0, new byte[0]);
+					ControlTransferOut(UsbDriverRequest.SetDataRate, (short)value, 0, 0, new byte[0]);
 					_dataRate = value;
 
 					Log.InfoFormat("DataRate set to {0}.", value);
@@ -301,7 +302,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 				{
 					Log.DebugFormat("Setting PowerLevel to {0}.", value);
 
-					ControlTransferOut(CrazyradioRequest.SetPowerLevel, (short)value, 0, 0, new byte[0]);
+					ControlTransferOut(UsbDriverRequest.SetPowerLevel, (short)value, 0, 0, new byte[0]);
 					_powerLevel = value;
 
 					Log.InfoFormat("PowerLevel set to {0}.", value);
@@ -334,7 +335,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 					Log.DebugFormat("Setting AckMode to {0}.", value);
 
 					var enableAutoAck = (value == MessageAckMode.AutoAckOn) ? 1 : 0;
-					ControlTransferOut(CrazyradioRequest.SetAutoActEnabled, (short)enableAutoAck, 0, 0, new byte[0]);
+					ControlTransferOut(UsbDriverRequest.SetAutoActEnabled, (short)enableAutoAck, 0, 0, new byte[0]);
 					_ackMode = value;
 
 					Log.InfoFormat("AckMode set to {0}.", value);
@@ -366,7 +367,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 				{
 					Log.DebugFormat("Setting AckRetryCount to {0}.", value);
 
-					ControlTransferOut(CrazyradioRequest.SetAckRetryCount, (short)value, 0, 0, new byte[0]);
+					ControlTransferOut(UsbDriverRequest.SetAckRetryCount, (short)value, 0, 0, new byte[0]);
 					_ackRetryCount = value;
 
 					Log.InfoFormat("AckRetryCount set to {0}.", value);
@@ -400,7 +401,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 					{
 						Log.DebugFormat("Setting AckRetryDelay to {0}.", value);
 
-						ControlTransferOut(CrazyradioRequest.SetAckRetryDelay, (short)value, 0, 0, new byte[0]);
+						ControlTransferOut(UsbDriverRequest.SetAckRetryDelay, (short)value, 0, 0, new byte[0]);
 						_ackRetryDelay = value;
 
 						Log.InfoFormat("AckRetryDelay set to {0}.", value);
@@ -456,7 +457,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 						Log.DebugFormat("Setting AckPayloadLength to {0}.", value);
 
 						var formattedValue = (byte)((byte)value | 0x80); // To set the ACK payload length the bit 7 of ARD must be set (length | 0x80).
-						ControlTransferOut(CrazyradioRequest.SetAckRetryDelay, formattedValue, 0, 0, new byte[0]);
+						ControlTransferOut(UsbDriverRequest.SetAckRetryDelay, formattedValue, 0, 0, new byte[0]);
 						_ackPayloadLength = value;
 
 						Log.InfoFormat("AckPayloadLength set to {0}.", value);
@@ -635,7 +636,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			}
 		}
 
-		public bool Equals(ICrazyradioDriver other)
+		public bool Equals(CrazyradioDriver other)
 		{
 			if (other == null)
 			{
@@ -766,7 +767,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 
 		public override bool Equals(object obj)
 		{
-			return Equals(obj as ICrazyradioDriver);
+			return Equals(obj as CrazyradioDriver);
 		}
 
 		public override int GetHashCode()
@@ -776,7 +777,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 
 		public override string ToString()
 		{
-			return string.Format("Serial#: {0} (Open: {1})", SerialNumber, IsOpen);
+			return $"[SerialNumber: {SerialNumber}, IsOpen: {IsOpen}]";
 		}
 
 		#endregion Equality and Formatting Overrides
@@ -824,7 +825,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			{
 				Log.DebugFormat("Starting firmware level channel scan. StartChannel: {0}, StopChannel: {1}.", channelStart, channelStop);
 
-				ControlTransferOut(CrazyradioRequest.ScanChannels, (short)channelStart, (short)channelStop, 1, new byte[] { 0xFF });
+				ControlTransferOut(UsbDriverRequest.ScanChannels, (short)channelStart, (short)channelStop, 1, new byte[] { 0xFF });
 
 				Log.DebugFormat("Successfully started firmware level channel scan. StartChannel: {0}, StopChannel: {1}.", channelStart, channelStop);
 			}
@@ -843,7 +844,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 				Log.Debug("Getting firmware level chanel scan results.");
 
 				var data = new byte[63];
-				ControlTransferIn(CrazyradioRequest.ScanChannels, 0, 0, (short)data.Length, data);
+				ControlTransferIn(UsbDriverRequest.ScanChannels, 0, 0, (short)data.Length, data);
 
 				Log.Debug("Successfully got firmware level channel scan results.");
 
@@ -901,12 +902,12 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 			}
 		}
 
-		private void ControlTransferOut(CrazyradioRequest request, short value, short index, short length, byte[] data)
+		private void ControlTransferOut(UsbDriverRequest request, short value, short index, short length, byte[] data)
 		{
 			ControlTransfer(UsbRequestType.TypeVendor, UsbRequestRecipient.RecipDevice, UsbEndpointDirection.EndpointOut, (byte)request, value, index, length, data);
 		}
 
-		private void ControlTransferIn(CrazyradioRequest request, short value, short index, short length, byte[] data)
+		private void ControlTransferIn(UsbDriverRequest request, short value, short index, short length, byte[] data)
 		{
 			ControlTransfer(UsbRequestType.TypeVendor, UsbRequestRecipient.RecipDevice, UsbEndpointDirection.EndpointIn, (byte)request, value, index, length, data);
 		}

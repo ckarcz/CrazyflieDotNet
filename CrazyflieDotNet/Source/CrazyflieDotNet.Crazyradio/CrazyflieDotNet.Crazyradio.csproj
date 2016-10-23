@@ -46,7 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Driver\CrazyradioDataEndpointId.cs" />
+    <Compile Include="Driver\USB\DataEndpoint.cs" />
     <Compile Include="Driver\MessageAckMode.cs" />
     <Compile Include="Driver\MessageAckPayloadLength.cs" />
     <Compile Include="Driver\MessageAckRetryCount.cs" />
@@ -60,7 +60,7 @@
     <Compile Include="Driver\FirmwareVersion.cs" />
     <Compile Include="Driver\RadioMode.cs" />
     <Compile Include="Driver\RadioPowerLevel.cs" />
-    <Compile Include="Driver\CrazyradioRequest.cs" />
+    <Compile Include="Driver\USB\Request.cs" />
     <Compile Include="Driver\ICrazyradioDriver.cs" />
     <Compile Include="Driver\ScanChannelsResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

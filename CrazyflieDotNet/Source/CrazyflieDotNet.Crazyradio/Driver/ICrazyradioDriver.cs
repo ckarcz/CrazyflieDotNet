@@ -11,7 +11,6 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 	///     A Crazyradio USB dongle driver that provides an abstraction to the low level USB API.
 	/// </summary>
 	public interface ICrazyradioDriver
-		: IEquatable<ICrazyradioDriver>
 	{
 		/// <summary>
 		///     Returns the unique serial number of the Crazyradio USB dongle.

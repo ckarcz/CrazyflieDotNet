@@ -4,7 +4,7 @@ using LibUsbDotNet.Main;
 
 #endregion
 
-namespace CrazyflieDotNet.Crazyradio.Driver
+namespace CrazyflieDotNet.Crazyradio.Driver.USB
 {
 	/// <summary>
 	/// Internal static properties used by the CrazyradioDriver class.

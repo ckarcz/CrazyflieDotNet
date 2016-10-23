@@ -32,8 +32,8 @@ namespace CrazyflieDotNet
 				// TESTS:
 				try
 				{
-					TestCRTP(crazyradioDriver);
-					//TestPS3Controller(crazyradioDriver);
+					//TestCRTP(crazyradioDriver);
+					TestPS3Controller(crazyradioDriver);
 					//TestPS4Controller(crazyradioDriver);
 				}
 				catch (Exception ex)

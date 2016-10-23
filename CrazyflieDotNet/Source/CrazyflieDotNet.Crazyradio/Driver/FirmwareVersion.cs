@@ -163,7 +163,7 @@ namespace CrazyflieDotNet.Crazyradio.Driver
 		/// <returns> Full firmware in "Major.Minor.Patch" format. </returns>
 		public override string ToString()
 		{
-			return string.Format("{0}.{1}.{2}", MajorVersion, MinorVersion, PatchVersion);
+			return $"{MajorVersion}.{MinorVersion}.{PatchVersion}";
 		}
 	}
 }

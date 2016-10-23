@@ -1,3 +1,5 @@
+using System;
+
 namespace CrazyflieDotNet.Crazyflie.TransferProtocol
 {
 	/// <summary>
