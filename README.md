@@ -47,7 +47,7 @@ The C# CrazyradioDriver is completed and working. This library (CrazyflieDotNet.
 
 # Development
 
-##W indows
+## Windows
 
 ### Dev Environment:
 1. Windows OS.
