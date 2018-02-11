@@ -1,7 +1,7 @@
 # CrazyflieDotNet
 Dot.NET libraries written in C# for Crazyflie Quadcopters and Crazyradios.
 
-######[ Builds](https://travis-ci.org/ckarcz/CrazyflieDotNet):
+###### [Builds](https://travis-ci.org/ckarcz/CrazyflieDotNet):
 
 | Branch      | Build                                                                                                                                |
 |-------------|--------------------------------------------------------------------------------------------------------------------------------------|
